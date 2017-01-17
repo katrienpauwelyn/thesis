@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ExtractDataSeeds;
 
 
@@ -114,10 +109,10 @@ public class RunAll {
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
                     runClassifier(new FurthestCentroidND("out/"
-                            + classifierNames[1] + "/" + dataNames[i]), RunAll.getArgs(false,allDataSets[i] ,5, 5, 1));
+                            + classifierNames[1] + "/" + dataNames[i]), RunAll.getArgs(false,allDataSets[i] ,seed, seed, 1));
                 } else {
                     runClassifier(new FurthestCentroidND("out/" + classifierNames[1] + "/" + dataNames[i]),
-                            RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
+                            RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
                 testmain.go("out/" + classifierNames[1] + "/" + dataNames[i]);
             }
@@ -132,10 +127,10 @@ public class RunAll {
                         || dataNames[i].equals("letterRecognition")) {
 
                     runClassifier(new ND("out/" + classifierNames[2]
-                            + "/" + dataNames[i]), RunAll.getArgs(false, allDataSets[i], 5, 5, 1));
+                            + "/" + dataNames[i]), RunAll.getArgs(false, allDataSets[i], seed, seed, 1));
                 } else {
                     runClassifier(new ND("out/" + classifierNames[2]
-                            + "/" + dataNames[i]), RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
+                            + "/" + dataNames[i]), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
                testmain.go("out/" + classifierNames[2] + "/" + dataNames[i]);
            }

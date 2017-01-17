@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ExtractDataSeeds;
 
-import ExtractData.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,13 +13,16 @@ import staticData.Path;
 /**
  *
  * @author katie
+ * 
+ * Steekt de hierarchieen in aparte files. Maakt de test- en train files aan.
+ * De test en train files zijn ook direct hierarchisch.
+ *   * maakt de test en train sets aan met hierarchie?
  */
 public class MakeHierarchyAndFolds {
     
     public void go(String path) throws FileNotFoundException, IOException{
         /**
        * De hierarchie in aparte files zetten.
-       * TODO hierarchie hoeft eigenlijk niet in files te staan, de hashtable alleen is voldoende.
       */
           PrintStream[] streamsh = new PrintStream[Path.nbFolds+1];
           streamsh[0] = new PrintStream(new File(path+"/hAll.txt"));

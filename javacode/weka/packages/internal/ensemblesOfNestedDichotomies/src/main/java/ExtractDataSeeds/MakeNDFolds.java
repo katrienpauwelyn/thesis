@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ExtractDataSeeds;
 
 import java.io.BufferedReader;
@@ -15,7 +10,9 @@ import java.util.ArrayList;
 import staticData.Path;
 
 /**
- *
+ * Van 1 file waar alle folds achter elkaar gedrukt staan, 10 aparte fold files maken.
+ * Maak ook test files aan.
+ * Wordt niet meer gebruikt???
  * @author katie
  */
 public class MakeNDFolds {
@@ -39,7 +36,7 @@ public class MakeNDFolds {
         }
     }
 
-    //write the training data folds for one dataset
+    //for each fold (write the training data folds for one dataset)
     public void writeTrainingND(String path) throws FileNotFoundException, IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path + "/outputData.txt"));
         PrintStream stream = new PrintStream(new File(path + "/NDfoldAll.arff"));
