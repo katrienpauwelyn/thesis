@@ -18,8 +18,8 @@ import weka.classifiers.meta.nestedDichotomies.RandomPairND;
 public class RunAll {
 
     
-    //TODO: bij de new ND(...) moet er een nieuw argument komen: de seed zodat er verschillende output_i.txt
-    // en outputData_i.txt kunnen afgedrukt worden
+    //outputi.txt
+    //outputDatai.txt kunnen afgedrukt worden
     
     
     /**
