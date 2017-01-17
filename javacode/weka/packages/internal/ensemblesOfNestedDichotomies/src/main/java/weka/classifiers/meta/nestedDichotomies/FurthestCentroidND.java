@@ -142,19 +142,21 @@ public class FurthestCentroidND extends RandomizableSingleClassifierEnhancer
   static protected File fileData;
   static protected PrintStream outData;
   public String mapPath;
+  public String seedNumber;
   //e-katie
   /**
    * Constructor.
    */
-  public FurthestCentroidND(String mapPath) throws FileNotFoundException {
+  public FurthestCentroidND(String mapPath, String seedNumber) throws FileNotFoundException {
 //b-katie
 
 this.mapPath = mapPath;
+this.seedNumber = seedNumber;
             
         if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
-                file = new File(mapPath+"/output.txt");
+                file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
-                fileData = new File(mapPath+"/outputData.txt");
+                fileData = new File(mapPath+"/outputData"+seedNumber+".txt");
                 outData = new PrintStream(fileData);
         } 
         //e-katie
@@ -162,8 +164,8 @@ this.mapPath = mapPath;
     }
    
 
-  public FurthestCentroidND(double[][] centroids, String mapPath) throws FileNotFoundException {
-    this(mapPath);
+  public FurthestCentroidND(double[][] centroids, String mapPath, String seedNumber) throws FileNotFoundException {
+    this(mapPath, seedNumber);
     m_Centroids = centroids;
   }
 
@@ -472,7 +474,7 @@ this.mapPath = mapPath;
     }
 
     // Create two successors if necessary
-    m_FirstSuccessor = new FurthestCentroidND(m_Centroids, mapPath);
+    m_FirstSuccessor = new FurthestCentroidND(m_Centroids, mapPath, seedNumber);
     if (first == 1) {
       m_FirstSuccessor.m_Range = m_Range;
       //b-katie
@@ -493,7 +495,7 @@ this.mapPath = mapPath;
       m_FirstSuccessor.generateClassifierForNode(firstSubset, m_Range, rand,
         classifier, m_classifiers, newStringBuffer, false);
     }
-    m_SecondSuccessor = new FurthestCentroidND(m_Centroids, mapPath);
+    m_SecondSuccessor = new FurthestCentroidND(m_Centroids, mapPath, seedNumber);
     if (second == 1) {
       m_SecondSuccessor.m_Range = secondRange;
        //b-katie
@@ -506,7 +508,7 @@ this.mapPath = mapPath;
       rwv.setAttributeIndex("" + (data.classIndex() + 1));
       rwv.setInputFormat(data);
       Instances secondSubset = Filter.useFilter(data, rwv);
-      m_SecondSuccessor = new FurthestCentroidND(mapPath);
+      m_SecondSuccessor = new FurthestCentroidND(mapPath, seedNumber);
  //b-katie
          StringBuffer newStringBuffer = new StringBuffer(stringbuffer).append(Arrays.toString(indsToClass(secondInds, classNames)));
         //e-katie
@@ -761,6 +763,6 @@ this.mapPath = mapPath;
    * @param argv the options
    */
   public static void main(String[] argv) throws FileNotFoundException {
-    runClassifier(new FurthestCentroidND("/out"), argv);
+    runClassifier(new FurthestCentroidND("/out", "1"), argv);
   }
 }

@@ -202,20 +202,22 @@ public class ClassBalancedPlus extends RandomizableSingleClassifierEnhancer
   static protected File fileData;
   static protected PrintStream outData;
   public String mapPath;
+  public String seedNumber;
   //e-katie
   //static protected File fileClassNames;
   //static protected PrintStream outClassNames;
   /**
    * Constructor.
    */
-  public ClassBalancedPlus(String mapPath) throws FileNotFoundException {
+  public ClassBalancedPlus(String mapPath, String seedNumber) throws FileNotFoundException {
 	//b-katie	
    this.mapPath = mapPath;
+   this.seedNumber = seedNumber;
             
         if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
-                file = new File(mapPath+"/output.txt");
+                file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
-                fileData = new File(mapPath+"/outputData.txt");
+                fileData = new File(mapPath+"/outputData"+seedNumber+".txt");
                 outData = new PrintStream(fileData);
         } 
         //e-katie
@@ -393,7 +395,7 @@ public class ClassBalancedPlus extends RandomizableSingleClassifierEnhancer
     }
 
     // Create two successors if necessary
-    m_FirstSuccessor = new ClassBalancedPlus(mapPath);
+    m_FirstSuccessor = new ClassBalancedPlus(mapPath, seedNumber);
     if (first == 1) {
       m_FirstSuccessor.m_Range = m_Range;
       //b-katie
@@ -414,7 +416,7 @@ public class ClassBalancedPlus extends RandomizableSingleClassifierEnhancer
       
     }
       
-    m_SecondSuccessor = new ClassBalancedPlus(mapPath);
+    m_SecondSuccessor = new ClassBalancedPlus(mapPath, seedNumber);
     
     if (second == 1) {
             m_SecondSuccessor.m_Range = secondRange;
@@ -428,7 +430,7 @@ public class ClassBalancedPlus extends RandomizableSingleClassifierEnhancer
         rwv.setAttributeIndex("" + (data.classIndex() + 1));
         rwv.setInputFormat(data);
         Instances secondSubset = Filter.useFilter(data, rwv);
-        m_SecondSuccessor = new ClassBalancedPlus(mapPath);
+        m_SecondSuccessor = new ClassBalancedPlus(mapPath, seedNumber);
         //b-katie
          StringBuffer newStringBuffer = new StringBuffer(stringbuffer).append(Arrays.toString(indsToClass(secondInds, classNames)));
         //e-katie
@@ -637,7 +639,7 @@ public class ClassBalancedPlus extends RandomizableSingleClassifierEnhancer
    */
   public static void main(String[] argv) throws FileNotFoundException {
  
-    ClassBalancedPlus classBalancedPlus = new ClassBalancedPlus("out/");
+    ClassBalancedPlus classBalancedPlus = new ClassBalancedPlus("out/", "1");
     runClassifier(classBalancedPlus, argv);
   }
 }

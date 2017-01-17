@@ -396,14 +396,14 @@ public class ND extends RandomizableSingleClassifierEnhancer implements
   /**
    * Constructor.
    */
-  public ND(String mapPath) throws FileNotFoundException {
+  public ND(String mapPath, String seedNumber) throws FileNotFoundException {
      //b-katie	 
       this.mapPath = mapPath;
             
         if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
-                file = new File(mapPath+"/output.txt");
+                file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
-                fileData = new File(mapPath+"/outputData.txt");
+                fileData = new File(mapPath+"/outputData"+seedNumber+".txt");
                 outData = new PrintStream(fileData);
         } 
         //e-katie
@@ -727,6 +727,6 @@ public class ND extends RandomizableSingleClassifierEnhancer implements
    * @param argv the options
    */
   public static void main(String[] argv) throws FileNotFoundException {
-    runClassifier(new ND("out/"), argv);
+    runClassifier(new ND("out/", "1"), argv);
   }
 }

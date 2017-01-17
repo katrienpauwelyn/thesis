@@ -159,19 +159,21 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
     static protected File fileData;
     static protected PrintStream outData;
     public String mapPath;
+    public String seedNumber;
     //e-katie
 
     /**
      * Constructor.
      */
-    public RandomPairND(String mapPath) throws FileNotFoundException {
+    public RandomPairND(String mapPath, String seedNumber) throws FileNotFoundException {
 //b-katie	
  this.mapPath = mapPath;
+ this.seedNumber = seedNumber;
             
         if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
-                file = new File(mapPath+"/output.txt");
+                file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
-                fileData = new File(mapPath+"/outputData.txt");
+                fileData = new File(mapPath+"/outputData+"+seedNumber+".txt");
                 outData = new PrintStream(fileData);
         } 
         //e-katie
@@ -417,7 +419,7 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
         }
 
         // Create two successors if necessary
-        m_FirstSuccessor = new RandomPairND(this.mapPath);
+        m_FirstSuccessor = new RandomPairND(this.mapPath, seedNumber);
         if (first == 1) {
             //b-katie
             out.println(new StringBuffer(stringbuffer).append(Arrays.toString(indsToClass(firstInds, classNames))).toString());
@@ -436,7 +438,7 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
             m_FirstSuccessor.generateClassifierForNode(firstSubset, m_Range, rand,
                     classifier, m_classifiers, newStringBuffer, false);
         }
-        m_SecondSuccessor = new RandomPairND(mapPath);
+        m_SecondSuccessor = new RandomPairND(mapPath, seedNumber);
         if (second == 1) {
             m_SecondSuccessor.m_Range = secondRange;
             //b-katie
@@ -449,7 +451,7 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
             rwv.setAttributeIndex("" + (data.classIndex() + 1));
             rwv.setInputFormat(data);
             Instances secondSubset = Filter.useFilter(data, rwv);
-            m_SecondSuccessor = new RandomPairND(mapPath);
+            m_SecondSuccessor = new RandomPairND(mapPath, seedNumber);
             //b-katie
             StringBuffer newStringBuffer = new StringBuffer(stringbuffer).append(Arrays.toString(indsToClass(secondInds, classNames)));
             //e-katie
@@ -736,6 +738,6 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
      * @param argv the options
      */
     public static void main(String[] argv) throws FileNotFoundException {
-        runClassifier(new RandomPairND("out"), argv);
+        runClassifier(new RandomPairND("out", "1"), argv);
     }
 }
