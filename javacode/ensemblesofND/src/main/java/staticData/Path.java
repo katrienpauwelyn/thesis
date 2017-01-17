@@ -10,7 +10,7 @@ package staticData;
  * @author katie
  */
 public class Path {
-      public static  String path = "/Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out";
+      public static  String path = "/Users/katie/thesisoutput/out";
       public static  String[] classifiers = {"classBalanced","furthestCentroid","nd","randomPair"};
       public static  String[] datasets = {"audiology","krkopt","letterRecognition","mfeatFac","mfeatFou","mfeatKar","mfeatMor",
         "mfeatPix","optdigits","pageBlocks","pendigits","segmentation","shuttle","vowel","yeast","zoo"};
