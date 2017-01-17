@@ -1,0 +1,7 @@
+Hier #nodes: 5
+Hier classes by level: [1, 1, 2, 2]
+rec: 10
+      auto: 2
+      sport: 8
+            run: 4
+            swim: 4

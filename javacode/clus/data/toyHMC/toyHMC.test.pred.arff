@@ -1,0 +1,21 @@
+@RELATION 'simple-predictions'
+
+@ATTRIBUTE class-a                                                          string
+@ATTRIBUTE class-a-rec                                                      {1,0}
+@ATTRIBUTE class-a-rec/auto                                                 {1,0}
+@ATTRIBUTE class-a-rec/sport                                                {1,0}
+@ATTRIBUTE class-a-rec/sport/run                                            {1,0}
+@ATTRIBUTE class-a-rec/sport/swim                                           {1,0}
+@ATTRIBUTE Original-p-rec                                                   numeric
+@ATTRIBUTE Original-p-rec/auto                                              numeric
+@ATTRIBUTE Original-p-rec/sport                                             numeric
+@ATTRIBUTE Original-p-rec/sport/run                                         numeric
+@ATTRIBUTE Original-p-rec/sport/swim                                        numeric
+@ATTRIBUTE Original-models                                                  string
+
+@DATA
+rec/sport/swim,1,0,1,0,1,1.0,0.0,1.0,0.0,1.0,"1"
+rec/sport/run,1,0,1,1,0,1.0,0.0,1.0,1.0,0.5,"2"
+rec/sport/run@rec/sport/swim,1,0,1,1,1,1.0,0.0,1.0,1.0,0.5,"2"
+rec/sport,1,0,1,0,0,1.0,0.0,1.0,0.0,0.0,"3"
+rec/auto,1,1,0,0,0,1.0,1.0,0.0,0.0,0.0,"4"
