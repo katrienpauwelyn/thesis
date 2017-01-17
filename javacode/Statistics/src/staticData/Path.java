@@ -1,0 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package staticData;
+
+/**
+ *
+ * @author katie
+ */
+public class Path {
+      public static  String path = "/Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out";
+      public static  String[] classifiers = {"classBalanced","furthestCentroid","nd","randomPair"};
+      public static  String[] datasets = {"audiology","krkopt","letterRecognition","mfeatFac","mfeatFou","mfeatKar","mfeatMor",
+        "mfeatPix","optdigits","pageBlocks","pendigits","segmentation","shuttle","vowel","yeast","zoo"};
+      public static int nbFolds = 10;
+      
+      public static int nbSeeds = 10;
+}
