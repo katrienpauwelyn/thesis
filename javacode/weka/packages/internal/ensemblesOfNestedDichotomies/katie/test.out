@@ -1,0 +1,254 @@
+Clus run pageBlocks.data
+************************
+
+Date: 18/11/16 14:35
+File: test.out
+Attributes: 11 (input: 10, output: 1)
+Missing values: No
+
+[General]
+Verbose = 1
+Compatibility = Latest
+RandomSeed = 0
+ResourceInfoLoaded = No
+
+[Data]
+File = fold4.arff
+TestSet = test4.arff
+PruneSet = None
+XVal = 10
+RemoveMissingTarget = No
+NormalizeData = None
+
+[Attributes]
+Target = 11
+Clustering = 11
+Descriptive = 1-10
+Key = None
+Disable = None
+Weights = Normalize
+ClusteringWeights = 1.0
+ReduceMemoryNominalAttrs = No
+
+[Constraints]
+Syntactic = None
+MaxSize = Infinity
+MaxError = 0.0
+MaxDepth = Infinity
+
+[Output]
+ShowModels = {Default, Pruned, Others}
+TrainErrors = Yes
+ValidErrors = Yes
+TestErrors = Yes
+AllFoldModels = Yes
+AllFoldErrors = Yes
+AllFoldDatasets = No
+UnknownFrequency = No
+BranchFrequency = No
+ShowInfo = {Count}
+PrintModelAndExamples = No
+WriteErrorFile = No
+WritePredictions = {Test}
+ModelIDFiles = No
+WriteCurves = No
+OutputXMLModel = No
+OutputPythonModel = No
+OutputDatabaseQueries = No
+
+[Nominal]
+MEstimate = 1.0
+
+[Model]
+MinimalWeight = 1.0
+MinimalNumberExamples = 0
+MinimalKnownWeight = 0.0
+ParamTuneNumberFolds = 10
+ClassWeights = 0.0
+NominalSubsetTests = Yes
+
+[Tree]
+Heuristic = VarianceReduction
+PruningMethod = Default
+FTest = 0.05
+BinarySplit = Yes
+ConvertToRules = No
+AlternativeSplits = No
+Optimize = {}
+MSENominal = No
+SplitSampling = None
+InductionOrder = DepthFirst
+
+[Hierarchical]
+Type = Tree
+Distance = WeightedEuclidean
+WType = ExpSumParentWeight
+WParam = 0.75
+HSeparator = /
+EmptySetIndicator = n
+OptimizeErrorMeasure = PooledAUPRC
+DefinitionFile = None
+NoRootPredictions = No
+PruneInSig = 0.0
+Bonferroni = No
+SingleLabel = Yes
+CalculateErrors = Yes
+ClassificationThreshold = None
+RecallValues = None
+EvalClasses = None
+MEstimate = No
+
+[Ensemble]
+Iterations = 10
+EnsembleMethod = Bagging
+VotingType = Majority
+SelectRandomSubspaces = 4
+PrintAllModels = Yes
+PrintAllModelFiles = No
+Optimize = No
+OOBestimate = No
+FeatureRanking = No
+WriteEnsemblePredictions = No
+EnsembleRandomDepth = No
+BagSelection = -1
+BagSize = 20
+
+Run: 01
+*******
+
+Statistics
+----------
+
+FTValue (FTest): 0.05
+Induction Time: 0.287 sec
+Pruning Time: 0.001 sec
+Model information
+     Default: Nodes = 1 (Leaves: 1)
+     Original: FOREST with 10 models (Total nodes: 36 and leaves: 23)
+	 Model 1: Nodes = 7 (Leaves: 4)
+	 Model 2: Nodes = 1 (Leaves: 1)
+	 Model 3: Nodes = 5 (Leaves: 3)
+	 Model 4: Nodes = 3 (Leaves: 2)
+	 Model 5: Nodes = 3 (Leaves: 2)
+	 Model 6: Nodes = 3 (Leaves: 2)
+	 Model 7: Nodes = 3 (Leaves: 2)
+	 Model 8: Nodes = 3 (Leaves: 2)
+	 Model 9: Nodes = 3 (Leaves: 2)
+	 Model 10: Nodes = 5 (Leaves: 3)
+
+
+Training error
+--------------
+
+Number of examples: 4926
+Hierarchical error measures
+   Original: 
+      Average AUROC:            0.8634372360321689
+      Average AUPRC:            0.5798700915483699
+      Average AUPRC (weighted): 0.9572818446110662
+      Pooled AUPRC:             0.9854841195773689
+      0: 1-2-3-4-5, AUROC: 0.5, AUPRC: 1, Freq: 1
+      1: 1-2-3-4-5/1-4, AUROC: 0.929672, AUPRC: 0.990321, Freq: 0.913723
+      2: 1-2-3-4-5/1-4/1, AUROC: 0.939684, AUPRC: 0.989997, Freq: 0.897686
+      3: 1-2-3-4-5/1-4/4, AUROC: 0.886325, AUPRC: 0.181207, Freq: 0.016037
+      4: 1-2-3-4-5/2-3-5, AUROC: 0.929672, AUPRC: 0.627411, Freq: 0.086277
+      5: 1-2-3-4-5/2-3-5/2-3, AUROC: 0.951424, AUPRC: 0.63536, Freq: 0.065367
+      6: 1-2-3-4-5/2-3-5/2-3/2, AUROC: 0.960447, AUPRC: 0.662231, Freq: 0.060089
+      7: 1-2-3-4-5/2-3-5/2-3/3, AUROC: 0.861224, AUPRC: 0.018759, Freq: 0.005278
+      8: 1-2-3-4-5/2-3-5/5, AUROC: 0.812488, AUPRC: 0.113545, Freq: 0.020909
+
+Testing error
+-------------
+
+Number of examples: 533
+Hierarchical error measures
+   Original: 
+      Average AUROC:            0.8775086609541937
+      Average AUPRC:            0.5794736693494243
+      Average AUPRC (weighted): 0.9629078521359863
+      Pooled AUPRC:             0.9894847337190776
+      0: 1-2-3-4-5, AUROC: 0.5, AUPRC: 1, Freq: 1
+      1: 1-2-3-4-5/1-4, AUROC: 0.947556, AUPRC: 0.99407, Freq: 0.921201
+      2: 1-2-3-4-5/1-4/1, AUROC: 0.950158, AUPRC: 0.993745, Freq: 0.91182
+      3: 1-2-3-4-5/1-4/4, AUROC: 0.880114, AUPRC: 0.144938, Freq: 0.009381
+      4: 1-2-3-4-5/2-3-5, AUROC: 0.947556, AUPRC: 0.636424, Freq: 0.078799
+      5: 1-2-3-4-5/2-3-5/2-3, AUROC: 0.949669, AUPRC: 0.574702, Freq: 0.056285
+      6: 1-2-3-4-5/2-3-5/2-3/2, AUROC: 0.956895, AUPRC: 0.594361, Freq: 0.052533
+      7: 1-2-3-4-5/2-3-5/2-3/3, AUROC: 0.86064, AUPRC: 0.013333, Freq: 0.003752
+      8: 1-2-3-4-5/2-3-5/5, AUROC: 0.90499, AUPRC: 0.26369, Freq: 0.022514
+
+Default Model
+*************
+
+[1,0.913723,0.897686,0.016037,0.086277,0.065367,0.060089,0.005278,0.020909]: 4926
+
+Original Model
+**************
+
+Model 1: 
+
+height > 4.0
++--yes: lenght > 2.0
+|       +--yes: [1,1,1,0,0,0,0,0,0]: 16
+|       +--no:  [1,1,0,1,0,0,0,0,0]: 1
++--no:  height > 2.0
+        +--yes: [1,0,0,0,1,0,0,0,1]: 1
+        +--no:  [1,0,0,0,1,1,1,0,0]: 2
+
+Model 2: 
+
+[1,1,1,0,0,0,0,0,0]: 20
+
+Model 3: 
+
+height > 1.0
++--yes: p_and > 0.173
+|       +--yes: [1,1,1,0,0,0,0,0,0]: 18
+|       +--no:  [1,0,0,0,1,1,1,0,0]: 1
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+Model 4: 
+
+height > 1.0
++--yes: [1,1,1,0,0,0,0,0,0]: 19
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+Model 5: 
+
+height > 1.0
++--yes: [1,1,1,0,0,0,0,0,0]: 19
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+Model 6: 
+
+height > 1.0
++--yes: [1,1,1,0,0,0,0,0,0]: 19
++--no:  [1,1,0,1,0,0,0,0,0]: 1
+
+Model 7: 
+
+height > 1.0
++--yes: [1,1,1,0,0,0,0,0,0]: 19
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+Model 8: 
+
+blackpix > 7.0
++--yes: [1,1,1,0,0,0,0,0,0]: 19
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+Model 9: 
+
+mean_tr > 2.81
++--yes: [1,0,0,0,1,0.666667,0.333333,0.333333,0.333333]: 3
++--no:  [1,1,1,0,0,0,0,0,0]: 17
+
+Model 10: 
+
+area > 28.0
++--yes: height > 23.0
+|       +--yes: [1,0,0,0,1,0,0,0,1]: 1
+|       +--no:  [1,1,1,0,0,0,0,0,0]: 18
++--no:  [1,0,0,0,1,1,1,0,0]: 1
+
+
