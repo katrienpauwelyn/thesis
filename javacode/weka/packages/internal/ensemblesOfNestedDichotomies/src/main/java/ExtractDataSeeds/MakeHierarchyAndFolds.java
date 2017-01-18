@@ -16,7 +16,8 @@ import staticData.Path;
  * 
  * Steekt de hierarchieen in aparte files. Maakt de test- en train files aan.
  * De test en train files zijn ook direct hierarchisch.
- *   * maakt de test en train sets aan met hierarchie?
+ *   * maakt de test en train sets aan met hierarchie
+ * deze files zijn te gebruiken voor clus
  */
 
 /**
@@ -30,18 +31,18 @@ public class MakeHierarchyAndFolds {
        * De hierarchie in aparte files zetten.
       */
           PrintStream[] streamsh = new PrintStream[Path.nbFolds+1];
-          streamsh[0] = new PrintStream(new File(path+"/hAll.txt"));
+          streamsh[0] = new PrintStream(new File(path+"/S"+seed+"hAll.txt"));
               NewElementHierarchy[] listNewElementsHier = new NewElementHierarchy[Path.nbFolds+1];//per fold een newelementhierarchy
               //als er klassen in de test staan die niet in de train staan, dan komt het element daar bij te staan
               listNewElementsHier[0] = new NewElementHierarchy();
           for(int i = 1; i<Path.nbFolds+1; i++){
-              streamsh[i] = new PrintStream(new File(path+"/h"+Integer.toString(i)+".txt"));
+              streamsh[i] = new PrintStream(new File(path+"/S"+seed+"h"+Integer.toString(i)+".txt"));
               listNewElementsHier[i] = new NewElementHierarchy();
           }
           
           ArrayList<HashMap<String, String>> lijstHash = new ArrayList();
           
-              BufferedReader outHier = new BufferedReader(new FileReader(path+"/output.txt"));
+              BufferedReader outHier = new BufferedReader(new FileReader(path+"/output"+seed+".txt"));
               String lineh;
                   int ih = -1;
                   while((lineh = outHier.readLine()) != null)
@@ -72,12 +73,12 @@ public class MakeHierarchyAndFolds {
            * FoldAll is de volledige dataset.
            */
           PrintStream[] streams = new PrintStream[Path.nbFolds+1];
-          streams[0] = new PrintStream(new File(path+"/foldAll.arff"));
+          streams[0] = new PrintStream(new File(path+"/S"+seed+"foldAll.arff"));
              for(int i = 1; i<Path.nbFolds+1; i++){
-              streams[i] = new PrintStream(new File(path+"/fold"+Integer.toString(i)+".arff"));
+              streams[i] = new PrintStream(new File(path+"/S"+seed+"fold"+Integer.toString(i)+".arff"));
           }
           
-              BufferedReader bufferedReader = new BufferedReader(new FileReader(path+"/outputData.txt"));
+              BufferedReader bufferedReader = new BufferedReader(new FileReader(path+"/outputData"+seed+".txt"));
               String line;
               String[] classNames = null;
                   int i = -1;
@@ -87,7 +88,7 @@ public class MakeHierarchyAndFolds {
                   ArrayList<String> listOfAllLines = new ArrayList<String>();
                   ArrayList<ArrayList<String>> arffHeader = new ArrayList<ArrayList<String>>();
                   ArrayList<ArrayList<String>> listOfAllFoldLines = new ArrayList<ArrayList<String>>();
-                  for(int count = 0; count<10; count++){//tODO 10
+                  for(int count = 0; count<Path.nbFolds; count++){
                       listOfAllFoldLines.add(new ArrayList<String>());
                       arffHeader.add(new ArrayList<String>());
                   }
@@ -141,7 +142,7 @@ public class MakeHierarchyAndFolds {
                       
             bufferedReader.close();
             makeTestFiles(listOfAllLines, listOfAllFoldLines, path, indexClass, 
-                    lijstHash, arffHeader, classNames, listNewElementsHier);
+                    lijstHash, arffHeader, classNames, listNewElementsHier, seed);
         /*  for(NewElementHierarchy h: listNewElementsHier){
               if(h.hasNewElements()){
                   System.out.println(Integer.toString(h.getIndex()));
@@ -171,10 +172,10 @@ public class MakeHierarchyAndFolds {
     private void makeTestFiles(ArrayList<String> completeData, ArrayList<ArrayList<String>> allFolds, 
             String path, int indexClass, ArrayList<HashMap<String, String>> lijstHash, 
             ArrayList<ArrayList<String>> headerArff, String[] classNames, 
-            NewElementHierarchy[] newElementsHiers) throws FileNotFoundException{
+            NewElementHierarchy[] newElementsHiers, String seed) throws FileNotFoundException{
          PrintStream[] streamsh = new PrintStream[10];
           for(int i = 0; i<Path.nbFolds; i++){
-              streamsh[i] = new PrintStream(new File(path+"/test"+Integer.toString(i+1)+".arff"));
+              streamsh[i] = new PrintStream(new File(path+"/S"+seed+"test"+Integer.toString(i+1)+".arff"));
               
               if(indexClass!=1){//als de class op de laatste index staat
                    for(int indHeader = 0; indHeader<headerArff.get(i).size()-1; indHeader++){

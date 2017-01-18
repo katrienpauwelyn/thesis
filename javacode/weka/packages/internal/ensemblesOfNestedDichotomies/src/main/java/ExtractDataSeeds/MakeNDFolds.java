@@ -12,7 +12,8 @@ import staticData.Path;
 /**
  * Van 1 file waar alle folds achter elkaar gedrukt staan, 10 aparte fold files maken.
  * Maak ook test files aan.
- * Wordt niet meer gebruikt???
+ *Maakt de files aan die voor ND gebruikt worden. De makehierarchyandfolds maakt de files aan die hierarchisch
+ * zijn en voor clus kunnen gebruikt worden.
  * @author katie
  */
 public class MakeNDFolds {
@@ -32,14 +33,17 @@ public class MakeNDFolds {
     //for each dataset
     public void writeTrainingNDAllDatasets(String path) throws IOException{
         for(String dataset: Path.datasets){
-            writeTrainingND(path+"/"+dataset);
+            for(int i = 0; i<Path.nbSeeds; i++){
+                writeTrainingND(path+"/"+dataset, Integer.toString(i));
+            }
+            
         }
     }
 
     //for each fold (write the training data folds for one dataset)
-    public void writeTrainingND(String path) throws FileNotFoundException, IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path + "/outputData.txt"));
-        PrintStream stream = new PrintStream(new File(path + "/NDfoldAll.arff"));
+    public void writeTrainingND(String path, String seed) throws FileNotFoundException, IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(path + "/outputData"+seed+".txt"));
+        PrintStream stream = new PrintStream(new File(path + "/NDS"+seed+"foldAll.arff"));
      
         String line;
         boolean data = false;
@@ -50,7 +54,7 @@ public class MakeNDFolds {
             line = bufferedReader.readLine();
             if(data){
                 if(line.isEmpty()){ //de volledige data is over, nu volgen de folds
-                    makeFolds(bufferedReader, path, listOfAllLines, header);
+                    makeFolds(bufferedReader, path, listOfAllLines, header, seed);
                     break;
                 }
                 listOfAllLines.add(line);
@@ -68,12 +72,12 @@ public class MakeNDFolds {
     
     //make the 10 folds (not the 'fold' that contains all data) (and the corresponding test files)
     private void makeFolds(BufferedReader reader, String path, ArrayList<String> allData,
-            ArrayList<String> header) throws IOException{
+            ArrayList<String> header, String seed) throws IOException{
        
         String line; 
         
         for(int i = 1; i<Path.nbFolds+1; i++){
-            String newPath = path+"/NDfold"+Integer.toString(i)+".arff";
+            String newPath = path+"/NDS"+seed+"fold"+Integer.toString(i)+".arff";
             PrintStream print = new PrintStream(new File(newPath));
             ArrayList<String> foldData = new ArrayList<String>();
              boolean data = false;
@@ -82,7 +86,7 @@ public class MakeNDFolds {
                
                 if(data){
                     if(line.isEmpty()){//tijd voor de volgende fold
-                        writeTestND(path+"/NDtest"+Integer.toString(i)+".arff", allData, foldData, header); //make the test file corresponding the previous fold
+                        writeTestND(path+"/NDS"+seed+"test"+Integer.toString(i)+".arff", allData, foldData, header); //make the test file corresponding the previous fold
                         break;
                     }
                     foldData.add(line);
