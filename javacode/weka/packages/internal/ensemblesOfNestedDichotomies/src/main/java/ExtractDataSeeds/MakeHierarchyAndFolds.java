@@ -18,9 +18,14 @@ import staticData.Path;
  * De test en train files zijn ook direct hierarchisch.
  *   * maakt de test en train sets aan met hierarchie?
  */
+
+/**
+ * s$i$h$x$
+ * 
+ * @author katie
+ */
 public class MakeHierarchyAndFolds {
-    
-    public void go(String path) throws FileNotFoundException, IOException{
+    public void go(String path, String seed) throws FileNotFoundException, IOException{
         /**
        * De hierarchie in aparte files zetten.
       */

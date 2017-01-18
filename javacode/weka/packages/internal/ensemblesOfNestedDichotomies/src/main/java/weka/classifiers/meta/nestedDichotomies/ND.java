@@ -400,7 +400,7 @@ public class ND extends RandomizableSingleClassifierEnhancer implements
      //b-katie	 
       this.mapPath = mapPath;
             
-        if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
+        if(file == null || fileData == null || !file.getAbsolutePath().contains(seedNumber)){
                 file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
                 fileData = new File(mapPath+"/outputData"+seedNumber+".txt");

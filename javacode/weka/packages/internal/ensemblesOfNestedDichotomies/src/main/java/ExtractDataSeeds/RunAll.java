@@ -1,7 +1,5 @@
 package ExtractDataSeeds;
 
-
-import ExtractData.MakeHierarchyAndFolds;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import staticData.Path;
@@ -62,24 +60,27 @@ public class RunAll {
         String[] allDataSets = Path.allDataSetFiles;
         String[] dataNames = Path.datasets;
         String[] classifierNames =Path.classifiers;
+        String path = Path.path;
       
         MakeHierarchyAndFolds testmain = new MakeHierarchyAndFolds();
 
         //testmain.go("out/" + classifierNames[0] + "/" + "pageBlocks");
         
         //Random pair
-        for(int seed = 0; seed<Path.nbSeeds; seed++){
-            for (int i = 0; i < dataNames.length; i++) {
-      //      for (int i = 0; i < 1; i++) {
+            
+                      for (int i = 0; i < 1; i++) {
+                 for(int seed = 0; seed<Path.nbSeeds; seed++){
+                    // for (int i = 0; i < dataNames.length; i++) {
+       
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
-                    runClassifier(new RandomPairND("out/" + classifierNames[3] + "/" + dataNames[i], Integer.toString(seed)),
+                    runClassifier(new RandomPairND(path+ "/"+ classifierNames[3] + "/" + dataNames[i], Integer.toString(seed)),
                             RunAll.getArgs(false, allDataSets[i], seed, seed, 1));          
                 } else {
-                    runClassifier(new RandomPairND("out/" + classifierNames[3] + "/"
+                    runClassifier(new RandomPairND(path+ "/" + classifierNames[3] + "/"
                             + dataNames[i], Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-                testmain.go("out/" + classifierNames[3] + "/" + dataNames[i]);
+           //     testmain.go("out/" + classifierNames[3] + "/" + dataNames[i], Integer.toString(seed));
 
 
             }
@@ -87,19 +88,19 @@ public class RunAll {
      
 
         //class balanced
-        for(int seed = 0; seed<Path.nbSeeds; seed++){
+     /*   for(int seed = 0; seed<Path.nbSeeds; seed++){
             for (int i = 0; i < dataNames.length; i++) {
               if (dataNames[i].equals("segmentation")
                       || dataNames[i].equals("letterRecognition")) {
-                  runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i], 
+                  runClassifier(new ClassBalancedPlus("/"+path + "/"+ classifierNames[0] + "/" + dataNames[i], 
                           Integer.toString(seed)), 
                           RunAll.getArgs(false, allDataSets[i], seed, seed, 1));
               } else {
-                  runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i], 
+                  runClassifier(new ClassBalancedPlus("/"+path+ "/" + classifierNames[0] + "/" + dataNames[i], 
                           Integer.toString(seed)),
                           RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
               }
-              testmain.go("out/" + classifierNames[0] + "/" + dataNames[i]);
+         //     testmain.go("out/" + classifierNames[0] + "/" + dataNames[i], Integer.toString(seed));
             }
         }
         
@@ -110,13 +111,13 @@ public class RunAll {
              for (int i = 0; i < dataNames.length; i++) {
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
-                    runClassifier(new FurthestCentroidND("out/"
+                    runClassifier(new FurthestCentroidND("/"+path+ "/"
                             + classifierNames[1] + "/" + dataNames[i], Integer.toString(seed)), RunAll.getArgs(false,allDataSets[i] ,seed, seed, 1));
                 } else {
-                    runClassifier(new FurthestCentroidND("out/" + classifierNames[1] + "/" + dataNames[i], 
+                    runClassifier(new FurthestCentroidND("/"+path+ "/" + classifierNames[1] + "/" + dataNames[i], 
                             Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-                testmain.go("out/" + classifierNames[1] + "/" + dataNames[i]);
+         //       testmain.go("out/" + classifierNames[1] + "/" + dataNames[i], Integer.toString(seed));
             }
         }
        
@@ -128,15 +129,15 @@ public class RunAll {
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
 
-                    runClassifier(new ND("out/" + classifierNames[2]
+                    runClassifier(new ND("/"+path+ "/" + classifierNames[2]
                             + "/" + dataNames[i], Integer.toString(seed)), RunAll.getArgs(false, allDataSets[i], seed, seed, 1));
                 } else {
-                    runClassifier(new ND("out/" + classifierNames[2]
+                    runClassifier(new ND("/"+path + "/"+ classifierNames[2]
                             + "/" + dataNames[i], Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-               testmain.go("out/" + classifierNames[2] + "/" + dataNames[i]);
+         //      testmain.go("out/" + classifierNames[2] + "/" + dataNames[i], Integer.toString(seed));
            }
-        } 
+        } */
             
     }
     

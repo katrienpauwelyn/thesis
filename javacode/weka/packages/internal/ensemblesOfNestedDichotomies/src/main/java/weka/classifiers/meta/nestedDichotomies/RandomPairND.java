@@ -169,14 +169,17 @@ public class RandomPairND extends RandomizableSingleClassifierEnhancer implement
 //b-katie	
  this.mapPath = mapPath;
  this.seedNumber = seedNumber;
-            
-        if(file == null || fileData == null || !file.getAbsolutePath().contains(mapPath)){
+ 
+ 
+        if(file == null || fileData == null || //!file.getAbsolutePath().contains(mapPath)){
+                !file.getAbsolutePath().contains(seedNumber)){
                 file = new File(mapPath+"/output"+seedNumber+".txt");
                 out = new PrintStream(file);
-                fileData = new File(mapPath+"/outputData+"+seedNumber+".txt");
+                fileData = new File(mapPath+"/outputData"+seedNumber+".txt");
                 outData = new PrintStream(fileData);
-        } 
+        }
         //e-katie
+        
         m_Classifier = new weka.classifiers.trees.J48();
     }
 
