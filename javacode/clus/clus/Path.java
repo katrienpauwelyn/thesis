@@ -15,6 +15,7 @@ public class Path {
       public static  String[] datasets = {"audiology","krkopt","letterRecognition","mfeatFac","mfeatFou","mfeatKar","mfeatMor",
         "mfeatPix","optdigits","pageBlocks","pendigits","segmentation","shuttle","vowel","yeast","zoo"};
       public static int nbFolds = 10;
+      public static int nbSeeds = 10;
       
       public static int getIndexOfClassAttribute(String s){
           if(s.equals("letterRecognition")||s.equals("segmentation")){
@@ -24,6 +25,5 @@ public class Path {
           }
       }
       
-      
-      public static int nbSeeds = 10;
+ 
 }
