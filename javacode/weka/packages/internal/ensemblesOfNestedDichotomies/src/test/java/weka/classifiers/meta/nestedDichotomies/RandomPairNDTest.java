@@ -19,6 +19,7 @@
 
 package weka.classifiers.meta.nestedDichotomies;
 
+import java.io.FileNotFoundException;
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 
@@ -41,7 +42,11 @@ public class RandomPairNDTest
 
   /** Creates a default Dagging */
   public Classifier getClassifier() {
-    return new RandomPairND();
+      try {
+          return new RandomPairND("badWolf", "badWolf");
+      } catch (FileNotFoundException ex) {
+          throw new RuntimeException(ex);
+      }
   }
 
   public static Test suite() {

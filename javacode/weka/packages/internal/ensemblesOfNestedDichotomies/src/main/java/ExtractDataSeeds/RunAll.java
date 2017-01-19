@@ -18,6 +18,10 @@ public class RunAll {
     
     //outputi.txt
     //outputDatai.txt kunnen afgedrukt worden
+    /**
+     * Deze file maakt de test en train files aan voor clus. 
+     * MakeNDFolds.java moet hierna nog opgeroepen worden om de files te maken voor ND.
+     */
     
     
     /**
@@ -68,9 +72,10 @@ public class RunAll {
         
         //Random pair
             
-                      for (int i = 0; i < 1; i++) {
+             //         for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < dataNames.length; i++) {
                  for(int seed = 0; seed<Path.nbSeeds; seed++){
-                    // for (int i = 0; i < dataNames.length; i++) {
+                     
        
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
@@ -80,7 +85,8 @@ public class RunAll {
                     runClassifier(new RandomPairND(path+ "/" + classifierNames[3] + "/"
                             + dataNames[i], Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-           //     testmain.go("out/" + classifierNames[3] + "/" + dataNames[i], Integer.toString(seed));
+           
+     testmain.go(path+"/" + classifierNames[3] + "/" + dataNames[i], Integer.toString(seed));
 
 
             }
@@ -88,8 +94,9 @@ public class RunAll {
      
 
         //class balanced
-     /*   for(int seed = 0; seed<Path.nbSeeds; seed++){
-            for (int i = 0; i < dataNames.length; i++) {
+        
+        for (int i = 0; i < dataNames.length; i++) {
+           for(int seed = 0; seed<Path.nbSeeds; seed++){
               if (dataNames[i].equals("segmentation")
                       || dataNames[i].equals("letterRecognition")) {
                   runClassifier(new ClassBalancedPlus("/"+path + "/"+ classifierNames[0] + "/" + dataNames[i], 
@@ -100,15 +107,16 @@ public class RunAll {
                           Integer.toString(seed)),
                           RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
               }
-         //     testmain.go("out/" + classifierNames[0] + "/" + dataNames[i], Integer.toString(seed));
+              testmain.go(path+"/" + classifierNames[0] + "/" + dataNames[i], Integer.toString(seed));
             }
         }
         
      
 
         //furthest centroid
-        for(int seed = 0; seed<Path.nbSeeds; seed++){
-             for (int i = 0; i < dataNames.length; i++) {
+        
+        for (int i = 0; i < dataNames.length; i++) {
+            for(int seed = 0; seed<Path.nbSeeds; seed++){
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
                     runClassifier(new FurthestCentroidND("/"+path+ "/"
@@ -117,14 +125,15 @@ public class RunAll {
                     runClassifier(new FurthestCentroidND("/"+path+ "/" + classifierNames[1] + "/" + dataNames[i], 
                             Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-         //       testmain.go("out/" + classifierNames[1] + "/" + dataNames[i], Integer.toString(seed));
+                testmain.go(path+"/" + classifierNames[1] + "/" + dataNames[i], Integer.toString(seed));
             }
         }
        
 
         //random  (nd)
-        for(int seed = 0; seed<Path.nbSeeds; seed++){
-            for (int i = 0; i < dataNames.length; i++) {
+        
+        for (int i = 0; i < dataNames.length; i++) {
+            for(int seed = 0; seed<Path.nbSeeds; seed++){
            //       for (int i = 0; i < 1; i++) {
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
@@ -135,9 +144,9 @@ public class RunAll {
                     runClassifier(new ND("/"+path + "/"+ classifierNames[2]
                             + "/" + dataNames[i], Integer.toString(seed)), RunAll.getArgs(true, allDataSets[i], seed, seed, -1));
                 }
-         //      testmain.go("out/" + classifierNames[2] + "/" + dataNames[i], Integer.toString(seed));
+               testmain.go(path+"/" + classifierNames[2] + "/" + dataNames[i], Integer.toString(seed));
            }
-        } */
+        } 
             
     }
     

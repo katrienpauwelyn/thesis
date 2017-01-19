@@ -13,12 +13,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
+ /*
  * Copyright (C) 2005 University of Waikato, Hamilton, New Zealand
  */
-
 package weka.classifiers.meta.nestedDichotomies;
 
+import java.io.FileNotFoundException;
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 
@@ -26,29 +26,36 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Tests FurthestCentroidND. Run from the command line with:<p/>
+ * Tests FurthestCentroidND. Run from the command line with:
+ * <p/>
  * java weka.classifiers.meta.nestedDichotomies.FurthestCentroidNDTest
  *
  * @author eibe
  * @version $Revision: 8109 $
  */
 public class FurthestCentroidNDTest
-  extends AbstractClassifierTest {
+        extends AbstractClassifierTest {
 
-  public FurthestCentroidNDTest(String name) {
-    super(name);  
-  }
+    public FurthestCentroidNDTest(String name) {
+        super(name);
+    }
 
-  /** Creates a default Dagging */
-  public Classifier getClassifier() {
-    return new FurthestCentroidND();
-  }
+    /**
+     * Creates a default Dagging
+     */
+    public Classifier getClassifier() {
+        try {
+            return new FurthestCentroidND("badWolf", "badWolf");
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-  public static Test suite() {
-    return new TestSuite(FurthestCentroidNDTest.class);
-  }
+    public static Test suite() {
+        return new TestSuite(FurthestCentroidNDTest.class);
+    }
 
-  public static void main(String[] args){
-    junit.textui.TestRunner.run(suite());
-  }
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(suite());
+    }
 }

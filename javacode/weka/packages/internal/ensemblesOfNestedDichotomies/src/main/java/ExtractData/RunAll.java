@@ -71,11 +71,11 @@ public class RunAll {
   //      for (int i = 0; i < 1; i++) {
             if (dataNames[i].equals("segmentation")
                     || dataNames[i].equals("letterRecognition")) {
-                runClassifier(new RandomPairND("out/" + classifierNames[3] + "/" + dataNames[i]),
+                runClassifier(new RandomPairND("out/" + classifierNames[3] + "/" + dataNames[i], "testBadWolf"),
                         RunAll.getArgs(false, allDataSets[i], 5, 5, 1));
             } else {
                 runClassifier(new RandomPairND("out/" + classifierNames[3] + "/"
-                        + dataNames[i]), RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
+                        + dataNames[i], "testBadWolf"), RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
             }
             testmain.go("out/" + classifierNames[3] + "/" + dataNames[i]);
 
@@ -86,10 +86,10 @@ public class RunAll {
         for (int i = 0; i < dataNames.length; i++) {
             if (dataNames[i].equals("segmentation")
                     || dataNames[i].equals("letterRecognition")) {
-                runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i]),
+                runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i], "testBadWolf"),
                         RunAll.getArgs(false, allDataSets[i], 5, 5, 1));
             } else {
-                runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i]),
+                runClassifier(new ClassBalancedPlus("out/" + classifierNames[0] + "/" + dataNames[i], "testBadWolf"),
                         RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
             }
             testmain.go("out/" + classifierNames[0] + "/" + dataNames[i]);
@@ -102,9 +102,9 @@ public class RunAll {
             if (dataNames[i].equals("segmentation")
                     || dataNames[i].equals("letterRecognition")) {
                 runClassifier(new FurthestCentroidND("out/"
-                        + classifierNames[1] + "/" + dataNames[i]), RunAll.getArgs(false,allDataSets[i] ,5, 5, 1));
+                        + classifierNames[1] + "/" + dataNames[i], "testBadWolf"), RunAll.getArgs(false,allDataSets[i] ,5, 5, 1));
             } else {
-                runClassifier(new FurthestCentroidND("out/" + classifierNames[1] + "/" + dataNames[i]),
+                runClassifier(new FurthestCentroidND("out/" + classifierNames[1] + "/" + dataNames[i], "testBadWolf"),
                         RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
             }
             testmain.go("out/" + classifierNames[1] + "/" + dataNames[i]);
@@ -117,10 +117,10 @@ public class RunAll {
                     || dataNames[i].equals("letterRecognition")) {
                 
                 runClassifier(new ND("out/" + classifierNames[2]
-                        + "/" + dataNames[i]), RunAll.getArgs(false, allDataSets[i], 5, 5, 1));
+                        + "/" + dataNames[i], "testBadWolf"), RunAll.getArgs(false, allDataSets[i], 5, 5, 1));
             } else {
                 runClassifier(new ND("out/" + classifierNames[2]
-                        + "/" + dataNames[i]), RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
+                        + "/" + dataNames[i], "testBadWolf"), RunAll.getArgs(true, allDataSets[i], 5, 5, -1));
             }
            testmain.go("out/" + classifierNames[2] + "/" + dataNames[i]);
        }

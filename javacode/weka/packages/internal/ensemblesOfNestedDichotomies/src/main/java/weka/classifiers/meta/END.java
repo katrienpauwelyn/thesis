@@ -21,8 +21,11 @@
 
 package weka.classifiers.meta;
 
+import java.io.FileNotFoundException;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
@@ -198,7 +201,11 @@ public class END extends RandomizableIteratedSingleClassifierEnhancer implements
    */
   public END() {
 
-    m_Classifier = new weka.classifiers.meta.nestedDichotomies.ND();
+      try {
+          m_Classifier = new weka.classifiers.meta.nestedDichotomies.ND("badWolf", "badWolf");
+      } catch (FileNotFoundException ex) {
+          throw new RuntimeException(ex);
+      }
   }
 
   /**
