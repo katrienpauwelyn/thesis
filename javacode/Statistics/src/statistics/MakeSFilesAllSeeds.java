@@ -35,8 +35,8 @@ public class MakeSFilesAllSeeds {
     }
     
     private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne) throws FileNotFoundException{
-        for(int i = 1; i<11; i++){
-            makeSFiles10x10AllFolds(path, indexTargetIsOne, i);
+        for(int seed = 0; seed<Path.nbSeeds; seed++){
+            makeSFiles10x10AllFolds(path+"/asettings/S"+seed, indexTargetIsOne, seed);
         }
     }
     
@@ -44,7 +44,7 @@ public class MakeSFilesAllSeeds {
           //for each fold
       private static void makeSFiles10x10AllFolds(String path, boolean indexTargetIsOne, int seed) throws FileNotFoundException{
              for(int fold = 1; fold<Path.nbFolds+1; fold++){
-                 PrintStream p = new PrintStream(new File(path+"/settings"+seed+fold+".s"));
+                 PrintStream p = new PrintStream(new File(path+"settingsFold"+seed+fold+".s"));
                makeSFile(p,fold, path, indexTargetIsOne, seed);
                p.close();
              }
@@ -56,7 +56,7 @@ public class MakeSFilesAllSeeds {
       
       
       
-      public static void makeSFiles10x10Ens() throws FileNotFoundException{
+ /*     public static void makeSFiles10x10Ens() throws FileNotFoundException{
           for(String s: Path.classifiers){
               makeSFiles10x10AllDatasetsEns(Path.path+"/"+s);
           }
@@ -86,7 +86,7 @@ public class MakeSFilesAllSeeds {
                makeSFileEnsemble(p, path, indexTargetIsOne,fold, seed);
                p.close();
              }
-      }
+      }*/
       
       //the text of the .s files
       //indexTargetIsNul moet true zijn als de dataset letterRecognition of segmentation is
@@ -95,8 +95,8 @@ public class MakeSFilesAllSeeds {
           stream.println("RandomSeed = seed");
           stream.println();
           stream.println("[Data]");
-          stream.println("File = "+path+"/fold"+Integer.toString(nbFold)+".arff");
-          stream.println("TestSet = "+path+"/test"+Integer.toString(nbFold)+".arff");
+          stream.println("File = "+path+"/S"+seed+"fold"+Integer.toString(nbFold)+".arff");
+          stream.println("TestSet = "+path+"/S"+seed+"test"+Integer.toString(nbFold)+".arff");
           stream.println();
           stream.println("[Hierarchical]");
           stream.println("Type = TREE");
@@ -120,7 +120,7 @@ public class MakeSFilesAllSeeds {
          
       }
       
-      private static void makeSFileEnsemble(PrintStream stream, String path, boolean indexTargetIsOne, int nbFold, int seed){
+  /*    private static void makeSFileEnsemble(PrintStream stream, String path, boolean indexTargetIsOne, int nbFold, int seed){
           stream.println("[General]");
           stream.println("RandomSeed = seed");
           stream.println();
@@ -153,6 +153,10 @@ public class MakeSFilesAllSeeds {
           stream.println("EnsembleMethod = Bagging");
           stream.println("VotingType = Majority");// of    ProbabilityDistribution
       }
-      
+   */   
     
+      
+      public static void main(String[] args) throws FileNotFoundException{
+          MakeSFilesAllSeeds.makeSFiles10x10();
+      }
 }
