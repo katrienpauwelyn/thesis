@@ -25,10 +25,10 @@ public class MakeNDFolds {
     
     //for each classifier
     public void writeTrainingNDAllClassifiers(String path) throws IOException{
-       /* for(String cl: Path.classifiers){
+        for(String cl: Path.classifiers){
             writeTrainingNDAllDatasets(path+"/"+cl);
-        }*/
-        writeTrainingNDAllDatasets(path+"/"+Path.classifiers[3]);
+        }
+ 
     }
     
     //for each dataset
