@@ -84,18 +84,19 @@ public class WriteAllStatistics {
     
     public static void combineMultipleSeedsAllClassifiers(String path) throws IOException{
         for(String classifier: Path.classifiers){
-            combineMultipleSeedsAllDatasets(path+"/"+classifier);
+            combineMultipleSeedsAllDatasets(path+"/"+classifier, classifier);
         }
     }
     
     
        //voorbeeld van een pad
     ///Users/katie/thesisoutput/out/nd
-    public static void combineMultipleSeedsAllDatasets(String path) throws FileNotFoundException, IOException{
+    public static void combineMultipleSeedsAllDatasets(String path, String classifier) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(path+"/aStatisticsClus.txt"));
         for(String dataset: Path.datasets){
-            combineMultipleSeeds(path, dataset, stream);
+            combineMultipleSeeds(path, dataset, stream, classifier);
         }
+        stream.close();
     }
     
     //voorbeeld van een pad
@@ -104,7 +105,7 @@ public class WriteAllStatistics {
     //combineer alle seeds tot 1 enkele file. Combineer de verschillende resultaten van de
     //verschillende seeds tot 1 resultaat (gemiddelde en standaard deviatie)
     public static void combineMultipleSeeds(String path, String dataset, 
-            PrintStream stream) throws FileNotFoundException, IOException{
+            PrintStream stream, String classifier) throws FileNotFoundException, IOException{
         CollectionMeanStdev meanAuprc = new CollectionMeanStdev();
         CollectionMeanStdev meanAuroc = new CollectionMeanStdev();
         CollectionMeanStdev weightedMeanAuprc = new CollectionMeanStdev();
@@ -113,7 +114,7 @@ public class WriteAllStatistics {
         ToLatex parser = new ToLatex();
    
         for(int seed = 0; seed<Path.nbSeeds; seed++){//S0ndStatistics
-             BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+dataset+"/asettings/S"+seed+"ndStatistics"));
+             BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+dataset+"/asettings/S"+seed+classifier+"Statistics"));
              String line = readerClus.readLine();
              meanAuprc.addNumber(Double.parseDouble(parser.getMean(line, dataset, true)));
              meanAuroc.addNumber(Double.parseDouble(parser.getMean(line, dataset, false)));

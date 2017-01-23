@@ -15,6 +15,7 @@ import staticData.Path;
 
 /**
  *Converteer de resultaten die in files geschreven zijn naar output formaat dat in latex kan geïmporteerd worden.
+ * TODO tijd incorporeren
  * @author katie
  * 
  * Getest op furthestcentroid
