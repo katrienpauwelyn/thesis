@@ -92,7 +92,7 @@ public class MakeSFilesAllSeeds {
       //indexTargetIsNul moet true zijn als de dataset letterRecognition of segmentation is
       private static void makeSFile(PrintStream stream, int nbFold, String path, boolean indexTargetIsOne, int seed){
           stream.println("[General]");
-          stream.println("RandomSeed = seed");
+          stream.println("RandomSeed = "+seed);
           stream.println();
           stream.println("[Data]");
           stream.println("File = "+path+"/S"+seed+"fold"+Integer.toString(nbFold)+".arff");
