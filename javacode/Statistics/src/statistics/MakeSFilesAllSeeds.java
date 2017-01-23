@@ -27,18 +27,17 @@ public class MakeSFilesAllSeeds {
     private static void makeSFiles10x10AllDatasets(String path) throws FileNotFoundException{
         for(String s: Path.datasets){
               if(s.equals("segmentation") || s.equals("letterRecognition")){
-                  makeSFiles10x10AllSeeds(path+"/"+s, true, path);
+                  makeSFiles10x10AllSeeds(path+"/"+s, true);
               } else {
-                  makeSFiles10x10AllSeeds(path+"/"+s, false, path);
+                  makeSFiles10x10AllSeeds(path+"/"+s, false);
               }
           }
     }
     
-    private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne,
-            String pathToDataFiles) throws FileNotFoundException{
+    private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne) throws FileNotFoundException{
         for(int seed = 0; seed<Path.nbSeeds; seed++){
             makeSFiles10x10AllFolds(path+"/asettings/S"+seed, indexTargetIsOne, 
-                    seed, pathToDataFiles);
+                    seed, path);
         }
     }
     
