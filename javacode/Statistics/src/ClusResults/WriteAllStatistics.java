@@ -28,24 +28,29 @@ public class WriteAllStatistics {
     
     //iterate over all datasets
     private void printStatisticsOfAllDatasets(String path, String name) throws IOException{
-        File file = new File(path+"/"+name);
-        PrintStream stream = new PrintStream(file);
         AUClus auClus = new AUClus();
         AccuracyClus accCl = new AccuracyClus();
         TupleFloat mean;
         TupleFloat weighted;
         double acc; 
-        for(String s: Path.datasets){
-            mean = auClus.getMeanAUForAllFolds(path+"/"+s);
-            weighted = auClus.getWeightedAUForAllFolds(path+"/"+s);
-            acc = accCl.getAccuracy(path+"/"+s);
-            stream.println(s+"\t\t"+"Mean auprc: "+Float.toString(mean.getFirst())+
-                    "\t\t Mean auroc: "+Float.toString(mean.getSecond())+
-                    "\t\t"+"Weighted mean auprc: "+Float.toString(weighted.getFirst())+
-                    "\t\t"+"Weighted mean auroc: "+Float.toString(weighted.getSecond())+
-            "\t\t"+"accuracy: "+Double.toString(acc));
+        for(String s: Path.datasets){ //voor iedere dataset evenveel resultaten files als er seeds zijn
+            for(int seed = 0; seed<Path.nbSeeds; seed++){
+                 PrintStream stream = new PrintStream(new File(path+"/S"+seed+name));
+                 mean = auClus.getMeanAUForAllFolds(path+"/"+s, seed);
+                weighted = auClus.getWeightedAUForAllFolds(path+"/"+s, seed);
+                acc = accCl.getAccuracy(path+"/"+s, seed);
+                stream.println(s+"\t\t"+"Mean auprc: "+Float.toString(mean.getFirst())+
+                        "\t\t Mean auroc: "+Float.toString(mean.getSecond())+
+                        "\t\t"+"Weighted mean auprc: "+Float.toString(weighted.getFirst())+
+                        "\t\t"+"Weighted mean auroc: "+Float.toString(weighted.getSecond())+
+                "\t\t"+"accuracy: "+Double.toString(acc));
+                stream.close();
+            }
+            
+           
+           
         }
-        stream.close();
+        
     }
     
     //print de statistieken uit van de 4 test datasets

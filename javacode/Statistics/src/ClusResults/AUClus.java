@@ -83,22 +83,22 @@ public class AUClus {
     }
     
     //berekent voor iedere fold het gemiddelde auprc en auroc
-    public TupleFloat[] getAUsForAllFolds(String path) throws IOException{
+    public TupleFloat[] getAUsForAllFolds(String path, int seed) throws IOException{
         TupleFloat[] outAU = new TupleFloat[Path.nbFolds];
         String newPath ;
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/settings"+Integer.toString(i+1)+".out";
+            newPath = path+"/S"+seed+"settingsFold"+Integer.toString(i+1)+".out";
             outAU[i] = getAUPRCandAUROC(newPath);
         }
         return outAU;
     }
     
     //berekent voor iedere fold het gewogen gemiddelde auprc en auroc
-    public TupleFloat[] getAUsWeightedForAllFolds(String path) throws IOException{
+    public TupleFloat[] getAUsWeightedForAllFolds(String path, int seed) throws IOException{
         TupleFloat[] outAU = new TupleFloat[Path.nbFolds];
         String newPath ;
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/settings"+Integer.toString(i+1)+".out";
+            newPath = path+"/S"+seed+"settings"+Integer.toString(i+1)+".out";
             outAU[i] = getWeightedAUPRCandAUROC(newPath);
         }
         return outAU;
@@ -201,15 +201,15 @@ public class AUClus {
     
     //returnt het gemiddelde over alle folds van de gewogen gemiddelde auprc & auroc
     //per dataset
-    public TupleFloat getWeightedAUForAllFolds(String path) throws IOException{
-        TupleFloat[] allWeightedAUs = getAUsWeightedForAllFolds(path);
+    public TupleFloat getWeightedAUForAllFolds(String path, int seed) throws IOException{
+        TupleFloat[] allWeightedAUs = getAUsWeightedForAllFolds(path, seed);
         return getMeanOfArray(allWeightedAUs);
     }
     
     //returnt het gemiddelde over alle folds van de gemiddelde auprc & auroc
     //per dataset
-    public TupleFloat getMeanAUForAllFolds(String path) throws IOException{
-        TupleFloat[] allMeanAUPRCs = getAUsForAllFolds(path);
+    public TupleFloat getMeanAUForAllFolds(String path, int seed) throws IOException{
+        TupleFloat[] allMeanAUPRCs = getAUsForAllFolds(path, seed);
         return getMeanOfArray(allMeanAUPRCs);
     }
     
@@ -228,7 +228,7 @@ public class AUClus {
     }
 */
     
-    public void test(String path) throws IOException{
+ /**   public void test(String path) throws IOException{
         TupleFloat[] mean = getAUsForAllFolds(path);
         TupleFloat[] weighted = getAUsWeightedForAllFolds(path);
         System.out.println("mean:");
@@ -243,7 +243,7 @@ public class AUClus {
         }
         System.out.println("mean all weighted folds prc: "+getMeanOfArray(weighted).getFirst() +" roc: "+getMeanOfArray(weighted).getSecond());
     }
-    
+    */
     
   
 }
