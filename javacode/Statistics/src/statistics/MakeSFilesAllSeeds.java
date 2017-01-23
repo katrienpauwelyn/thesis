@@ -44,7 +44,7 @@ public class MakeSFilesAllSeeds {
           //for each fold
       private static void makeSFiles10x10AllFolds(String path, boolean indexTargetIsOne, int seed) throws FileNotFoundException{
              for(int fold = 1; fold<Path.nbFolds+1; fold++){
-                 PrintStream p = new PrintStream(new File(path+"settingsFold"+seed+fold+".s"));
+                 PrintStream p = new PrintStream(new File(path+"settingsFold"+fold+".s"));
                makeSFile(p,fold, path, indexTargetIsOne, seed);
                p.close();
              }
