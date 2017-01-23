@@ -6,11 +6,15 @@
 package ClusResults;
 
 import dataTypes.TupleFloat;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import staticData.Path;
+import statistics.CollectionMeanStdev;
+import toLatex.ToLatex;
 
 /**
  *
@@ -22,8 +26,9 @@ public class WriteAllStatistics {
     //iterate over all classifiers
     public void printStatisticsOfAllClassifiersToFile(String path) throws IOException{
         for(String s: Path.classifiers){
-            printStatisticsOfAllDatasets(path+"/"+s, s+"Statistics");
+            //printStatisticsOfAllDatasets(path+"/"+s, s+"Statistics");
         }
+        printStatisticsOfAllDatasets(path+"/"+Path.classifiers[2], Path.classifiers[2]+"Statistics");
     }
     
     //iterate over all datasets
@@ -35,7 +40,7 @@ public class WriteAllStatistics {
         double acc; 
         for(String s: Path.datasets){ //voor iedere dataset evenveel resultaten files als er seeds zijn
             for(int seed = 0; seed<Path.nbSeeds; seed++){
-                 PrintStream stream = new PrintStream(new File(path+"/S"+seed+name));
+                 PrintStream stream = new PrintStream(new File(path+"/"+s+"/asettings/S"+seed+name));
                  mean = auClus.getMeanAUForAllFolds(path+"/"+s, seed);
                 weighted = auClus.getWeightedAUForAllFolds(path+"/"+s, seed);
                 acc = accCl.getAccuracy(path+"/"+s, seed);
@@ -77,9 +82,62 @@ public class WriteAllStatistics {
         
     }*/
     
+    public static void combineMultipleSeedsAllClassifiers(String path) throws IOException{
+        for(String classifier: Path.classifiers){
+            combineMultipleSeedsAllDatasets(path+"/"+classifier);
+        }
+    }
+    
+    
+       //voorbeeld van een pad
+    ///Users/katie/thesisoutput/out/nd
+    public static void combineMultipleSeedsAllDatasets(String path) throws FileNotFoundException, IOException{
+        PrintStream stream = new PrintStream(new File(path+"/aStatisticsClus.txt"));
+        for(String dataset: Path.datasets){
+            combineMultipleSeeds(path, dataset, stream);
+        }
+    }
+    
+    //voorbeeld van een pad
+    ///Users/katie/thesisoutput/out/nd
+    // /audiology/asettings
+    //combineer alle seeds tot 1 enkele file. Combineer de verschillende resultaten van de
+    //verschillende seeds tot 1 resultaat (gemiddelde en standaard deviatie)
+    public static void combineMultipleSeeds(String path, String dataset, 
+            PrintStream stream) throws FileNotFoundException, IOException{
+        CollectionMeanStdev meanAuprc = new CollectionMeanStdev();
+        CollectionMeanStdev meanAuroc = new CollectionMeanStdev();
+        CollectionMeanStdev weightedMeanAuprc = new CollectionMeanStdev();
+        CollectionMeanStdev weightedMeanAuroc = new CollectionMeanStdev();
+        CollectionMeanStdev acc = new CollectionMeanStdev();
+        ToLatex parser = new ToLatex();
+   
+        for(int seed = 0; seed<Path.nbSeeds; seed++){//S0ndStatistics
+             BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+dataset+"/asettings/S"+seed+"ndStatistics"));
+             String line = readerClus.readLine();
+             meanAuprc.addNumber(Double.parseDouble(parser.getMean(line, dataset, true)));
+             meanAuroc.addNumber(Double.parseDouble(parser.getMean(line, dataset, false)));
+             weightedMeanAuprc.addNumber(Double.parseDouble(parser.getWeightedMean(line, dataset, true)));
+             weightedMeanAuroc.addNumber(Double.parseDouble(parser.getWeightedMean(line, dataset, false)));
+             acc.addNumber(Double.parseDouble(parser.getAccuracy(line, dataset)));
+        }
+        stream.println(dataset+"\t\t"+"Mean auprc: "+Double.toString(meanAuprc.getMean())+"pm"+
+                        Double.toString(meanAuprc.getStandardDeviation())+
+                       "\t\t Mean auroc: "+Double.toString(meanAuroc.getMean())+"pm"+
+                         Double.toString(meanAuroc.getStandardDeviation())+
+                       "\t\t"+"Weighted mean auprc: "+Double.toString(weightedMeanAuprc.getMean())+
+                        "pm"+Double.toString(weightedMeanAuprc.getStandardDeviation())+
+                       "\t\t"+"Weighted mean auroc: "+Double.toString(weightedMeanAuroc.getMean())+
+                        "pm"+Double.toString(weightedMeanAuroc.getStandardDeviation())+
+                       "\t\t"+"accuracy: "+Double.toString(acc.getMean())+
+                        "pm"+Double.toString(acc.getStandardDeviation()));
+    }
+    
+    
+    
     public static void main(String[] args) throws IOException{
       WriteAllStatistics write = new WriteAllStatistics();
-      write.printStatisticsOfAllClassifiersToFile(Path.path);
- //      write.printStatisticsOfFourDatasets();
+    //  write.printStatisticsOfAllClassifiersToFile(Path.path);
+    write.combineMultipleSeedsAllDatasets("/Users/katie/thesisoutput/out/nd");
     }    
 }

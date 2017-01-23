@@ -87,7 +87,7 @@ public class AUClus {
         TupleFloat[] outAU = new TupleFloat[Path.nbFolds];
         String newPath ;
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/S"+seed+"settingsFold"+Integer.toString(i+1)+".out";
+            newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+".out";
             outAU[i] = getAUPRCandAUROC(newPath);
         }
         return outAU;
@@ -98,7 +98,7 @@ public class AUClus {
         TupleFloat[] outAU = new TupleFloat[Path.nbFolds];
         String newPath ;
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/S"+seed+"settings"+Integer.toString(i+1)+".out";
+            newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+".out";
             outAU[i] = getWeightedAUPRCandAUROC(newPath);
         }
         return outAU;

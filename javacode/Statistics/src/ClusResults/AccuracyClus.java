@@ -49,7 +49,7 @@ public class AccuracyClus {
         String newPath;
         TupleInt tuple = new TupleInt();
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/S"+seed+"settings"+Integer.toString(i+1)+".test.pred.arff";
+            newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+".test.pred.arff";
             tuple.addTuple(getNbPosNegFile(newPath));
         }
         return tuple;
@@ -62,20 +62,20 @@ public class AccuracyClus {
     
         //berekent het aantal correct en incorrect voorspelde instances (voor ensembles)
     //van alle folds van 1 dataset samen
-    public TupleInt getNbPosNegAllFoldsEnsemble(String path) throws IOException{
+    /*public TupleInt getNbPosNegAllFoldsEnsemble(String path, int seed) throws IOException{
         String newPath;
         TupleInt tuple = new TupleInt();
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/settingsEnsemble"+Integer.toString(i+1)+".test.pred.arff";
+            newPath = path+"/asettings/S"+seed+"settingsEnsemble"+Integer.toString(i+1)+".test.pred.arff";
             tuple.addTuple(getNbPosNegFile(newPath));
         }
         return tuple;
     }
     
     //(voor ensembles)
-    public double getAccuracyEnsemble(String path) throws IOException{
-        TupleInt posNeg = getNbPosNegAllFoldsEnsemble(path);
+    public double getAccuracyEnsemble(String path, int seed) throws IOException{
+        TupleInt posNeg = getNbPosNegAllFoldsEnsemble(path, seed);
         return posNeg.getAccuracy();
     }
-    
+    */
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Klasse om de standaard deviatie en het gemiddelde te berekenen.
+ * geeft tot 5 cijfers na komma terug
  * @author katie
  */
 public class CollectionMeanStdev {
@@ -27,7 +28,8 @@ public class CollectionMeanStdev {
         for(double d: numbers){
             acc+=d;
         }
-        return acc/numbers.size();
+        acc/=numbers.size();
+        return Math.floor(acc*100000)/100000;
     }
     
     public double getStandardDeviation(){
@@ -39,7 +41,7 @@ public class CollectionMeanStdev {
             somKwadraat+=som*som;
         }
         somKwadraat /= numbers.size();
-        return Math.sqrt(somKwadraat);
+        return Math.floor(Math.sqrt(somKwadraat)*100000)/100000;
     }
     
 }
