@@ -27,25 +27,28 @@ public class MakeSFilesAllSeeds {
     private static void makeSFiles10x10AllDatasets(String path) throws FileNotFoundException{
         for(String s: Path.datasets){
               if(s.equals("segmentation") || s.equals("letterRecognition")){
-                  makeSFiles10x10AllSeeds(path+"/"+s, true);
+                  makeSFiles10x10AllSeeds(path+"/"+s, true, path);
               } else {
-                  makeSFiles10x10AllSeeds(path+"/"+s, false);
+                  makeSFiles10x10AllSeeds(path+"/"+s, false, path);
               }
           }
     }
     
-    private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne) throws FileNotFoundException{
+    private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne,
+            String pathToDataFiles) throws FileNotFoundException{
         for(int seed = 0; seed<Path.nbSeeds; seed++){
-            makeSFiles10x10AllFolds(path+"/asettings/S"+seed, indexTargetIsOne, seed);
+            makeSFiles10x10AllFolds(path+"/asettings/S"+seed, indexTargetIsOne, 
+                    seed, pathToDataFiles);
         }
     }
     
     
           //for each fold
-      private static void makeSFiles10x10AllFolds(String path, boolean indexTargetIsOne, int seed) throws FileNotFoundException{
+      private static void makeSFiles10x10AllFolds(String pathToSFile, boolean indexTargetIsOne, 
+              int seed, String pathToDataFiles) throws FileNotFoundException{
              for(int fold = 1; fold<Path.nbFolds+1; fold++){
-                 PrintStream p = new PrintStream(new File(path+"settingsFold"+fold+".s"));
-               makeSFile(p,fold, path, indexTargetIsOne, seed);
+                 PrintStream p = new PrintStream(new File(pathToSFile+"settingsFold"+fold+".s"));
+               makeSFile(p,fold, pathToDataFiles, indexTargetIsOne, seed);
                p.close();
              }
       }
@@ -90,13 +93,13 @@ public class MakeSFilesAllSeeds {
       
       //the text of the .s files
       //indexTargetIsNul moet true zijn als de dataset letterRecognition of segmentation is
-      private static void makeSFile(PrintStream stream, int nbFold, String path, boolean indexTargetIsOne, int seed){
+      private static void makeSFile(PrintStream stream, int nbFold, String pathToDataFiles, boolean indexTargetIsOne, int seed){
           stream.println("[General]");
           stream.println("RandomSeed = "+seed);
           stream.println();
           stream.println("[Data]");
-          stream.println("File = "+path+"/S"+seed+"fold"+Integer.toString(nbFold)+".arff");
-          stream.println("TestSet = "+path+"/S"+seed+"test"+Integer.toString(nbFold)+".arff");
+          stream.println("File = "+pathToDataFiles+"/S"+seed+"fold"+Integer.toString(nbFold)+".arff");
+          stream.println("TestSet = "+pathToDataFiles+"/S"+seed+"test"+Integer.toString(nbFold)+".arff");
           stream.println();
           stream.println("[Hierarchical]");
           stream.println("Type = TREE");
