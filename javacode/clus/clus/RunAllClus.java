@@ -85,7 +85,8 @@ public class RunAllClus {
     
     
     public static void main(String[] args) throws FileNotFoundException{
-       runAllClassifiers();
+        runND();
+// runAllClassifiers();
     }
     
 }
