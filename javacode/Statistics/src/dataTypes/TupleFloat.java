@@ -2,6 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+tot op 5 cijfers na de komma
  */
 package dataTypes;
 
@@ -10,8 +11,8 @@ package dataTypes;
  * @author katie
  */
 public class TupleFloat {
-    private float first;
-    private float second;
+    private double first;
+    private double second;
     
     public TupleFloat(){
         first = 0;
@@ -26,19 +27,19 @@ public class TupleFloat {
         second = f;
     }
     
-    public float getFirst(){
-        return first;
+    public double getFirst(){
+        return (double) Math.round(first * 100000) / 100000;
     }
     
-    public float getSecond(){
-        return second;
+    public double getSecond(){
+        return (double) Math.round(second * 100000) / 100000;
     }
     
-    public void incrementFirstWith(float f){
+    public void incrementFirstWith(double f){
         first += f;
     }
     
-    public void incrementSecondWith(float f){
+    public void incrementSecondWith(double f){
         second += f;
     }
     

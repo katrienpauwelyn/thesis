@@ -36,11 +36,11 @@ public class TupleDouble {
     }
     
     public double getMean(){
-        return mean;
+        return (double) Math.round(mean * 100000) / 100000;
     }
     
     public double getWeighted(){
-        return weightedMean;
+        return (double) Math.round(weightedMean * 100000) / 100000;
     }
     
 }

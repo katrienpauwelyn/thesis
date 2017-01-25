@@ -46,10 +46,10 @@ public class WriteAllStatistics {
                  mean = auClus.getMeanAUForAllFolds(path+"/"+s, seed);
                 weighted = auClus.getWeightedAUForAllFolds(path+"/"+s, seed);
                 acc = accCl.getAccuracy(path+"/"+s, seed);
-                stream.println(s+"\t\t"+"Mean auprc: "+Float.toString(mean.getFirst())+
-                        "\t\t Mean auroc: "+Float.toString(mean.getSecond())+
-                        "\t\t"+"Weighted mean auprc: "+Float.toString(weighted.getFirst())+
-                        "\t\t"+"Weighted mean auroc: "+Float.toString(weighted.getSecond())+
+                stream.println(s+"\t\t"+"Mean auprc: "+Double.toString(mean.getFirst())+
+                        "\t\t Mean auroc: "+Double.toString(mean.getSecond())+
+                        "\t\t"+"Weighted mean auprc: "+Double.toString(weighted.getFirst())+
+                        "\t\t"+"Weighted mean auroc: "+Double.toString(weighted.getSecond())+
                 "\t\t"+"accuracy: "+Double.toString(acc));
                 stream.close();
             }

@@ -33,7 +33,7 @@ public class ToLatex {
     
     //path = bv. /Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out/classBalanced
     public void convertOneClassifierToLatex(String path, String classifier) throws FileNotFoundException, IOException{
-        PrintStream stream = new PrintStream(new File(path+"/"+classifier+"latex"));
+        PrintStream stream = new PrintStream(new File(path+"/"+"alatex.txt"));
        printAuprc(path, classifier, stream);
         stream.println();
         stream.println();
@@ -44,13 +44,13 @@ public class ToLatex {
     }
     
     public void printAuprc(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+classifier+"Statistics"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+classifier+"StatisticsND"));
+        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
        
          String lineC45;
          String lineClus;
    
-        while(!readerC45.readLine().contains("Statistics of C45:")){ }
+      //  while(!readerC45.readLine().contains("Statistics of C45:")){ }
   
         printBeginTabular(stream, classifier, "AUPRC");
         stream.println(" auprc "+  classifier+"& gem C4.5 & gem Clus & gew gem C4.5 & gew gem Clus"+"\\\\ \\hline\\hline");
@@ -69,13 +69,13 @@ public class ToLatex {
     }
     
      public void printAuroc(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+classifier+"Statistics"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+classifier+"StatisticsND"));
+        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
        
          String lineC45;
          String lineClus;
    
-        while(!readerC45.readLine().contains("Statistics of C45:")){ }
+    //    while(!readerC45.readLine().contains("Statistics of C45:")){ }
     
         printBeginTabular(stream, classifier, "AUROC");
         stream.println(" auroc "+  classifier+"& gem C4.5 & gem Clus & gew gem C4.5 & gew gem Clus"+"\\\\ \\hline\\hline");
@@ -93,11 +93,11 @@ public class ToLatex {
     }
       
     public void printAccuracy(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+classifier+"Statistics"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+classifier+"StatisticsND"));
+        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
        
         String lineC45;
-        while(!readerC45.readLine().contains("Statistics of C45:")){ }
+     //   while(!readerC45.readLine().contains("Statistics of C45:")){ }
         
         printBeginTabular(stream, classifier, "de nauwkeurigheid");
         stream.println(" Nauwkeurigheid & "+ classifier+" C4.5 &  Clus"+"\\\\ \\hline\\hline");
@@ -128,7 +128,7 @@ public class ToLatex {
                return splitSpace[splitSpace.length-1];
             }
         }
-        throw new Error("getMean is niet gelukt voor "+line +" en prc (true)/roc(false): " +auprc);
+        throw new Error(line+"getMean is niet gelukt voor "+line +" en prc (true)/roc(false): " +auprc);
     }
     
     //als het auprc is, is auprc true. als het auroc is, is auprc false
