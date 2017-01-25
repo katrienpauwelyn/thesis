@@ -21,7 +21,9 @@ import toLatex.ToLatex;
  * Bekomen via nested dichotomies.
  * 1 outputfile per classifier. (path/classifierStatisticsND)
  * 
- * Getest op pageBlocksNDoutputC45.
+ * eerst writeAllNDResultsToFiles om per seed een resultaat te hebben, 
+ * dan combineMultipleSeedsAllClassifiers om de resultaten van alle seeds te combineren.
+ * 
  */
 public class WriteAllStatistics {
     
@@ -38,8 +40,8 @@ public class WriteAllStatistics {
        // stream.println("Statistics of C45:");
         for(String dataset: Path.datasets){
             for(int seed = 0; seed<Path.nbSeeds; seed++){
-                 PrintStream stream = new PrintStream(new File(pathForFile+"/"+classifier+"/"+dataset+"/asettings/S"+seed+classifier+"StatisticsND"));
-                writeNdResultsFold(stream, pathForFile+"/"+dataset+"/asettings/NDS"+seed+"outputC45", dataset);
+                 PrintStream stream = new PrintStream(new File(pathForFile+"/"+dataset+"/aOutputND/S"+seed+classifier+"StatisticsND"));
+                writeNdResultsFold(stream, pathForFile+"/"+dataset+"/aOutputND/NDS"+seed+"outputC45", dataset);
                  stream.close();
             }
             
@@ -96,7 +98,7 @@ public class WriteAllStatistics {
     
     //voorbeeld van een pad
     ///Users/katie/thesisoutput/out/nd
-    // /audiology/asettings
+    // /audiology/aOutputND
     //combineer alle seeds tot 1 enkele file. Combineer de verschillende resultaten van de
     //verschillende seeds tot 1 resultaat (gemiddelde en standaard deviatie)
     public static void combineMultipleSeeds(String path, String dataset, 
@@ -108,8 +110,8 @@ public class WriteAllStatistics {
         CollectionMeanStdev acc = new CollectionMeanStdev();
         ToLatex parser = new ToLatex();
    
-        for(int seed = 0; seed<Path.nbSeeds; seed++){//"/asettings/S"+seed+classifier+"StatisticsND"
-             BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+dataset+"/asettings/S"+seed+classifier+"StatisticsND"));
+        for(int seed = 0; seed<Path.nbSeeds; seed++){//"/aOutputND/S"+seed+classifier+"StatisticsND"
+             BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+dataset+"/aOutputND/S"+seed+classifier+"StatisticsND"));
              String line = readerClus.readLine();
              meanAuprc.addNumber(Double.parseDouble(parser.getMean(line, dataset, true)));
              meanAuroc.addNumber(Double.parseDouble(parser.getMean(line, dataset, false)));
@@ -136,9 +138,7 @@ public class WriteAllStatistics {
     
     public static void main(String[] args) throws FileNotFoundException, IOException{
         WriteAllStatistics write = new WriteAllStatistics();
-       // String path = "/Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out/nd/pageBlocksNDoutputC45";
-       // PrintStream print = new PrintStream(new File("/Users/katie/NetBeansProjects/weka/trunk/packages/internal/temp"));
-        //write.writeNdResultsFold(print, path, "pageBlocks");
         write.writeAllNDResultsToFiles();
+       write.combineMultipleSeedsAllClassifiers(Path.path);
     }
 }
