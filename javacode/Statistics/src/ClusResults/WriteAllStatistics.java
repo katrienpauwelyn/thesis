@@ -20,15 +20,17 @@ import toLatex.ToLatex;
  *
  * @author katie
  * Deze klasse schrijft alle statistieken van CLUS uit in files (1 file per classifier).
+ * 
+ * eerst printStatisticsOfAllClassifiersToFile om per seed de resultaten te halen
+ * dan combineMultipleSeedsAllClassifiers om het gemiddelde en standaard deviatie van de seeds samen te combineren
  */
 public class WriteAllStatistics {
     
     //iterate over all classifiers
     public void printStatisticsOfAllClassifiersToFile(String path) throws IOException{
         for(String s: Path.classifiers){
-            //printStatisticsOfAllDatasets(path+"/"+s, s+"Statistics");
+            printStatisticsOfAllDatasets(path+"/"+s, s+"Statistics");
         }
-        printStatisticsOfAllDatasets(path+"/"+Path.classifiers[2], Path.classifiers[2]+"Statistics");
     }
     
     //iterate over all datasets
@@ -137,8 +139,8 @@ public class WriteAllStatistics {
     
     
     public static void main(String[] args) throws IOException{
-      WriteAllStatistics write = new WriteAllStatistics();
-    //  write.printStatisticsOfAllClassifiersToFile(Path.path);
-    write.combineMultipleSeedsAllDatasets("/Users/katie/thesisoutput/out/nd");
+        WriteAllStatistics write = new WriteAllStatistics();
+        write.printStatisticsOfAllClassifiersToFile(Path.path);
+        write.combineMultipleSeedsAllClassifiers(Path.path);
     }    
 }
