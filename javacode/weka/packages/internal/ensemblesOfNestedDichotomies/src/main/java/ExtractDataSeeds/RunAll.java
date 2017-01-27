@@ -72,11 +72,8 @@ public class RunAll {
       
         MakeHierarchyAndFolds testmain = new MakeHierarchyAndFolds();
 
-        //testmain.go("out/" + classifierNames[0] + "/" + "pageBlocks");
-        
         //Random pair
             
-             //         for (int i = 0; i < 1; i++) {
             for (int i = 0; i < dataNames.length; i++) {
                  for(int seed = 0; seed<Path.nbSeeds; seed++){
                      
@@ -138,7 +135,6 @@ public class RunAll {
         
         for (int i = 0; i < dataNames.length; i++) {
             for(int seed = 0; seed<Path.nbSeeds; seed++){
-           //       for (int i = 0; i < 1; i++) {
                 if (dataNames[i].equals("segmentation")
                         || dataNames[i].equals("letterRecognition")) {
 

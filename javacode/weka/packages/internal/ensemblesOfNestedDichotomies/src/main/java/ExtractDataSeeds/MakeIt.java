@@ -11,7 +11,7 @@ import java.util.HashMap;
 import staticData.Path;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
  * Wordt niet meer gebruikt???
  * maakt de test en train sets aan zonder hierarchie

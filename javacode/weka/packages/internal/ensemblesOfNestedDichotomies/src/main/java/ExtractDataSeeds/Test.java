@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import staticData.Path;
 
 /**
- *
+ *[DEPRECATED] is niet meer aangepast naar de verscihllende seeds
  * @author katie
  */
 public class Test {

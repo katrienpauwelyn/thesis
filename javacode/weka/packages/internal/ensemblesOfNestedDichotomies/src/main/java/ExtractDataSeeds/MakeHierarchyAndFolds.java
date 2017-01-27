@@ -21,8 +21,6 @@ import staticData.Path;
  */
 
 /**
- * s$i$h$x$
- * 
  * @author katie
  */
 public class MakeHierarchyAndFolds {
@@ -143,17 +141,6 @@ public class MakeHierarchyAndFolds {
             bufferedReader.close();
             makeTestFiles(listOfAllLines, listOfAllFoldLines, path, indexClass, 
                     lijstHash, arffHeader, classNames, listNewElementsHier, seed);
-        /*  for(NewElementHierarchy h: listNewElementsHier){
-              if(h.hasNewElements()){
-                  System.out.println(Integer.toString(h.getIndex()));
-                  for(String el: h.getElements()){
-                      System.out.println(el);
-                  }
-                  System.out.println("next");
-              }
-          }*/
-          
-          
     }
     
     /**
@@ -164,8 +151,6 @@ public class MakeHierarchyAndFolds {
      * @param indexClass
      * @param lijstHash
      * @param headerArff bevat de header. TODO: enkel bij de eerste adden (methode hier boven)
-     * TODO methode extracten om class te veranderen naar hierarchisch
-     * TODO plakken aan de file vooraleer de data er in te steken
      * @throws FileNotFoundException 
      * maak alle test files aan (verschil tussen volledige data en de fold)
      */
