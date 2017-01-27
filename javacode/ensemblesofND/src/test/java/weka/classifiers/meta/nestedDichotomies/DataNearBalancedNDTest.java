@@ -35,12 +35,21 @@ import junit.framework.TestSuite;
 public class DataNearBalancedNDTest 
   extends AbstractClassifierTest {
 
-  public DataNearBalancedNDTest(String name) { 
+    public DataNearBalancedNDTest(String name) {
+        super(name);
+    }
+
+    @Override
+    public Classifier getClassifier() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+  /*public DataNearBalancedNDTest(String name) { 
     super(name);  
   }
 
   /** Creates a default Dagging */
-  public Classifier getClassifier() {
+  /*public Classifier getClassifier() {
     return new DataNearBalancedND();
   }
 
@@ -50,5 +59,5 @@ public class DataNearBalancedNDTest
 
   public static void main(String[] args){
     junit.textui.TestRunner.run(suite());
-  }
+  }*/
 }
