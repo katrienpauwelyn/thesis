@@ -61,7 +61,11 @@ public class RunAll {
     }
 
     public static void main(String[] argv) throws FileNotFoundException, IOException {
-        String[] allDataSets = Path.allDataSetFiles;
+        String[] allDataSets = new String[Path.datasets.length];
+        for(int i = 0; i<Path.datasets.length; i++){
+            allDataSets[i] = Path.pathDatasets+"/"+Path.datasets[i];
+        }
+
         String[] dataNames = Path.datasets;
         String[] classifierNames =Path.classifiers;
         String path = Path.path;
