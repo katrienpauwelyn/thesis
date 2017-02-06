@@ -21,10 +21,7 @@ public class RunAllClus {
               runAllDatasets(Path.path+"/"+s);
           }
       }
-      
-      
-      //   public static  String[] classifiers = {"classBalanced","furthestCentroid","nd","randomPair"};
-   
+       
       public static void runND() throws FileNotFoundException{
           runAllDatasets(Path.path+"/"+Path.classifiers[2]);
       }
@@ -41,7 +38,6 @@ public class RunAllClus {
           runAllDatasets(Path.path+"/"+Path.classifiers[3]);
       }
       
-      
     //for each dataset
       private static void runAllDatasets(String path) throws FileNotFoundException{
           for(String s: Path.datasets){
@@ -50,13 +46,6 @@ public class RunAllClus {
 
               runAllSeeds(path+"/"+s, timeStream);
              timeStream.close();
-              /**
-               *   System.setOut(outFalse);
-                     
-                    ClassBalancedND.main(getArgs(false, s, trainPath, testPath, Integer.toString(seed)));
-                    
-               */
-              
           }
       }
       
@@ -66,7 +55,6 @@ public class RunAllClus {
               runAllFolds(path+"/asettings/S"+Integer.toString(seed), timeStream);
           }
       }
-      
       
       //for each fold
       private static void runAllFolds(String path, PrintStream timeStream) throws FileNotFoundException{
@@ -80,13 +68,8 @@ public class RunAllClus {
              }
       }
   
-    
-    
-    
-    
     public static void main(String[] args) throws FileNotFoundException{
-        runND();
-// runAllClassifiers();
+       runAllClassifiers();
     }
     
 }
