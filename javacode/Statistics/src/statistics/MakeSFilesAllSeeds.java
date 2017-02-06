@@ -13,17 +13,23 @@ import staticData.Path;
 /**
  *
  * @author katie
+ * Maakt de s-files voor clus. Er wordt rekening gehouden met alle seeds.
+ * 10x10: 10 fold 10 cross validation: 10 seeds met elk 10 folds
  */
 public class MakeSFilesAllSeeds {
     
       
-    
+    /**
+     * maakt alle s-files 
+     * @throws FileNotFoundException 
+     */
     public static void makeSFiles10x10() throws FileNotFoundException{
           for(String s: Path.classifiers){
               makeSFiles10x10AllDatasets(Path.path+"/"+s);
           }
     }
     
+    //for each dataset
     private static void makeSFiles10x10AllDatasets(String path) throws FileNotFoundException{
         for(String s: Path.datasets){
               if(s.equals("segmentation") || s.equals("letterRecognition")){
@@ -34,6 +40,7 @@ public class MakeSFilesAllSeeds {
           }
     }
     
+    //for each seed
     private static void makeSFiles10x10AllSeeds(String path, boolean indexTargetIsOne) throws FileNotFoundException{
         for(int seed = 0; seed<Path.nbSeeds; seed++){
             makeSFiles10x10AllFolds(path+"/asettings/S"+seed, indexTargetIsOne, 
@@ -52,12 +59,14 @@ public class MakeSFilesAllSeeds {
              }
       }
       
-      
-      
-   
-      
-      
-      
+      /**
+       * voor de ensembles (voorlopig niet nodig)
+       * @param stream
+       * @param nbFold
+       * @param pathToDataFiles
+       * @param indexTargetIsOne
+       * @param seed 
+       */
  /*     public static void makeSFiles10x10Ens() throws FileNotFoundException{
           for(String s: Path.classifiers){
               makeSFiles10x10AllDatasetsEns(Path.path+"/"+s);

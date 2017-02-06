@@ -28,12 +28,20 @@ public class TupleFloat {
     }
     
     public double getFirst(){
-        return (double) Math.round(first * 100000) / 100000;
+        return first;
     }
     
     public double getSecond(){
-        return (double) Math.round(second * 100000) / 100000;
+        return second;
     }
+    
+ /**   public double getFirstRounded(){
+        return (double) Math.round(first * 100000) / 1000;
+    }
+    
+    public double getSecondRounded(){
+        return (double) Math.round(second * 100000) / 1000;
+    }*/
     
     public void incrementFirstWith(double f){
         first += f;

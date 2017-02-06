@@ -11,8 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
+ * Maakt de s-files voor clus. Hier wordt geen rekening gehouden met verschillende seeds.
  */
 public class MakeSFiles {
 

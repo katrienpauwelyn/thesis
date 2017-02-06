@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import staticData.Path;
 
 /**
@@ -59,10 +61,17 @@ public class ToLatex {
             
             lineClus = readerClus.readLine();
             String dataset = getDataset(lineC45);
-            String printString = dataset + " & " + getMean(lineC45, dataset, true)+" & "+
-                    getMean(lineClus, dataset, true)+" & "+
-                    getWeightedMean(lineC45, dataset, true)+ " & "+
-                    getWeightedMean(lineClus, dataset, true)+" \\\\ \\hline";
+            
+            //new
+            String meanND = getMean(lineC45, dataset, true);
+            String meanClus = getMean(lineClus, dataset, true);
+            String mean = compare(meanND, meanClus);
+            String weightedMeanND = getWeightedMean(lineC45, dataset, true);
+            String weightedMeanClus = getWeightedMean(lineClus, dataset, true);
+            String weightedMean = compare(weightedMeanND, weightedMeanClus);
+            //enew
+            String printString = dataset + " & " + mean +" & "+
+                    weightedMean+" \\\\ \\hline";
             stream.println(printString);
         }
         printEndTabular(stream);
@@ -83,10 +92,18 @@ public class ToLatex {
         while((lineC45 = readerC45.readLine())!=null){
             lineClus = readerClus.readLine();
             String dataset = getDataset(lineC45);
-            String printString = dataset + " & " + getMean(lineC45, dataset, false)+" & "+
-                    getMean(lineClus, dataset, false)+" & "+
-                    getWeightedMean(lineC45, dataset, false)+ " & "+
-                    getWeightedMean(lineClus, dataset, false)+" \\\\ \\hline";
+            
+                //new
+            String meanND = getMean(lineC45, dataset, false);
+            String meanClus = getMean(lineClus, dataset, false);
+            String mean = compare(meanND, meanClus);
+            String weightedMeanND = getWeightedMean(lineC45, dataset, false);
+            String weightedMeanClus = getWeightedMean(lineClus, dataset, false);
+            String weightedMean = compare(weightedMeanND, weightedMeanClus);
+            //enew
+            
+            String printString = dataset + " & " + mean+" & "+
+                    weightedMean+" \\\\ \\hline";
             stream.println(printString);
         }
         printEndTabular(stream);
@@ -104,8 +121,14 @@ public class ToLatex {
                
         while((lineC45 = readerC45.readLine())!=null){
             String dataset = getDataset(lineC45);
-            String printString = dataset + " & " + getAccuracy(lineC45, dataset)+" & "+
-                    getAccuracy(readerClus.readLine(), dataset)+" \\\\ \\hline";
+            
+                //new
+            String accND = getAccuracy(lineC45, dataset);
+            String accClus = getAccuracy(readerClus.readLine(), dataset);
+            String acc = compare(accND, accClus);
+            //enew
+            
+            String printString = dataset + " & " + acc+" \\\\ \\hline";
             stream.println(printString);
         }
         printEndTabular(stream);
@@ -188,9 +211,49 @@ public class ToLatex {
         stream.println("\\end{table}");
     }
     
+    
+    /**
+     * 
+     * Vergelijkt 2 gemiddelden$pm$standaarddeviaties met elkaar.
+     * Als first groter is dan second, is first beter en komt er een bol naast.
+     * als second groter is dan first, is second beter en komt er een bol naast second.
+     * converteert naar gedeeltelijke latex code
+     */
+    public String compare(String first, String second){
+        String newString;
+        String[] f = first.split("pm");
+        String[] s = second.split("pm");
+        
+          double firstMean =  Double.parseDouble(f[0])*100;
+        double secondMean = Double.parseDouble(s[0])*100;
+        double firstSD = Double.parseDouble(f[1])*100;
+        double secondSD = Double.parseDouble(s[1])*100;
+        
+
+          NumberFormat formatter = new DecimalFormat("#0.000");
+         
+        
+      
+        String best = "$\\bigodot$";
+        String pm = "$\\pm$";
+        if(firstMean>secondMean){
+            newString = formatter.format(firstMean)+pm+formatter.format(firstSD)+best+ "&" + 
+                    formatter.format(secondMean)+pm+formatter.format(secondSD);
+        } else if(secondMean>firstMean){
+            newString = formatter.format(firstMean)+pm+formatter.format(firstSD)+ "&" + 
+                    formatter.format(secondMean)+pm+formatter.format(secondSD)+best;
+        } else {
+            newString = formatter.format(firstMean)+pm+formatter.format(firstSD)+ "&" + 
+                    formatter.format(secondMean)+pm+formatter.format(secondSD);
+        }
+        return newString;
+    }
+
+    
     public static void main(String[] args) throws IOException{
         ToLatex c = new ToLatex();
         c.convertAllToLatex();
+     
     }
     
     
