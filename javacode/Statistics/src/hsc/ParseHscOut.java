@@ -9,7 +9,9 @@ import ClusResults.AUClus;
 import ClusResults.AccuracyClus;
 import ClusResults.TupleInt;
 import dataTypes.TupleFloat;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import staticData.Path;
 import statistics.CollectionMeanStdev;
 
@@ -26,23 +28,26 @@ public class ParseHscOut {
      * @param args 
      */
 
-    
+    //per classifier output file maken (en dus stream nodig)
     public void forAllClassifiers() throws IOException{
         AUClus c = new AUClus();
         AccuracyClus acc = new AccuracyClus();
         for(String classifier: Path.classifiers){
-            forAllDatasets(Path.path+"/"+classifier, c, acc);
+            PrintStream stream = new PrintStream(new File(Path.path+"/"+classifier+"/hsc"));
+            forAllDatasets(Path.path+"/"+classifier, c, acc, stream);
         }
     }
     
-    public void forAllDatasets(String path, AUClus auclus, AccuracyClus acc) throws IOException{
+    public void forAllDatasets(String path, AUClus auclus, AccuracyClus acc, 
+            PrintStream stream) throws IOException{
         for(String dataset: Path.datasets){
-            forAllSeeds(path+"/"+dataset, auclus, acc);
+            forAllSeeds(path+"/"+dataset, auclus, acc, stream);
         }
     }
     
     //berekent voor één dataset (alle seeds en alle folds) de auroc, auprc en acc
-    public void forAllSeeds(String path, AUClus auclus, AccuracyClus accuracyClus) throws IOException{
+    public void forAllSeeds(String path, AUClus auclus, AccuracyClus accuracyClus,
+            PrintStream stream) throws IOException{
         TupleFloat weightedAllSeeds;
         TupleFloat meanAllSeeds;
         CollectionMeanStdev meanAuprc = new CollectionMeanStdev();

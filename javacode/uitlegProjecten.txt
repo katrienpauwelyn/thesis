@@ -1,0 +1,41 @@
+Hieronder volgt een korte uitleg van de verschillende projecten en eventuele belangrijke klassen / packages.
+Er zijn packages die hetzelfde doen met en zonder de verschillende seeds. Deze zonder verschillende seeds mogen genegeerd worden. 
+Bij sommige java files staat bovenaan [DEPRECATED]. Deze worden niet (meer) gebruikt.
+
+clus
+	Clus, laat clus runnen en clus-output genereren
+	
+
+ensemblesofND
+	ensembles of nested dichotomieëen, originele code. Laat de geneste dichotomieën runnen op de vooraf gemaakte hiërarchieën.
+	
+
+Statistics
+	converteert en combineert de resultaten van clus en de geneste dichotomieën. Berekent de auroc, auprc, nauwkeurigheid, tijd en wilcoxon voor deze resultaten. Output naar latex formaat.
+
+Weka
+	Maakt de test en training files (met en zonder hiërarchie).
+	ExtractData wordt niet meer gebruikt.
+	ExtractDataSeeds.Main moet aangeropen worden om de test en train files te maken. 
+	weka.classifiers.meta.nestedDichotomies bevat de files van de geneste dichotomieën die de effectieve test en train files initieel maken. Worden opgeropen door ExtractDataSeeds.Main. De gebruikte klassen zijn: ClassBalancedPlus, FurthestCentroidND, ND en RandomPairND. 
+
+
+Om de resultaten te bekomen moeten de main methodes van volgende klassen (in deze volgorde) aangeropen worden:
+
+ensemblesOfNestedDichotomies.ExtractDataSeeds.Main (test en train files aanmaken)
+
+Statistics.statistics.MakeSFilesAllSeeds (maakt de settings files nodig voor clus)
+
+ClusUsIn.clus.RunAllClus (Clus laten runnen om de resultaten door clus zelf te bekomen. De resultaten worden gezet in out/_classifier/_dataset/aOutputND)
+
+ensemblesOfNestedDichotomiesOrig.weka.classifiers.meta.nestedDichotomies.GetResults (runt de ND om de originele resultaten van ND te bekomen. De resultaten worden gezet in out/_classifier/_dataset/asettings)
+
+Statistics.main.Main (produceert de resultaten in zowel menselijk leesbaar als latex formaten. Bestaat uit:
+	Statistics.Time.CalculateTime (berekent de looptijden en zet de tijden in out/_classifier/_dataset/asettings/CLUSaTime.txt en out/_classifier/_dataset/aOutputND/CLUSaTime.txt en de latex file in out/_classifier/alatexTime.txt)
+
+	Statistics.ClusResults.WriteAllStatistics (schrijft de statistieken van clus naar een mens leesbaar formaat. Te vinden in out/_classifier/_dataset/asettings/S_i_datasetStatistics)
+
+	Statistics.NDResults.WriteAllStatistics (schrijft de statistieken van clus naar een mens leesbaar formaat. Te vinden in out/_classifier/_dataset/asettings/S_i_datasetStatistics)
+
+	Statistics.toLatex.ToLatex (converteert de mens leesbare resultaten naar latex tabellen, te vinden in out/_classifier/alatex.txt))
+

@@ -125,8 +125,7 @@ public class ROCAndPRCurve implements Serializable {
 			prevFP_cnt = FP_cnt;
 		}
 		// addOutput(TP_cnt, FP_cnt) -> curve will always include point with recall = 1.0
-                System.out.println("threshold");
-		addOutput(TP_cnt, FP_cnt);
+            	addOutput(TP_cnt, FP_cnt);
 	}
 
 	public double computeArea(ArrayList curve) {

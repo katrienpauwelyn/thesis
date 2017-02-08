@@ -15,7 +15,7 @@
 ###########################################################################################
 
 # Overwrite this variable to point to the Clus directory
-$clusdir = "$ENV{HOME}/Clus";
+$clusdir = "$ENV{HOME}/thesiscode/javacode/clus/dist/";
 
 $clusmem = "1800000000";
 

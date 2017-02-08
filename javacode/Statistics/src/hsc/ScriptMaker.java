@@ -16,6 +16,12 @@ import staticData.Path;
  */
 public class ScriptMaker {
     
+    /**
+     * Vooraleer dit script te runnen in de terminal: ga naar de locatie waar dit script staat. (= path)
+     * @param path
+     * @throws FileNotFoundException 
+     */
+    
     public static void makeScript(String path) throws FileNotFoundException{
         //run_hsc in iedere dataset map plaatsen
         String run_hsc_path = "/Users/katie/thesisoutput/hsc/run_hsc.pl";
@@ -24,7 +30,6 @@ public class ScriptMaker {
         PrintStream stream = new PrintStream(new File(path+name));
         stream.println("#!/bin/bash");
         String basicString = "perl "+perlScript+" ";//nog s-file aan toevoegen zonder .s
-      //  stream.println("cd thesisoutput/out");
         
        // for(String classifier: Path.classifiers){
        String classifier = "classBalanced";
