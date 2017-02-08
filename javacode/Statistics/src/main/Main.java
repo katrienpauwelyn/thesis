@@ -7,7 +7,7 @@ package main;
 
 
 import java.io.IOException;
-import Time.CalculateTime;
+import time.CalculateTime;
 import toLatex.ToLatex;
 
 /**

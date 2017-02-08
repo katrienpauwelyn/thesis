@@ -45,18 +45,18 @@ public class AccuracyClus {
     
     //berekent het aantal correct en incorrect voorspelde instances
     //van alle folds van 1 dataset samen
-    public TupleInt getNbPosNegAllFolds(String path, int seed) throws IOException{
+    public TupleInt getNbPosNegAllFolds(String path, int seed, String achtervoegsel) throws IOException{
         String newPath;
         TupleInt tuple = new TupleInt();
         for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+".test.pred.arff";
+            newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+achtervoegsel;
             tuple.addTuple(getNbPosNegFile(newPath));
         }
         return tuple;
     }
     
     public double getAccuracy(String path, int seed) throws IOException{
-        TupleInt posNeg = getNbPosNegAllFolds(path, seed);
+        TupleInt posNeg = getNbPosNegAllFolds(path, seed, ".test.pred.arff");
         return posNeg.getAccuracy();
     }
     
