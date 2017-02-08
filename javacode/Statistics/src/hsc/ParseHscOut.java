@@ -29,25 +29,27 @@ public class ParseHscOut {
      */
 
     //per classifier output file maken (en dus stream nodig)
-    public void forAllClassifiers() throws IOException{
+    public void parseAllHsc() throws IOException{
         AUClus c = new AUClus();
         AccuracyClus acc = new AccuracyClus();
-        for(String classifier: Path.classifiers){
-            PrintStream stream = new PrintStream(new File(Path.path+"/"+classifier+"/hsc"));
+        //for(String classifier: Path.classifiers){
+        String classifier = "classBalanced";
+            PrintStream stream = new PrintStream(new File(Path.path+"/"+classifier+"/aHsc.txt"));
             forAllDatasets(Path.path+"/"+classifier, c, acc, stream);
-        }
+            stream.close();
+       // }
     }
     
     public void forAllDatasets(String path, AUClus auclus, AccuracyClus acc, 
             PrintStream stream) throws IOException{
-        for(String dataset: Path.datasets){
-            forAllSeeds(path+"/"+dataset, auclus, acc, stream);
+        for(String dataset: Path.restrictedDatasets){
+            forAllSeeds(path+"/"+dataset, auclus, acc, stream, dataset);
         }
     }
     
     //berekent voor één dataset (alle seeds en alle folds) de auroc, auprc en acc
     public void forAllSeeds(String path, AUClus auclus, AccuracyClus accuracyClus,
-            PrintStream stream) throws IOException{
+            PrintStream stream, String dataset) throws IOException{
         TupleFloat weightedAllSeeds;
         TupleFloat meanAllSeeds;
         CollectionMeanStdev meanAuprc = new CollectionMeanStdev();
@@ -65,10 +67,11 @@ public class ParseHscOut {
            weightedMeanAuroc.addNumber(weightedAllSeeds.getSecond());
            acc.addNumber(getAccuracy(path, seed, accuracyClus));
         }
-        
-        //nu hebben we voor een dataset de statistieken gecombineerd. 
-        //Hoe outputten?
-        
+        stream.println(dataset+"\t Mean auprc: "+meanAuprc.getMean()+"pm"+meanAuprc.getStandardDeviation()+
+                "\t Mean auroc: "+meanAuroc.getMean()+"pm"+meanAuroc.getStandardDeviation()+
+                "\t Weighted mean auprc: "+weightedMeanAuprc.getMean()+"pm"+weightedMeanAuprc.getStandardDeviation()+
+                 "\t Weighted mean auroc: "+weightedMeanAuroc.getMean()+"pm"+weightedMeanAuroc.getStandardDeviation()+
+                "\t accuracy: "+acc.getMean()+"pm"+acc.getStandardDeviation());
     }
     
     //returnt de accuracy voor een bepaalde seed (voor alle 10 folds gecombineerd)
@@ -106,8 +109,9 @@ public class ParseHscOut {
     
 
     
-    public static void main(String[] args){
-        
+    public static void main(String[] args) throws IOException{
+        ParseHscOut parse = new ParseHscOut();
+        parse.parseAllHsc();
     }
 
     

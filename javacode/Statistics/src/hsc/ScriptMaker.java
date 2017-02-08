@@ -32,12 +32,20 @@ public class ScriptMaker {
         String basicString = "perl "+perlScript+" ";//nog s-file aan toevoegen zonder .s
         
        // for(String classifier: Path.classifiers){
-       String classifier = "classBalanced";
+       String classifier = "furthestCentroid";
             stream.println("cd "+classifier);
            
             //for(String dataset: Path.datasets){
-            String dataset = Path.datasets[12];//niet: 0,1, (2 & 11(class staat niet laatste?))
-            //wel: 3, 4, 5, 6, 7, 8, 9, 10
+            
+            /**
+             * te vervangen door vorige lijn
+             */
+            for(String dataset: Path.restrictedDatasets){
+           //niet: 0,1, (2 & 11(class staat niet laatste?))
+            //wel: 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15
+            
+            //furthestcentroid: ook 14 niet (bij classBalanced wel)
+            
                 stream.println("cd "+dataset+"/asettings");
                 stream.println("cp " + run_hsc_path + " " + perlScript);
                 for(int seed = 0; seed<Path.nbSeeds; seed++){
@@ -46,7 +54,7 @@ public class ScriptMaker {
                     }
                 }
                 stream.println("cd ../..");
-            //}
+            }
             stream.println("cd ..");
      //   }
         
