@@ -14,9 +14,11 @@ public class Blabla {
      * MakeClassLastAttr is gedraaid: alle klassen zouden nu het klasse attribuut als laatste moeten hebben.
      * 
      * ParseHscOut: enkel nog maar geprobeerd op de limited classBalanced
+     * moet opnieuw gedraaid worden met alle datasets (voor de output)
      * 
      * ScriptMaker: classBalanced (zonder de te lange en zonder deze met klasse attribuut op verkeerde plaats)
      *              furthestCentroid idem als hierboven maar 14 geeft een error wegens te lang
-     *                              15 is dus nog niet gedraaid
+     *            
+     *{"audiology","krkopt","yeast" zijn korter gemaakt
      */
 }

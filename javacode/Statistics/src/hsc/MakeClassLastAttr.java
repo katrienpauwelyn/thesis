@@ -70,7 +70,8 @@ public class MakeClassLastAttr {
                    writer.println(line);
                }
            }
-           
+           reader.close();
+           writer.close();
     }
     
     
