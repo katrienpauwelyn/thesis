@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import staticData.Path;
 
 /**
- *
+ *maakt de klasse namen korter van de files die errors geven. Gebruikt het alfabet.
  * @author katie
  * 
  * PAS OP bij het opnieuw runnen (niet de aller eerste keer): de  if (!newfile.exists()){

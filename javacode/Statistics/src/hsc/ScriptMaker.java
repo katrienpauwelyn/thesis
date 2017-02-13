@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import staticData.Path;
 
 /**
- *
+ * maakt een script om alle datasets met hsc te laten runnen
  * @author katie
  */
 public class ScriptMaker {
@@ -40,7 +40,7 @@ public class ScriptMaker {
             /**
              * te vervangen door vorige lijn
              */
-            for(String dataset: Path.restrictedDatasets){
+            for(String dataset: Path.currentlyWorking){
            //niet: 0,1, (2 & 11(class staat niet laatste?))
             //wel: 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15
             
@@ -50,7 +50,12 @@ public class ScriptMaker {
                 stream.println("cp " + run_hsc_path + " " + perlScript);
                 for(int seed = 0; seed<Path.nbSeeds; seed++){
                     for(int fold=1; fold<Path.nbFolds+1; fold++){
-                        stream.println(basicString+ " S"+seed+"settingsFold"+fold + " || exit 1");
+                        if("letterRecognition".equals(dataset) || "segmentation".equals(dataset)){
+                            stream.println(basicString+ " hscS"+seed+"settingsFold"+fold + " || exit 1");
+                        } else {
+                            stream.println(basicString+ " S"+seed+"settingsFold"+fold + " || exit 1");
+                        }
+                        
                     }
                 }
                 stream.println("cd ../..");
