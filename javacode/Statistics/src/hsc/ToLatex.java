@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import staticData.Path;
 
 /**
- *
+ * PROBLEEM: niet alle datasets zitten er in
  * @author katie
  */
 public class ToLatex {
@@ -21,6 +21,7 @@ public class ToLatex {
         for(String classifier: Path.classifiers){
             convertOneClassifierToLatex(Path.path+"/"+classifier, classifier);
         }
+         convertOneClassifierToLatex(Path.path+"/"+"classBalanced", "classBalanced");
     }
     
     // header: accuracy/mean / weighted mean & classifier C4.5 & classifier Logistic & Clus

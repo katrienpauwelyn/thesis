@@ -118,7 +118,7 @@ public class MakeClassLastAttr {
     }
     
     public static void main(String[] args) throws IOException, IOException{
-        putAllClassAttrLast();
+      //  putAllClassAttrLast();
         SettingsFileCreator.makeSFiles10x10();
     }
 }

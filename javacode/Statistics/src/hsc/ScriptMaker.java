@@ -31,16 +31,17 @@ public class ScriptMaker {
         stream.println("#!/bin/bash");
         String basicString = "perl "+perlScript+" ";//nog s-file aan toevoegen zonder .s
         
-       // for(String classifier: Path.classifiers){
-       String classifier = "furthestCentroid";
+        for(String classifier: Path.classifiers){
+       //String classifier = "randomPair";
             stream.println("cd "+classifier);
            
-            //for(String dataset: Path.datasets){
+            for(String dataset: Path.datasets){
             
             /**
              * te vervangen door vorige lijn
              */
-            for(String dataset: Path.currentlyWorking){
+            
+          //  for(String dataset: Path.datasetsRandomPair){
            //niet: 0,1, (2 & 11(class staat niet laatste?))
             //wel: 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15
             
@@ -61,7 +62,7 @@ public class ScriptMaker {
                 stream.println("cd ../..");
             }
             stream.println("cd ..");
-     //   }
+        }
         
      stream.close();
     }
