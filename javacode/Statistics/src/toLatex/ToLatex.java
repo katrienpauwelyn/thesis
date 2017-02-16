@@ -36,18 +36,18 @@ public class ToLatex {
     //path = bv. /Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out/classBalanced
     public void convertOneClassifierToLatex(String path, String classifier) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(path+"/"+"alatex.txt"));
-       printAuprc(path, classifier, stream);
+       printAuprc(classifier, stream,path+"/"+"aStatisticsClus.txt", path+"/"+"aStatisticsND.txt");
         stream.println();
         stream.println();
-        printAuroc(path, classifier, stream);
+        printAuroc(classifier, stream, path+"/"+"aStatisticsClus.txt",path+"/"+"aStatisticsND.txt" );
         stream.println();
         stream.println();
-        printAccuracy(path, classifier, stream);
+        printAccuracy(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aStatisticsND.txt");
     }
     
-    public void printAuprc(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
+    public void printAuprc(String classifier, PrintStream stream, String pathClus, String pathND) throws FileNotFoundException, IOException{
+        BufferedReader readerClus = new BufferedReader(new FileReader(pathClus));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(pathND));
        
          String lineC45;
          String lineClus;
@@ -77,9 +77,9 @@ public class ToLatex {
         printEndTabular(stream);
     }
     
-     public void printAuroc(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
+     public void printAuroc(String classifier, PrintStream stream, String pathClus, String pathND) throws FileNotFoundException, IOException{
+        BufferedReader readerClus = new BufferedReader(new FileReader(pathClus));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(pathND));
        
          String lineC45;
          String lineClus;
@@ -109,9 +109,9 @@ public class ToLatex {
         printEndTabular(stream);
     }
       
-    public void printAccuracy(String path, String classifier, PrintStream stream) throws FileNotFoundException, IOException{
-        BufferedReader readerClus = new BufferedReader(new FileReader(path+"/"+"aStatisticsClus.txt"));
-        BufferedReader readerC45 = new BufferedReader(new FileReader(path+"/"+"aStatisticsND.txt"));
+    public void printAccuracy(String classifier, PrintStream stream, String pathClus, String pathND) throws FileNotFoundException, IOException{
+        BufferedReader readerClus = new BufferedReader(new FileReader(pathClus));
+        BufferedReader readerC45 = new BufferedReader(new FileReader(pathND));
        
         String lineC45;
      //   while(!readerC45.readLine().contains("Statistics of C45:")){ }

@@ -48,8 +48,30 @@ public class AccuracyClus {
     public TupleInt getNbPosNegAllFolds(String path, int seed, String achtervoegsel) throws IOException{
         String newPath;
         TupleInt tuple = new TupleInt();
+        
         for(int i = 0; i<Path.nbFolds; i++){
+            
             newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+achtervoegsel;
+            tuple.addTuple(getNbPosNegFile(newPath));
+        }
+        return tuple;
+    }
+    
+    
+        //berekent het aantal correct en incorrect voorspelde instances
+    //van alle folds van 1 dataset samen
+    //methode die gebruikt wordt voor hsc. Indien er 'hsc' in de naam moet staan is hsc true
+    public TupleInt getNbPosNegAllFoldsWithHsc(String path, int seed, String achtervoegsel, boolean hsc) throws IOException{
+        String newPath;
+        TupleInt tuple = new TupleInt();
+        
+        for(int i = 0; i<Path.nbFolds; i++){
+            if(hsc){
+                newPath = path+"/asettings/hscS"+seed+"settingsFold"+Integer.toString(i+1)+achtervoegsel;
+            } else {
+                newPath = path+"/asettings/S"+seed+"settingsFold"+Integer.toString(i+1)+achtervoegsel;
+            }
+            
             tuple.addTuple(getNbPosNegFile(newPath));
         }
         return tuple;

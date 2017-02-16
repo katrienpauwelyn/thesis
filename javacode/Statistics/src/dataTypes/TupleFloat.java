@@ -56,4 +56,8 @@ public class TupleFloat {
         second /=f;
     }
     
+    public String print(){
+        return "first: "+first+" second: "+second;
+    }
+    
 }

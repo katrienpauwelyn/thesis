@@ -21,7 +21,7 @@ public class ToLatex {
         for(String classifier: Path.classifiers){
             convertOneClassifierToLatex(Path.path+"/"+classifier, classifier);
         }
-         convertOneClassifierToLatex(Path.path+"/"+"classBalanced", "classBalanced");
+      //   convertOneClassifierToLatex(Path.path+"/"+"classBalanced", "classBalanced");
     }
     
     // header: accuracy/mean / weighted mean & classifier C4.5 & classifier Logistic & Clus
@@ -29,14 +29,14 @@ public class ToLatex {
     //path = bv. /Users/katie/NetBeansProjects/weka/trunk/packages/internal/ensemblesOfNestedDichotomies/out/classBalanced
     public void convertOneClassifierToLatex(String path, String classifier) throws FileNotFoundException, IOException{
         toLatex.ToLatex to = new toLatex.ToLatex();
-        PrintStream stream = new PrintStream(new File(path+"/"+"alatexHsc.txt"));
-       to.printAuprc(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc");
+        PrintStream stream = new PrintStream(new File(path+"/"+"alatexHsc.tex"));
+       to.printAuprc(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc.txt");
         stream.println();
         stream.println();
-        to.printAuroc(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc");
+        to.printAuroc(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc.txt");
         stream.println();
         stream.println();
-        to.printAccuracy(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc");
+        to.printAccuracy(classifier, stream, path+"/"+"aStatisticsClus.txt", path+"/"+"aHsc.txt");
     }
     
     

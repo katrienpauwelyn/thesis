@@ -49,6 +49,21 @@ public class AUClus {
        return tupleOut;
     }
     
+    
+ /*   public static void main(String[] args) throws IOException{
+        String audiology = "/Users/katie/thesisoutput/out/classBalanced/audiology/asettings/S0settingsFold1.hsc.combined.out";
+        String krkopt = "/Users/katie/thesisoutput/out/classBalanced/krkopt/asettings/S0settingsFold1.hsc.combined.out";
+        AUClus c = new AUClus();
+        TupleFloat audF = c.getWeightedAUPRCandAUROC(audiology);
+        System.out.println("aud");
+        System.out.println(audF.print());
+        TupleFloat krkF = c.getWeightedAUPRCandAUROC(krkopt);
+        System.out.println("krk");
+        System.out.println(krkF.print());
+        
+        
+    }*/
+    
         /**
      * Berekent de gewogen AUPRC van de gegeven file. (getest)
      * Neemt het gewogen gemiddelde van alle AUPRCs van alle leaf nodes (niet de internal nodes)
@@ -133,6 +148,7 @@ public class AUClus {
      * @return 
      */
     private boolean checkLeafNode(String line){
+    
         String[] spatie = line.split(" ");
         String node = "";//bevat een node
         for(int i = 0; i<spatie.length; i++){
@@ -142,7 +158,17 @@ public class AUClus {
             }
         }
         String[] slash = node.split("/");
-        return !slash[slash.length-1].contains("-");
+        String last = slash[slash.length-1];
+        if(!line.contains("-")){
+            return checkLeafNodeWithoutHierarchy(last);
+        }
+        return !last.contains("-");
+    }
+    
+    //te gebruiken bij hsc waar de namen van de de klassen korter zijn en de "-" verwijderd zijn uit de namen
+    private boolean checkLeafNodeWithoutHierarchy(String element){
+        element=element.replace(",", "");
+        return element.length()==1;
     }
     
     /**
