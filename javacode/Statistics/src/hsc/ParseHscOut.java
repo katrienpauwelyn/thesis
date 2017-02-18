@@ -38,11 +38,12 @@ public class ParseHscOut {
         }
              String classifier = "nd";
              PrintStream stream = new PrintStream(new File(Path.path+"/"+classifier+"/aHsc.txt"));
+             
             forAllDatasets(Path.path+"/"+classifier, c, acc, stream, Path.restrictedND);
             stream.close();
             
-            classifier = "randomPair";
-            stream = new PrintStream(new File(Path.path+"/"+classifier+"/aHsc.txt"));
+           classifier = "randomPair";
+             stream = new PrintStream(new File(Path.path+"/"+classifier+"/aHsc.txt"));
             forAllDatasets(Path.path+"/"+classifier, c, acc, stream, Path.restrictedRandomPair);
             stream.close();
     }
@@ -87,8 +88,8 @@ public class ParseHscOut {
     
     //returnt de accuracy voor een bepaalde seed (voor alle 10 folds gecombineerd)
         public double getAccuracy(String path, int seed, AccuracyClus acc, boolean hsc) throws IOException{
-        TupleInt posNeg = acc.getNbPosNegAllFoldsWithHsc(path, seed, ".hsc.combined.test.pred.arff", hsc );
-        return posNeg.getAccuracy();//de accuracy van een seed
+            HscAccuracy accuracy = new HscAccuracy();
+            return accuracy.getNbPosNegAllFoldsWithHsc(path, seed, ".hsc.combined.out", hsc, ".hsc.combined.test.pred.arff");
     }
  
     
