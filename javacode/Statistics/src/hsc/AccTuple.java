@@ -29,6 +29,6 @@ public class AccTuple {
     }
     
     public double meanAccPercent(){
-        return Math.floor(sumOfAcc*100000)/1000;
+        return Math.floor(sumOfAcc*100000/nb)/100000;
     }
 }

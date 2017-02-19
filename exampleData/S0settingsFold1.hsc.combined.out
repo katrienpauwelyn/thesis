@@ -1,0 +1,163 @@
+Clus run pageBlocks.data
+************************
+
+Date: 8/02/17 11:54
+File: S0settingsFold1.hsc.combined.out
+Attributes: 11 (input: 10, output: 1)
+Missing values: No
+
+[General]
+Verbose = 1
+Compatibility = Latest
+RandomSeed = 0
+ResourceInfoLoaded = No
+
+[Data]
+File = /Users/katie/thesisoutput/out/classBalanced/pageBlocks/S0fold1.arff
+TestSet = /Users/katie/thesisoutput/out/classBalanced/pageBlocks/S0test1.arff
+PruneSet = None
+XVal = 10
+RemoveMissingTarget = No
+NormalizeData = None
+
+[Attributes]
+Target = 11
+Clustering = 11
+Descriptive = 1-10
+Key = None
+Disable = None
+Weights = Normalize
+ClusteringWeights = 1.0
+ReduceMemoryNominalAttrs = No
+
+[Constraints]
+Syntactic = None
+MaxSize = Infinity
+MaxError = 0.0
+MaxDepth = Infinity
+
+[Output]
+ShowModels = {Default, Pruned, Others}
+TrainErrors = Yes
+ValidErrors = Yes
+TestErrors = Yes
+AllFoldModels = Yes
+AllFoldErrors = Yes
+AllFoldDatasets = No
+UnknownFrequency = No
+BranchFrequency = No
+ShowInfo = {Count}
+PrintModelAndExamples = No
+WriteErrorFile = No
+WritePredictions = {Test}
+ModelIDFiles = No
+WriteCurves = No
+OutputXMLModel = No
+OutputPythonModel = No
+OutputDatabaseQueries = No
+
+[Nominal]
+MEstimate = 1.0
+
+[Model]
+MinimalWeight = 1.0
+MinimalNumberExamples = 0
+MinimalKnownWeight = 0.0
+ParamTuneNumberFolds = 10
+ClassWeights = 0.0
+NominalSubsetTests = Yes
+
+[Tree]
+Heuristic = VarianceReduction
+PruningMethod = Default
+FTest = 0.05
+BinarySplit = Yes
+ConvertToRules = No
+AlternativeSplits = No
+Optimize = {}
+MSENominal = No
+SplitSampling = None
+InductionOrder = DepthFirst
+
+[Hierarchical]
+Type = Tree
+Distance = WeightedEuclidean
+WType = ExpSumParentWeight
+WParam = 0.75
+HSeparator = /
+EmptySetIndicator = n
+OptimizeErrorMeasure = PooledAUPRC
+DefinitionFile = None
+NoRootPredictions = No
+PruneInSig = 0.0
+Bonferroni = No
+SingleLabel = Yes
+CalculateErrors = Yes
+ClassificationThreshold = None
+RecallValues = None
+EvalClasses = None
+MEstimate = No
+
+Run: 01
+*******
+
+Statistics
+----------
+
+FTValue (FTest): 0.05
+Induction Time: 0 sec
+Pruning Time: 0 sec
+Model information
+     Default: Nodes = 1 (Leaves: 1)
+     Original: Combined model with 9 trees with 405 nodes
+
+Training error
+--------------
+
+Number of examples: 4925
+Hierarchical error measures
+   Original: 
+      Average AUROC:            0.94407158180061
+      Average AUPRC:            0.9897741370027435
+      Average AUPRC (weighted): 0.9993413678168188
+      Pooled AUPRC:             0.9999046910694426
+      0: 1-2-3-4-5, AUROC: 0.5, AUPRC: 1, Freq: 1
+      1: 1-2-3-4-5/1-2, AUROC: 0.999481, AUPRC: 0.999977, Freq: 0.957766
+      2: 1-2-3-4-5/1-2/1, AUROC: 0.99924, AUPRC: 0.999914, Freq: 0.897665
+      3: 1-2-3-4-5/1-2/2, AUROC: 0.999593, AUPRC: 0.993482, Freq: 0.060102
+      4: 1-2-3-4-5/3-4-5, AUROC: 0.999481, AUPRC: 0.988752, Freq: 0.042234
+      5: 1-2-3-4-5/3-4-5/3-5, AUROC: 0.999556, AUPRC: 0.985277, Freq: 0.026193
+      6: 1-2-3-4-5/3-4-5/3-5/3, AUROC: 0.999804, AUPRC: 0.965766, Freq: 0.005076
+      7: 1-2-3-4-5/3-4-5/3-5/5, AUROC: 0.999691, AUPRC: 0.987414, Freq: 0.021117
+      8: 1-2-3-4-5/3-4-5/4, AUROC: 0.999799, AUPRC: 0.987385, Freq: 0.016041
+
+Testing error
+-------------
+
+Number of examples: 548
+Hierarchical error measures
+   Original: 
+      Average AUROC:            0.8639356605666975
+      Average AUPRC:            0.8043196152305434
+      Average AUPRC (weighted): 0.9760781579383918
+      Pooled AUPRC:             0.9788089667784121
+      0: 1-2-3-4-5, AUROC: 0.5, AUPRC: 1, Freq: 1
+      1: 1-2-3-4-5/1-2, AUROC: 0.884555, AUPRC: 0.99017, Freq: 0.958029
+      2: 1-2-3-4-5/1-2/1, AUROC: 0.93819, AUPRC: 0.986874, Freq: 0.89781
+      3: 1-2-3-4-5/1-2/2, AUROC: 0.934628, AUPRC: 0.823653, Freq: 0.060219
+      4: 1-2-3-4-5/3-4-5, AUROC: 0.884555, AUPRC: 0.624642, Freq: 0.041971
+      5: 1-2-3-4-5/3-4-5/3-5, AUROC: 0.887707, AUPRC: 0.612841, Freq: 0.025547
+      6: 1-2-3-4-5/3-4-5/3-5/3, AUROC: 1, AUPRC: 1, Freq: 0.005474
+      7: 1-2-3-4-5/3-4-5/3-5/5, AUROC: 0.858134, AUPRC: 0.511534, Freq: 0.020073
+      8: 1-2-3-4-5/3-4-5/4, AUROC: 0.887652, AUPRC: 0.689163, Freq: 0.016423
+
+Default Model
+*************
+
+[1,0.957766,0.897665,0.060102,0.042234,0.026193,0.005076,0.021117,0.016041]: 4925
+
+Original Model
+**************
+
+Combined model with 9 trees with 405 nodes
+

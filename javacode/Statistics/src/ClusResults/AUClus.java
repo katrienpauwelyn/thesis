@@ -147,7 +147,7 @@ public class AUClus {
      * @param line
      * @return 
      */
-    private boolean checkLeafNode(String line){
+    public boolean checkLeafNode(String line){
     
         String[] spatie = line.split(" ");
         String node = "";//bevat een node

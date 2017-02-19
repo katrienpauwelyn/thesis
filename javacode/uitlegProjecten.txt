@@ -39,3 +39,14 @@ Statistics.main.Main (produceert de resultaten in zowel menselijk leesbaar als l
 
 	Statistics.toLatex.ToLatex (converteert de mens leesbare resultaten naar latex tabellen, te vinden in out/_classifier/alatex.txt))
 
+
+
+
+
+
+HSC
+Statistics.hsc bevat alle code omtrent de hsc. 
+
+hsc.Scriptmaker maakt het script aan die de tests doet runnen.
+
+hsc.ParseHscOut maakt de statistieken van de uitvoer en schrijft 1 file per classifier uit met de mens-leesbare statistieken.
