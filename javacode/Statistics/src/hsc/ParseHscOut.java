@@ -88,8 +88,10 @@ public class ParseHscOut {
     
     //returnt de accuracy voor een bepaalde seed (voor alle 10 folds gecombineerd)
         public double getAccuracy(String path, int seed, AccuracyClus acc, boolean hsc) throws IOException{
-            HscAccuracy accuracy = new HscAccuracy();
-            return accuracy.getNbPosNegAllFoldsWithHsc(path, seed, ".hsc.combined.out", hsc, ".hsc.combined.test.pred.arff");
+            return acc.getAccuracy(path, seed);
+            
+          //  HscAccuracy accuracy = new HscAccuracy();
+          //  return accuracy.getNbPosNegAllFoldsWithHsc(path, seed, ".hsc.combined.out", hsc, ".hsc.combined.test.pred.arff");
     }
  
     

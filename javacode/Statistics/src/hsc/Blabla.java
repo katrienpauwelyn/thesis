@@ -23,9 +23,10 @@ public class Blabla {
       * classBalanced (zonder de te lange en zonder deze met klasse attribuut op verkeerde plaats)
      *              furthestCentroid idem als hierboven maar 14 geeft een error wegens te lang
     
-     * ParseHscOut: enkel nog maar geprobeerd op de limited classBalanced
-     * moet opnieuw gedraaid worden met alle datasets (voor de output)
+     * ParseHscOut: output parsen naar leesbaar formaat. (formaat moet handmatig aangepast worden om 
+     * naar latex te kunnen omzetten)
      * 
+     * tolatex: naar latex omzetten
      *            
      t
      */

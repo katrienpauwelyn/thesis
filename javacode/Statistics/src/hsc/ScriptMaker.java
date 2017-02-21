@@ -31,8 +31,8 @@ public class ScriptMaker {
         stream.println("#!/bin/bash");
         String basicString = "perl "+perlScript+" ";//nog s-file aan toevoegen zonder .s
         
-        for(String classifier: Path.classifiers){
-       //String classifier = "randomPair";
+     //   for(String classifier: Path.classifiers){
+       String classifier = "classBalanced";
             stream.println("cd "+classifier);
            
             for(String dataset: Path.datasets){
@@ -62,7 +62,7 @@ public class ScriptMaker {
                 stream.println("cd ../..");
             }
             stream.println("cd ..");
-        }
+     //   }
         
      stream.close();
     }

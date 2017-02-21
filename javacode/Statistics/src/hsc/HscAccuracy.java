@@ -5,29 +5,22 @@
  */
 package hsc;
 
-import ClusResults.AUClus;
-import ClusResults.AccuracyClus;
-import ClusResults.TupleInt;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import staticData.Path;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
  */
 public class HscAccuracy {
 
-   
-
     
     
     //returns the accuracy of 10 folds (1 seed) combined
-    public double getNbPosNegAllFoldsWithHsc(String path, int seed, String achtervoegselOut, boolean hsc,
+  /*  public double getNbPosNegAllFoldsWithHsc(String path, int seed, String achtervoegselOut, boolean hsc,
             String achtervoegselPred) throws IOException{
         String newPathOut;
         String newPathPred;
@@ -54,15 +47,23 @@ public class HscAccuracy {
         BufferedReader readerOut =  new BufferedReader(new FileReader(pathOut));
         nbLeaves = getReadersReady(readerPred, readerOut);
         String[] nodes = makeNodesSet(nbLeaves, readerOut);
+       
         String line, leaf;
         int index;
         double accLine;
+        double highestAcc;
         AccTuple accTuple = new AccTuple();
         while((line=readerPred.readLine())!=null){
             leaf = getLeafPred(line);
             index = getIndex(nodes, leaf);
+            highestAcc = getHightestAcc(line, nodes);
             accLine = getAccLine(line, index);
-            accTuple.add(accLine);
+            if(accLine==highestAcc){
+                accTuple.add(1);
+            } else {
+                accTuple.add(0);
+            }
+            
         }
         return accTuple.meanAcc();
     }
@@ -94,8 +95,10 @@ public class HscAccuracy {
     //maakt String[] met de nodes er in.
     private static String[] makeNodesSet(int nbLeaves, BufferedReader readerOut) throws IOException{
         String[] leaves = new String[nbLeaves];
+        
         String line;
         int total = 0;
+        
         while(!(line=readerOut.readLine()).isEmpty()){
             leaves[getNumberOfNode(line)] = getLeafOut(line);
             total++;
@@ -134,6 +137,7 @@ public class HscAccuracy {
     //1 wordt gereturned
     private static int getNumberOfNode(String line) {
         String[] parsed = line.split(" ");
+     //   System.out.println(line);
         for(int i = 0; i<parsed.length; i++){
             if(parsed[i].contains(":")){
                 return Integer.parseInt(parsed[i].replace(":", "" ));
@@ -175,13 +179,36 @@ public class HscAccuracy {
         String[] parsed = line.split(",");
         return Double.parseDouble(parsed[index+1]);
     }
-   
     
+    
+    private static double getHightestAcc(String line, String[] nodes) {
+       double highest = 0;
+       String[] parsed = line.split(",");
+       for(int i = 1; i<parsed.length-1; i++){
+           if(Double.parseDouble(parsed[i])>highest && isLeafNode(nodes[i-1])){
+               highest = Double.parseDouble(parsed[i]);
+           }
+       }
+       return highest;
+    }
+
+   
+    public static boolean isLeafNode(String node){
+    
+        String[] slash = node.split("/");
+        String last = slash[slash.length-1];
+        if(!node.contains("-")){
+            return last.length()==1;
+        } 
+        return !last.contains("-");
+    }
+   
+    */
     
     public static void main(String[] args) throws IOException{
         String pathOut="/Users/katie/Desktop/temp/S0settingsFold1.hsc.combined.out";
         String pathPred="/Users/katie/Desktop/temp/S0settingsFold1.hsc.combined.test.pred.arff";
-        System.out.println(getAccuracyOneFile(pathPred, pathOut));
+      //  System.out.println(getAccuracyOneFile(pathPred, pathOut));
     }
     
 }
