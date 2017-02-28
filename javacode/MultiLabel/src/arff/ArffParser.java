@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package arff;
 
 import java.io.BufferedReader;
@@ -13,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import statics.Path;
 
 /**
  *
@@ -38,16 +34,16 @@ public class ArffParser {
     }
     
     //verandert de header (roept methode aan die de instances verandert)
-    public static void changeArff(String fromPath, String toPath, HashSet<String> classes) throws FileNotFoundException, IOException{
-        BufferedReader reader = new BufferedReader(new FileReader(fromPath));
-        PrintStream writer = new PrintStream(new File(toPath));
+    //standard is true als de instances standaard zijn. False als de instances zo zijn: {1,22 2,33 ...}
+    public static  int changeArff(HashSet<String> classes,
+            BufferedReader reader, PrintStream writer, HashMap<Integer, String> classMap) throws FileNotFoundException, IOException{
         String line;
-        HashMap<Integer, String>  classMap = new HashMap<Integer, String>();
         
         while(!(line=reader.readLine()).contains("@attribute")){
             writer.println(line);
         }
         int index = 0;
+        int nbAttributes = 0;
         String classString = "";
         while(line.contains("@attribute")){
             String[] split = line.split(" ");
@@ -55,13 +51,40 @@ public class ArffParser {
                 classMap.put(index, split[1]);
                classString= classString.concat(split[1]+",");
             } else {
+                nbAttributes++;
                 writer.println(line);
             }
             line = reader.readLine();
             index++;
         }
         if(classes.size()!=classMap.size()){
-            throw new Error("er zijn niet evenveel klassen in de arff file als in de xml file!");
+            for(String xml: classes){
+                boolean ok = false;
+                for(String s: classMap.values() ){
+                    if(s.equals(xml)){
+                        ok=true; 
+                        break;
+                    }
+                }
+                if(!ok){
+                    System.out.println("wel in xml, niet in arff "+xml);
+                }
+            }
+           for(String xml: classMap.values()){
+                boolean ok = false;
+                for(String s: classes ){
+                    if(s.equals(xml)){
+                        ok=true; 
+                        break;
+                    }
+                }
+                if(!ok){
+                    System.out.println("wel in arff, niet in xml "+xml);
+                }
+            }            
+            
+            
+          //  throw new Error("er zijn niet evenveel klassen in de arff file als in de xml file!");
         }
         
         writer.println("@attribute class hierarchical "+classString.substring(0, classString.length()-1));
@@ -70,17 +93,18 @@ public class ArffParser {
             writer.println(line);
         }
         writer.println(line);//@data
-        
-        printInstances(reader, writer, classMap);
+       return nbAttributes;
     }
     
     //verandert de isntances
     public static void printInstances(BufferedReader reader,PrintStream stream, HashMap<Integer, String> map) throws IOException{
         String line;
+        int geenKlassenToegewezen = 0;
         
         while((line = reader.readLine())!=null && !line.isEmpty()){
             String[] parsed = line.split(",");
               String at = "";
+              
             for(int index: map.keySet()){
                 String c = map.get(index);
                 if(Integer.parseInt(parsed[index])==1){
@@ -95,18 +119,61 @@ public class ArffParser {
                     toPrint = toPrint.concat(s+",");
                 }
             }
-            stream.println(toPrint.concat(at.substring(0, at.length()-1)));
+            if(at.length()==0){
+                geenKlassenToegewezen++;
+            } else {
+                stream.println(toPrint.concat(at.substring(0, at.length()-1)));
+            }
+            
+        }
+        System.out.println("geen klassen toegewezen voor "+geenKlassenToegewezen+" instances"); //TODO
+    }
+    
+    //parset een dataset
+    public static void parseArff(String pathToXml, String pathToTest, 
+        String newPathToTest, String pathToTrain, String newPathToTrain) throws IOException{
+        HashSet<String> classes = getClassNames(pathToXml);
+        
+        BufferedReader reader = new BufferedReader(new FileReader(pathToTest));
+        PrintStream writer = new PrintStream(new File(newPathToTest));
+        HashMap<Integer, String> classMap1 = new HashMap<Integer, String>();
+        int classIndex1 = changeArff(classes, reader, writer, classMap1);
+        printInstances(reader, writer, classMap1); 
+            
+        reader = new BufferedReader(new FileReader(pathToTrain));
+        writer = new PrintStream(new File(newPathToTrain));
+        HashMap<Integer, String> classMap2 = new HashMap<Integer, String>();
+        int classIndex2 = changeArff(classes, reader, writer, classMap2);
+        printInstances(reader, writer, classMap2); 
+           
+    }
+    
+    //parset alle datasets
+    public static void parseAllStandardArffs() throws IOException{
+        String path = Path.path+"/";
+        for(String dataset: Path.standardDatasets){
+            parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
+                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff");
         }
     }
     
     
-    public static void main(String[] args) throws IOException{
-        String path = "/Users/katie/Desktop/flags";
-        HashSet<String> classes = getClassNames(path+"/flags.xml");
         
-        changeArff(path+"/flags.arff", path+"/newflags.txt",classes);
-        changeArff(path+"/flags-train.arff", path+"/newflags-train.txt",classes);
-        changeArff(path+"/flags-test.arff", path+"/newflags-test.txt",classes);
+    public static void main(String[] args) throws IOException{
+      parseAllStandardArffs();
+       
+        
+        
+      
+       // changeArff(path+"/tmc2007-train.arff", path+"/newtmc2007-train.txt",classes);
+       // changeArff(path+"/tmc2007-test.arff", path+"/newtmc2007-test.txt",classes);
+      // public static String[] nonStandardDatasets = { "bibtex","delicious","","tmc2007"};  
+     
     }
+    /**
+     * enron: spatie en komma als komma
+     * bibtex delicious
+     * rcv1subset1 iets raars
+     */
     
 }
