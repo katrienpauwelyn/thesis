@@ -26,5 +26,15 @@ public class Path {
           }
       }
       
+      
+      
+      //multilabel
+       public static String multilabelPath = "/Users/katie/thesiscode/datasets/multilabel/";
+    public static String[] multilabelDatasets = {"bibtex","corel5k","delicious","emotions","enron","eurlex","flags","genbase","mediamill","yeast"};
+    public static String[] multilabelStandardDatasets = {"corel5k","emotions","flags","genbase","mediamill","yeast"};
+    public static String[] multilabelSparseDatasets = { "bibtex","delicious","enron","eurlex"};
+    
+  
+      
  
 }
