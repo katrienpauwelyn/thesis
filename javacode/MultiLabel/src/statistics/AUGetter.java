@@ -69,6 +69,7 @@ public class AUGetter {
      
         line = in.readLine();
         while(!line.isEmpty()){
+            System.out.println(line);
             if(checkLeafNode(line)){
                 outTuple.incrementFirstWith(getWeightedAuprcFromLine(line));
                 outTuple.incrementSecondWith(getWeightedAurocFromLine(line));
@@ -126,5 +127,46 @@ public class AUGetter {
         return true;
     }
     
+    //geen rekening gehouden met hierarchie
+    public static double getFrequency(String path) throws FileNotFoundException, IOException{
+              BufferedReader in = new BufferedReader(new FileReader(path));
+        String line;
+        double out = 0.0;
+        while(true){
+            line = in.readLine();
+            if(line.contains("Testing error")){
+                while(true){
+                   line = in.readLine();
+                    if(line.contains("Pooled")){ break;}
+                }
+                break;
+            }
+        }
+     
+        line = in.readLine();
+        while(!line.isEmpty()){
+                 String[] spatie = line.split(" ");
+     out += Float.parseFloat(spatie[spatie.length-1]);
+               
+            line = in.readLine();
+        }
+        return out;
+    }
+    
+    
+    public static void main(String[] args) throws IOException{
+        String line = "      0: TAG_2005, AUROC: 0.5, AUPRC: 0.011928, Freq: 2";
+       /** System.out.println(getWeightedAurocFromLine(line));
+        System.out.println(getWeightedAuprcFromLine(line));
+        String[] spatie = line.split(" ");
+        System.out.println(Float.parseFloat(spatie[spatie.length-1]));*/
+       
+       String dingk = "/Users/katie/thesiscode/datasets/multilabel/bibtex/settings.out";
+       String l= "/Users/katie/thesisoutput/out/classBalanced/audiology/asettings/S0settingsFold1.hsc.combined.out";
+     /*  TupleFloat f = getWeightedAUPRCandAUROC(dingk);
+       System.out.println(f.getFirst());
+       System.out.println(f.getSecond());*/
+     System.out.println(getFrequency(l));
+    }
     
 }

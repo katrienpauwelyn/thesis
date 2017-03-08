@@ -7,10 +7,8 @@ package arff;
 
 import static arff.ArffParser.changeArff;
 import static arff.ArffParser.getClassNames;
-import static arff.ArffParser.parseArff;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -19,7 +17,7 @@ import java.util.HashSet;
 import statics.Path;
 
 /**
- *
+ * TODO: de indexen beginnen vanaf 0 en zouden vanaf 1 moeten beginnen
  * @author katie
  */
 public class SparseArffParser {
@@ -27,7 +25,6 @@ public class SparseArffParser {
     public static void parseArff(String pathToXml, String pathToTest, 
         String newPathToTest, String pathToTrain, String newPathToTrain) throws IOException{
         HashSet<String> classes = getClassNames(pathToXml);
-        
         BufferedReader reader = new BufferedReader(new FileReader(pathToTest));
         PrintStream writer = new PrintStream(new File(newPathToTest));
         HashMap<Integer, String> classMap1 = new HashMap();
@@ -53,18 +50,23 @@ public class SparseArffParser {
             line = line.substring(1,line.length()-1);//{} weg
             String[] parsed = line.split(",");
             String finalString = "{";
-            String classString = indexClass+" ";
+            int indexClassPlusEen = indexClass+1;
+            String classString = indexClassPlusEen+" ";
             for(int i = 0; i<parsed.length; i++){
                 String[] tuple = parsed[i].split(" "); //index - waarde
                 if(!classMap.containsKey(Integer.parseInt(tuple[0]))){ //geen klasse attribuut
-                    finalString = finalString.concat(tuple[0]+" "+tuple[1]+",");
+                    int index = Integer.parseInt(tuple[0])+1;
+                    finalString = finalString.concat(index+" "+tuple[1]+",");
                 } else { //wel klasse attribuut
                     classString = classString.concat(classMap.get(Integer.parseInt(tuple[0]))+"@");
                 }
             }
-            finalString = finalString.concat(classString);
-            finalString = finalString.substring(0,finalString.length()-1).concat("}");
-            stream.println(finalString);
+            if(!classString.equals(indexClassPlusEen+" ")){ //TODO geen klasse: lijn wordt niet afgedrukt
+                finalString = finalString.concat(classString);
+                finalString = finalString.substring(0,finalString.length()-1).concat("}").replace("/", ":");// / weg doen (stelt hierarchisch voor en dat mag niet)
+                stream.println(finalString);
+            }
+       
             
         }
     }

@@ -5,7 +5,6 @@
  */
 package statistics;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,7 +28,8 @@ public class StatisticsPrinter {
     }
     
     public static void printDataset(PrintStream stream, String pathPred, String pathOut, String dataset) throws IOException{
-        double hammingLoss = HammingLoss.getHammingLoss(pathPred);
+        boolean hasKey = dataset.equals("genbase");
+        double hammingLoss = HammingLoss.getHammingLoss(pathPred, hasKey);
         TupleFloat meanAU = AUGetter.getAUPRCandAUROC(pathOut);
         TupleFloat weightedMeanAU = AUGetter.getWeightedAUPRCandAUROC(pathOut);
         String printString = dataset+"\t hammingLoss: "+hammingLoss+"\t mean auprc: "+meanAU.getFirst()+

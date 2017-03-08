@@ -25,9 +25,11 @@ public class ArffParser {
          String line;
          while(!(line = reader.readLine()).contains("name")){}
          HashSet<String> map = new HashSet<>();
-         while(line.contains("name")){
-             String[] parsed = line.split("\"");
+         while(!line.contains("</labels>")){
+             if(line.contains("name")){
+                 String[] parsed = line.split("\"");
              map.add(parsed[1]);
+             }
              line = reader.readLine();
          }
          return map;
@@ -87,7 +89,7 @@ public class ArffParser {
           //  throw new Error("er zijn niet evenveel klassen in de arff file als in de xml file!");
         }
         
-        writer.println("@attribute class hierarchical "+classString.substring(0, classString.length()-1));
+        writer.println("@attribute class hierarchical "+classString.substring(0, classString.length()-1).replace("/", ":"));
         writer.println(line);
         while(!(line=reader.readLine()).contains("@data")){
             writer.println(line);
@@ -122,7 +124,7 @@ public class ArffParser {
             if(at.length()==0){
                 geenKlassenToegewezen++;
             } else {
-                stream.println(toPrint.concat(at.substring(0, at.length()-1)));
+                stream.println(toPrint.concat(at.substring(0, at.length()-1)).replace("/", ":"));
             }
             
         }

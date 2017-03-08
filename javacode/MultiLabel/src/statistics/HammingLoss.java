@@ -19,7 +19,7 @@ public class HammingLoss {
     
     //TODO genbase heeft een key: iets anders voor de parsing (key staat voor alles)
     
-    public static double getHammingLoss(String pathToPredFile) throws FileNotFoundException, IOException{
+    public static double getHammingLoss(String pathToPredFile, boolean hasKey) throws FileNotFoundException, IOException{
         BufferedReader reader = new BufferedReader(new FileReader(pathToPredFile));
         String line;
         int nbClasses = 1;
@@ -30,7 +30,7 @@ public class HammingLoss {
         double totalXor = 0.0;
         int nbInstances = 0;
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            totalXor += xor(line, nbClasses);
+            totalXor += xor(line, nbClasses, hasKey);
             nbInstances++;
         }
         totalXor /= nbClasses;
@@ -40,11 +40,15 @@ public class HammingLoss {
     
     
     //getest
-    public static double xor(String line, int nbClasses){
+    public static double xor(String line, int nbClasses, boolean hasKey){
         String[] parsed = line.split(",");
         double xor = 0.0;
+        int offset = 1;
+        if(hasKey){
+            offset++;
+        }
         for(int i = 0; i<nbClasses; i++){
-            double sum = Double.parseDouble(parsed[i+1])-Double.parseDouble(parsed[i+1+nbClasses]);
+            double sum = Double.parseDouble(parsed[i+offset])-Double.parseDouble(parsed[i+offset+nbClasses]);
             xor += Math.abs(sum);
         }
         return xor;
@@ -62,7 +66,11 @@ public class HammingLoss {
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException{
-    System.out.println(getHammingLoss("/Users/katie/thesiscode/datasets/multilabel/emotions/settings.test.pred.arff"));
+    //System.out.println(getHammingLoss("/Users/katie/thesiscode/datasets/multilabel/genbase/settings.test.pred.arff", true));
+    String line = "Q9Y7D2,PDOC00064@PDOC50156,"
+            + "0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,"
+            + "0.0,0.0,0.0,0.9999999999999999,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9999999999999999,0.0,0.0,\"0+0+0+0+0+0+0+0+0+0\"";
+    System.out.println(xor(line, 27,true));
     }
     
 }
