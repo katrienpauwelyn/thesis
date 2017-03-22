@@ -5,6 +5,7 @@
  */
 package hierarchie;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -51,5 +52,34 @@ public class Node {
     
     public void appendToHier(String s){
         hierarchy = hierarchy.concat(s);
+    }
+    
+    public void removeClass(String s){
+        classes.remove(s);
+    }
+    
+    //update de hierarchie met "/" en alle knopen
+    //als er maar 1 klasse meer zit, druk de hierarchy af
+    public void updateAndPrintHierarchy(PrintStream stream){
+        hierarchy = hierarchy.concat("/");
+        for(String s: classes){
+            hierarchy = hierarchy.concat(s+"-");
+        }
+        hierarchy = hierarchy.substring(0, hierarchy.length()-1);
+        if(classes.size()==1){
+            stream.println(hierarchy);
+        }
+    }
+    
+    public String classesToString(){
+        String s = "";
+        for(String c: classes){
+            s=s.concat(c+" ");
+            
+        }
+        return s;
+    }
+    public String toString(){
+        return hierarchy+" - "+classesToString();
     }
 }
