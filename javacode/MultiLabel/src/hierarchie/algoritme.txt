@@ -1,0 +1,23 @@
+1) bereken de afstanden tussen alle verschillende klassen. Wordt berekend aan de hand van hamming distance.
+vb. met enkel de labels (niet de instances zelf)
+     instance1: 1 0 0 1
+     instance2: 1 1 1 1
+     instance3: 0 0 1 0
+afstand K1 K2: 2
+afstand K1 K3: 2
+afstand K1 K4: 0
+afstand K2 K3: 1
+afstand K2 K4: 1
+afstand K3 K4: 2
+
+2) bouw de boom op: begin met de root die alle knopen bevat
+
+3) kies een willekeurig getal tussen 2 en 5. Dit is het aantal opsplitsingen die deze knoop zal hebben. Dit getal noemen we N.
+Dit willekeurig getal is ook gelimiteerd tot het aantal klassen er nog in de knoop zitten.
+
+4) kies N willekeurige klassen uit deze knoop. Dit zijn de basissen voor de nieuwe knopen.
+
+5) voor iedere klasse uit deze knoop die niet gekozen is als basis voor een nieuwe knoop, kijk bij welke baisknoop hij het dichtst ligt.
+Neem hiervoor de hamming afstand uit 1).
+
+6) herhaal dit opnieuw vanaf stap 3) totdat er in iedere knoop maar 1 klasse meer zit.
