@@ -61,13 +61,14 @@ public class Node {
     //update de hierarchie met "/" en alle knopen
     //als er maar 1 klasse meer zit, druk de hierarchy af
     public void updateAndPrintHierarchy(PrintStream stream){
-        hierarchy = hierarchy.concat("/");
+        hierarchy = hierarchy.concat(",");
         for(String s: classes){
             hierarchy = hierarchy.concat(s+"-");
         }
         hierarchy = hierarchy.substring(0, hierarchy.length()-1);
         if(classes.size()==1){
-            stream.println(hierarchy);
+            splitAndPrintHier(hierarchy, stream);
+           
         }
     }
     
@@ -81,5 +82,13 @@ public class Node {
     }
     public String toString(){
         return hierarchy+" - "+classesToString();
+    }
+
+    private void splitAndPrintHier(String hierarchy, PrintStream stream) {
+      stream.println(hierarchy);
+     /*String[] split = hierarchy.split(",");
+     for(int i = 0; i<split.length-1; i++){
+         stream.println(split[i]+","+split[i+1]);
+     }*/
     }
 }
