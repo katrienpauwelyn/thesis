@@ -29,10 +29,9 @@ public class StatisticsPrinter {
     
     public static void printDataset(PrintStream stream, String pathPred, String pathOut, String dataset) throws IOException{
         boolean hasKey = dataset.equals("genbase");
-        double hammingLoss = HammingLoss.getHammingLoss(pathPred, hasKey);
         TupleFloat meanAU = AUGetter.getAUPRCandAUROC(pathOut);
         TupleFloat weightedMeanAU = AUGetter.getWeightedAUPRCandAUROC(pathOut);
-        String printString = dataset+"\t hammingLoss: "+hammingLoss+"\t mean auprc: "+meanAU.getFirst()+
+        String printString = dataset+"\t mean auprc: "+meanAU.getFirst()+
                 "\t mean auroc: "+meanAU.getSecond()+"\t weighted mean auprc: "+weightedMeanAU.getFirst()+
                 "\t weighted mean auroc: "+weightedMeanAU.getSecond();
         stream.println(printString);

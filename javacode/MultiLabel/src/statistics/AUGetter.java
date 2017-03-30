@@ -53,6 +53,7 @@ public class AUGetter {
      * Neemt het gewogen gemiddelde van alle AUPRCs van alle leaf nodes (niet de internal nodes)
      */
     public static TupleFloat getWeightedAUPRCandAUROC(String path) throws FileNotFoundException, IOException{
+        float frequency = getFrequency(path);
         TupleFloat outTuple = new TupleFloat();
         BufferedReader in = new BufferedReader(new FileReader(path));
         String line;
@@ -71,8 +72,8 @@ public class AUGetter {
         while(!line.isEmpty()){
             System.out.println(line);
             if(checkLeafNode(line)){
-                outTuple.incrementFirstWith(getWeightedAuprcFromLine(line));
-                outTuple.incrementSecondWith(getWeightedAurocFromLine(line));
+                outTuple.incrementFirstWith(getWeightedAuprcFromLine(line, frequency));
+                outTuple.incrementSecondWith(getWeightedAurocFromLine(line, frequency));
             }
             line = in.readLine();
         }
@@ -109,17 +110,17 @@ public class AUGetter {
         /**
      * returnt de AUPRC uit de string vermenigvuldigd met zijn frequentie
      */
-    private static float getWeightedAuprcFromLine(String line){
+    private static float getWeightedAuprcFromLine(String line, float frequency){
         String[] spatie = line.split(" ");
-       return getAuprcFromLine(line) * Float.parseFloat(spatie[spatie.length-1]);
+       return (getAuprcFromLine(line) * Float.parseFloat(spatie[spatie.length-1]))/frequency;
     }
     
      /**
      * returnt de AUROC uit de string vermenigvuldigd met zijn frequentie
      */
-    private static float getWeightedAurocFromLine(String line){
+    private static float getWeightedAurocFromLine(String line, float frequency){
         String[] spatie = line.split(" ");
-       return getAurocFromLine(line) * Float.parseFloat(spatie[spatie.length-1]);
+       return (getAurocFromLine(line) * Float.parseFloat(spatie[spatie.length-1]))/frequency;
     }
     
     //TODO implementeren indien voor hierarchische nodig
@@ -128,10 +129,11 @@ public class AUGetter {
     }
     
     //geen rekening gehouden met hierarchie
-    public static double getFrequency(String path) throws FileNotFoundException, IOException{
+    //berekent de totale frequentie 
+    public static float getFrequency(String path) throws FileNotFoundException, IOException{
               BufferedReader in = new BufferedReader(new FileReader(path));
         String line;
-        double out = 0.0;
+        float out = 0;
         while(true){
             line = in.readLine();
             if(line.contains("Testing error")){
