@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import statics.Path;
@@ -22,26 +21,40 @@ import statics.Path;
  * @author katie
  */
 public class HierarchyMaker {
-    public static void makeAllHierarchies() throws IOException{
+    public static void makeAllHierarchies(HashMap<String, String> normalMap,
+            HashMap<String, String> sparseMap, HashMap<String, Integer> intMap) throws IOException{
         String path = Path.path;
         for(String dataset: Path.standardDatasets){
     // String dataset = "flags";
-            for(int i = 0; i<10; i++){
+               String unparsedClasses = normalMap.get(dataset);
+              String[] parsed = unparsedClasses.split(",");
+              ArrayList<String> list = new ArrayList();
+              for(String s: parsed){
+                   list.add(s.replaceAll("/",":"));
+              }
+            for(int i = 0; i<Path.nbBags; i++){
                 String train = path+"/"+dataset+"/"+dataset+"train.arff";
                 String output = path+"/"+dataset+"/"+"temphier"+dataset+i;
                  String finalOutput = path+"/"+dataset+"/"+"hier"+dataset+i;
                 System.out.println(dataset);
-                makeHierarchy(train, output, false);
+                makeHierarchy(train, output, false, list, intMap.get(dataset));
                 ParseHierarchy.parseHierarchy(output, finalOutput);
             }
             
         }
-        for(String dataset: Path.sparseDatasets){
-            for(int i = 0; i<10; i++){
+
+            for(String dataset: Path.sparseDatasets){
+             String unparsedClasses = sparseMap.get(dataset);
+              String[] parsed = unparsedClasses.split(",");
+              ArrayList<String> list = new ArrayList();
+              for(String s: parsed){
+                   list.add(s.replaceAll("/", ":"));
+              }
+            for(int i = 0; i<Path.nbBags; i++){
                 String train = path+"/"+dataset+"/"+dataset+"train.arff";
                 String output = path+"/"+dataset+"/"+"hier"+dataset+i;
                 System.out.println(dataset);
-                makeHierarchy(train, output, true);
+                makeHierarchy(train, output, true,list, intMap.get(dataset));
             }
             
             
@@ -51,8 +64,8 @@ public class HierarchyMaker {
     
     
     
-    public static void makeHierarchy(String pathToTrain, String pathOutput, boolean sparse) throws IOException{
-        ArrayList<String> classes = getClasses(pathToTrain);
+    public static void makeHierarchy(String pathToTrain, String pathOutput, boolean sparse,
+           ArrayList<String> classes, int indexClass) throws IOException{
         String root = "";
         for(String cl : classes){
             root = root.concat(cl).concat("-");
@@ -61,7 +74,7 @@ public class HierarchyMaker {
         ArrayList<Node> nodes = new ArrayList();
         nodes.add(node);
         PrintStream stream = new PrintStream(new File(pathOutput));
-        HashMap<String, DistanceKeeper> distances = getDistancesBetweenClasses(pathToTrain, classes, sparse);
+        HashMap<String, DistanceKeeper> distances = getDistancesBetweenClasses(pathToTrain, classes, sparse, indexClass);
         makeHierarchyRecursive(new Random(), nodes, classes, stream, distances, sparse);
         stream.close();
     }
@@ -99,7 +112,7 @@ public class HierarchyMaker {
     }
     
    //returnt alle klassen uit een file
-    public static ArrayList<String> getClasses(String path) throws FileNotFoundException, IOException{
+ /*   public static ArrayList<String> getClasses(String path) throws FileNotFoundException, IOException{
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String line;
         while(!(line = reader.readLine()).contains("@attribute class hierarchical")){}
@@ -108,26 +121,29 @@ public class HierarchyMaker {
         ArrayList<String> map = new ArrayList();
         map.addAll(Arrays.asList(classes));
         return map;
-    }
+    }*/
     
     public static HashMap<String, DistanceKeeper> getDistancesBetweenClasses(String file, 
-            ArrayList<String> classes, boolean sparse) throws IOException{
+            ArrayList<String> classes, boolean sparse, int indexClass) throws IOException{
         HashMap<String, DistanceKeeper> distances = new HashMap();
         for(String s: classes){
-            distances.put(s, getDistancesBetweenClassesSimple(file, classes, s, sparse));
+            distances.put(s, getDistancesBetweenClassesSimple(file, classes, s, sparse, indexClass));
         }
         return distances;
     }
     
     //returnt een overzicth van afstanden tussen klassen. De afstanden van klasse A tot BCDE en F
     public static DistanceKeeper getDistancesBetweenClassesSimple(String file, ArrayList<String> classes,
-            String current, boolean sparse) throws FileNotFoundException, IOException{
+            String current, boolean sparse, int indexClass) throws FileNotFoundException, IOException{
+       // System.out.println(indexClass);
         DistanceKeeper keeper = new DistanceKeeper(current, classes);
         BufferedReader reader = new BufferedReader(new FileReader(file));
         while(!reader.readLine().contains("@data")){}
         String line;
         while((line = reader.readLine())!=null && !line.isEmpty()){
-            String[] cl;
+        //    System.out.println(line);
+            if((sparse && !line.endsWith(indexClass+"}")) || (!sparse && !line.endsWith(","))){
+                      String[] cl;
             if(!sparse){
                 String[] parsed = line.split(",");
                 cl = parsed[parsed.length-1].split("@");
@@ -136,7 +152,7 @@ public class HierarchyMaker {
                 String s = parsed[parsed.length-1];
                 s = s.substring(0, s.length()-1);
                 cl=s.split("@");
-            }
+              }
             if(arrayContainsElement(current, cl)){ //class is 1, alle klassen die ook in de array zitten, hiervan is de distance 0
                 ArrayList<String> others = getOthers(cl, classes);
                 for(String not: others){
@@ -147,6 +163,8 @@ public class HierarchyMaker {
                     keeper.incrementClass(not);
                 }
             }
+            }
+      
         }
         reader.close();
         return keeper;
@@ -191,14 +209,13 @@ public class HierarchyMaker {
         }
     }
     
+  
     
     
-    
-    
-    
-    public static void main(String[] args) throws IOException{
+   /* public static void main(String[] args) throws IOException{
       makeAllHierarchies();
-    }
+    }*/
 
+   
     
 }

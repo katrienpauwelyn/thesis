@@ -22,22 +22,23 @@ import statics.Path;
  */
 public class SparseArffParser {
     
-    public static void parseArff(String pathToXml, String pathToTest, 
+    public static StringInt parseArff(String pathToXml, String pathToTest, 
         String newPathToTest, String pathToTrain, String newPathToTrain) throws IOException{
         HashSet<String> classes = getClassNames(pathToXml);
         BufferedReader reader = new BufferedReader(new FileReader(pathToTest));
         PrintStream writer = new PrintStream(new File(newPathToTest));
         HashMap<Integer, String> classMap1 = new HashMap();
-        
-        int index1 = changeArff(classes, reader, writer, classMap1);
+        StringInt c1 = changeArff(classes, reader, writer, classMap1);
+        int index1 = c1.intPart;
         printInstances(reader, writer, classMap1, index1); 
             
         reader = new BufferedReader(new FileReader(pathToTrain));
         writer = new PrintStream(new File(newPathToTrain));
         HashMap<Integer, String> classMap2 = new HashMap();
-        int index2 = changeArff(classes, reader, writer, classMap2);
+        int index2 = changeArff(classes, reader, writer, classMap2).intPart;
         printInstances(reader, writer, classMap2, index2); 
-           
+        System.out.println(c1.intPart);
+     return c1;  
     }
     
     //classMap: index en klasse naam
@@ -61,23 +62,26 @@ public class SparseArffParser {
                     classString = classString.concat(classMap.get(Integer.parseInt(tuple[0]))+"@");
                 }
             }
-            if(!classString.equals(indexClassPlusEen+" ")){ //TODO geen klasse: lijn wordt niet afgedrukt
+           // if(!classString.equals(indexClassPlusEen+" ")){ //TODO geen klasse: lijn wordt niet afgedrukt
                 finalString = finalString.concat(classString);
                 finalString = finalString.substring(0,finalString.length()-1).concat("}").replace("/", ":");// / weg doen (stelt hierarchisch voor en dat mag niet)
                 stream.println(finalString);
-            }
+           // }
        
             
         }
     }
     
     //parset alle sparse datasets
-    public static void parseAllSparseArffs() throws IOException{
+    public static HashMap<String, StringInt> parseAllSparseArffs() throws IOException{
         String path = Path.path+"/";
+        HashMap<String, StringInt> map = new HashMap();
         for(String dataset: Path.sparseDatasets){
-            parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
-                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff");
+            System.out.println(dataset);
+            map.put(dataset, parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
+                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
         }
+        return map;
     }
     
     

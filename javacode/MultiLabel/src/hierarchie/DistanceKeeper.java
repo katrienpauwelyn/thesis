@@ -50,7 +50,18 @@ public class DistanceKeeper {
     }
     
     public void incrementClass(String c){
-        int d = distances.get(c);
+        int d = 0;
+        try{ 
+            d = distances.get(c);
+        } catch(Exception e){
+            System.out.println("exception");
+            System.out.println(c);
+            for(String s: distances.keySet()){
+                System.out.println(s);
+            }
+            throw new Error();
+        }
+        
         distances.put(c, d+1);
     }
     

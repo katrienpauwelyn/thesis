@@ -37,7 +37,7 @@ public class ArffParser {
     
     //verandert de header (roept methode aan die de instances verandert)
     //standard is true als de instances standaard zijn. False als de instances zo zijn: {1,22 2,33 ...}
-    public static  int changeArff(HashSet<String> classes,
+    public static  StringInt changeArff(HashSet<String> classes,
             BufferedReader reader, PrintStream writer, HashMap<Integer, String> classMap) throws FileNotFoundException, IOException{
         String line;
         
@@ -89,13 +89,13 @@ public class ArffParser {
           //  throw new Error("er zijn niet evenveel klassen in de arff file als in de xml file!");
         }
         
-        writer.println("@attribute class hierarchical "+classString.substring(0, classString.length()-1).replace("/", ":"));
+        writer.println("@attribute class hierarchical ");//+classString.substring(0, classString.length()-1).replace("/", ":"));
         writer.println(line);
         while(!(line=reader.readLine()).contains("@data")){
             writer.println(line);
         }
         writer.println(line);//@data
-       return nbAttributes;
+       return new StringInt(classString, nbAttributes);
     }
     
     //verandert de isntances
@@ -123,6 +123,7 @@ public class ArffParser {
             }
             if(at.length()==0){
                 geenKlassenToegewezen++;
+                stream.println(toPrint);
             } else {
                 stream.println(toPrint.concat(at.substring(0, at.length()-1)).replace("/", ":"));
             }
@@ -132,31 +133,36 @@ public class ArffParser {
     }
     
     //parset een dataset
-    public static void parseArff(String pathToXml, String pathToTest, 
+    public static StringInt parseArff(String pathToXml, String pathToTest, 
         String newPathToTest, String pathToTrain, String newPathToTrain) throws IOException{
         HashSet<String> classes = getClassNames(pathToXml);
         
         BufferedReader reader = new BufferedReader(new FileReader(pathToTest));
         PrintStream writer = new PrintStream(new File(newPathToTest));
         HashMap<Integer, String> classMap1 = new HashMap<Integer, String>();
-        int classIndex1 = changeArff(classes, reader, writer, classMap1);
+        StringInt c1 = changeArff(classes, reader, writer, classMap1);
+        int classIndex1 = c1.intPart;
         printInstances(reader, writer, classMap1); 
             
         reader = new BufferedReader(new FileReader(pathToTrain));
         writer = new PrintStream(new File(newPathToTrain));
         HashMap<Integer, String> classMap2 = new HashMap<Integer, String>();
-        int classIndex2 = changeArff(classes, reader, writer, classMap2);
+         StringInt c2 = changeArff(classes, reader, writer, classMap2);
+        int classIndex2 = c2.intPart;
         printInstances(reader, writer, classMap2); 
-           
+        return c1;
     }
     
     //parset alle datasets
-    public static void parseAllStandardArffs() throws IOException{
+    public static HashMap<String, StringInt> parseAllStandardArffs() throws IOException{
         String path = Path.path+"/";
+        HashMap<String, StringInt> map = new HashMap();
         for(String dataset: Path.standardDatasets){
-            parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
-                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff");
+            System.out.println(dataset);
+            map.put(dataset, parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
+                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
         }
+        return map;
     }
     
     

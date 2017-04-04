@@ -21,48 +21,48 @@ public class SFileMaker {
       
    public static void makeAllSFiles() throws FileNotFoundException{
        PrintStream stream;
-       for(String dataset: Path.datasets){
-           stream = new PrintStream(new File(Path.path+dataset+"/settings.s"));
-           if(dataset.equals("genbase")){
-               makeSFileEnsemble(stream, Path.path+dataset+"/"+dataset+"train.arff",
-                   Path.path+dataset+"/"+dataset+"test.arff", true, 1);
-           } else {
-               makeSFileEnsemble(stream, Path.path+dataset+"/"+dataset+"train.arff",
-                   Path.path+dataset+"/"+dataset+"test.arff", false, 0);
-           }
-           
-       }
+     for(String d: Path.datasets){
+         for(int i = 0; i<Path.nbBags; i++){
+             stream = new PrintStream(new File(Path.path+d+"/settings"+i+".s"));
+             makeSFileEnsemble(stream, Path.path+d+"/"+d+"train.arff", Path.path+d+"/"+d+"test.arff",
+                     Path.path+d+"/hier"+d+i, i+1);
+             stream.close();
+         }
+     }
    }
       
-   
+   /*
+   Setting voor lege verzameling labels:
+EmptySetIndicator (binnen [Hierarchical])
+bvb EmptySetIndicator = none
+   */
       
      private static void makeSFileEnsemble(PrintStream stream, String pathTrain, String pathTest,
-             boolean hasKey, int keyIndex){
-          stream.println("[Data]");
-          stream.println("File = "+pathTrain);//TODO
-          stream.println("TestSet = "+pathTest);//TODO
-          stream.println();
-          stream.println("[Hierarchical]");
-          stream.println("Type = TREE");
-          stream.println("HSeparator = /");
-          stream.println("SingleLabel = No");
-          stream.println();
-          stream.println("[Model]");
-          stream.println("MinimalWeight = 1.0");
-          stream.println();
-          if(hasKey){
-              stream.println("[Attributes]");
-              stream.println("Key = "+keyIndex);
-              stream.println();
-          }
-          stream.println("[Output]");
-          stream.println("AllFoldErrors = Yes");
-          stream.println("WritePredictions = Test");
-          stream.println();
-          stream.println("[Ensemble]");
-          stream.println("Iterations = 10"); // of 100
-          stream.println("EnsembleMethod = Bagging");
-          stream.println("VotingType = Majority");// of    ProbabilityDistribution
+             String pathHierarchy, int bagSelection){
+            stream.println("[General]");
+            stream.println("RandomSeed = 0");
+            stream.println();
+            stream.println("[Data]");
+            stream.println("File = " + pathTrain);
+            stream.println("TestSet = "+ pathTest);
+            stream.println();
+            stream.println("[Hierarchical]");
+            stream.println("Type = DAG");
+            stream.println("HSeparator = /");
+            stream.println("DefinitionFile = "+pathHierarchy);
+            stream.println("EmptySetIndicator = none");
+            stream.println();
+           stream.println("[Model]");
+            stream.println("MinimalWeight = 1.0");
+            stream.println();
+            stream.println("[Output]");
+            stream.println("AllFoldErrors = Yes");
+            stream.println("WritePredictions = Test");
+            stream.println();
+            stream.println("[Ensemble]");
+            stream.println("Iterations = "+Path.nbBags);
+            stream.println("EnsembleMethod = Bagging");
+            stream.println("BagSelection=["+bagSelection+","+bagSelection+"]");
       }
       
     

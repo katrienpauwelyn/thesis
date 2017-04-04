@@ -12,13 +12,25 @@ package statics;
 public class Path {
     
     public static String path = "/Users/katie/thesiscode/datasets/multilabel/";
-    public static String[] datasets = {"bibtex","corel5k","delicious","emotions","enron","eurlex","flags",
-        //"genbase",
+    public static String[] datasets = {"bibtex",
+        "corel5k","delicious","emotions","enron","eurlex","flags",
+        "genbase",
         "mediamill","yeast"};
     
-    public static String[] standardDatasets = {"corel5k","emotions","flags","genbase","mediamill","yeast"};
-    public static String[] sparseDatasets = { "bibtex","delicious","enron","eurlex"};
+    public static String[] standardDatasets = {"corel5k",
+        "emotions","flags","genbase",
+        "mediamill",
+        "yeast"
+    };
+    public static String[] sparseDatasets = { "bibtex",
+        "delicious",
+        "enron",
+        "eurlex"
+    };
     
-    public static String[] dataset = {"genbase"};
+    //mediamill, eurlex, delicious
+    public static String[] dataset = {"flags"};
+    
+    public static int nbBags = 10;
     
 }
