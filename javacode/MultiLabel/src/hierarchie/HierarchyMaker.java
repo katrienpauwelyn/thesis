@@ -24,7 +24,7 @@ public class HierarchyMaker {
     public static void makeAllHierarchies(HashMap<String, String> normalMap,
             HashMap<String, String> sparseMap, HashMap<String, Integer> intMap) throws IOException{
         String path = Path.path;
-        for(String dataset: Path.standardDatasets){
+ /*       for(String dataset: Path.standardDatasets){
     // String dataset = "flags";
                String unparsedClasses = normalMap.get(dataset);
               String[] parsed = unparsedClasses.split(",");
@@ -41,9 +41,9 @@ public class HierarchyMaker {
                 ParseHierarchy.parseHierarchy(output, finalOutput);
             }
             
-        }
+        }*/
 
-            for(String dataset: Path.sparseDatasets){
+           for(String dataset: Path.sparseDatasets){
              String unparsedClasses = sparseMap.get(dataset);
               String[] parsed = unparsedClasses.split(",");
               ArrayList<String> list = new ArrayList();
@@ -52,9 +52,12 @@ public class HierarchyMaker {
               }
             for(int i = 0; i<Path.nbBags; i++){
                 String train = path+"/"+dataset+"/"+dataset+"train.arff";
-                String output = path+"/"+dataset+"/"+"hier"+dataset+i;
+                String output = path+"/"+dataset+"/"+"temphier"+dataset+i;
+                 String finalOutput = path+"/"+dataset+"/"+"hier"+dataset+i;
+               
                 System.out.println(dataset);
                 makeHierarchy(train, output, true,list, intMap.get(dataset));
+                ParseHierarchy.parseHierarchy(output, finalOutput);
             }
             
             
@@ -112,7 +115,7 @@ public class HierarchyMaker {
     }
     
    //returnt alle klassen uit een file
- /*   public static ArrayList<String> getClasses(String path) throws FileNotFoundException, IOException{
+   /*public static ArrayList<String> getClasses(String path) throws FileNotFoundException, IOException{
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String line;
         while(!(line = reader.readLine()).contains("@attribute class hierarchical")){}
@@ -142,7 +145,7 @@ public class HierarchyMaker {
         String line;
         while((line = reader.readLine())!=null && !line.isEmpty()){
         //    System.out.println(line);
-            if((sparse && !line.endsWith(indexClass+"}")) || (!sparse && !line.endsWith(","))){
+            if((sparse && !line.endsWith(" None}")) || (!sparse && !line.endsWith("None"))){
                       String[] cl;
             if(!sparse){
                 String[] parsed = line.split(",");
@@ -208,14 +211,4 @@ public class HierarchyMaker {
             n.updateAndPrintHierarchy(stream);
         }
     }
-    
-  
-    
-    
-   /* public static void main(String[] args) throws IOException{
-      makeAllHierarchies();
-    }*/
-
-   
-    
 }
