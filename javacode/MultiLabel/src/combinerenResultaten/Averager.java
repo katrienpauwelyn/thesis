@@ -81,7 +81,6 @@ public class Averager {
         printHeader(stream, volgordeLeafs, dataset );
         
         while((line=readers[0].readLine())!=null && !line.isEmpty()){
-            
             HashMap<String, Double> sumPredCopy = (HashMap<String, Double>) sumPrediction.clone();
             addToSum(volgordeLeafs, line, sumPredCopy, mapInds[0]);
             for(int i = 1; i<Path.nbBags; i++){
@@ -161,6 +160,7 @@ public class Averager {
      */
     public static HashMap<String, Double> addToSum(String[] volgordeLeafs, String line, HashMap<String, 
             Double> sumPrediction, MapIndices indices){
+        System.out.println(line);
         String[] split = line.split(",");
         HashMap<String, Integer> predictions = indices.mapPredicted;
         for(int i = 0; i<volgordeLeafs.length; i++){
@@ -200,8 +200,8 @@ public class Averager {
     
     
     public static void main(String[] args) throws IOException{
-       //makeAllAverageArff();
-       doFlags();
+       makeAllAverageArff();
+       //doFlags();
     }
 
     private static void printHeader(PrintStream stream, String[] volgordeLeafs, String relation) {

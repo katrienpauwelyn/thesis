@@ -110,7 +110,7 @@ public class ArffParser {
             for(int index: map.keySet()){
                 String c = map.get(index);
                 if(Integer.parseInt(parsed[index])==1){
-                    at = at.concat(c+"@");
+                    at = at.concat(c+"@").replace("-", ":");
                 }
                 parsed[index] = "magweg";
                 
@@ -123,9 +123,10 @@ public class ArffParser {
             }
             if(at.length()==0){
                 geenKlassenToegewezen++;
-                stream.println(toPrint);
+                stream.println(toPrint+"None");
             } else {
-                stream.println(toPrint.concat(at.substring(0, at.length()-1)).replace("/", ":"));
+                toPrint = toPrint.concat(at.substring(0, at.length()-1)).replace("/", ":");
+                stream.println(toPrint);
             }
             
         }

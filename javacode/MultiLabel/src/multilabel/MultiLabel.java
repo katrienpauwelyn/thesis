@@ -26,26 +26,36 @@ public class MultiLabel {
     public static void main(String[] args) throws IOException {
        //pas de .arff files aan
        HashMap<String, StringInt> standard =  ArffParser.parseAllStandardArffs();
-       HashMap<String, StringInt> sparse =  SparseArffParser.parseAllSparseArffs();
+      HashMap<String, StringInt> sparse =  SparseArffParser.parseAllSparseArffs();
         
         //maak alle hierarchieen
-        //HashMap<String, String> normalMap,
-            //HashMap<String, String> sparseMap, int indexClass
             HashMap<String, String> normalMap = new HashMap();
             HashMap<String, String> sparseMap = new HashMap();
             HashMap<String, Integer> intMap = new HashMap();
             for(String s: standard.keySet()){
+            
                 normalMap.put(s, standard.get(s).stringPart);
                 intMap.put(s, standard.get(s).intPart+1);
             }
+            
             for(String s: sparse.keySet()){
                 sparseMap.put(s, sparse.get(s).stringPart);
                  intMap.put(s, sparse.get(s).intPart+1);
             }
+           
         HierarchyMaker.makeAllHierarchies(normalMap, sparseMap, intMap);
         
         //maak de settings files
-   //     SFileMaker.makeAllSFiles();
+        SFileMaker.makeAllSFiles();
+        
+        //--------------------------------
+        //in Clus clus laten runnen
+        //--------------------------------
+        
+        //nabewerking van de resultaten
+        
+        
+        
     }
     
 }

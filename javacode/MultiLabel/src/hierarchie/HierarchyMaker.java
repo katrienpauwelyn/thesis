@@ -24,7 +24,7 @@ public class HierarchyMaker {
     public static void makeAllHierarchies(HashMap<String, String> normalMap,
             HashMap<String, String> sparseMap, HashMap<String, Integer> intMap) throws IOException{
         String path = Path.path;
- /*       for(String dataset: Path.standardDatasets){
+        for(String dataset: Path.standardDatasets){
     // String dataset = "flags";
                String unparsedClasses = normalMap.get(dataset);
               String[] parsed = unparsedClasses.split(",");
@@ -41,7 +41,7 @@ public class HierarchyMaker {
                 ParseHierarchy.parseHierarchy(output, finalOutput);
             }
             
-        }*/
+        }
 
            for(String dataset: Path.sparseDatasets){
              String unparsedClasses = sparseMap.get(dataset);
@@ -87,7 +87,8 @@ public class HierarchyMaker {
         if(!hierMap.isEmpty()){
             Node node = hierMap.remove(0);  //de te behandelen knoop
             int nbClassesToDo = node.nbClasses();
-            int maximum = Math.min(nbClassesToDo, 5);
+            int maximum = Math.max(2, nbClassesToDo/2);
+            //int maximum = Math.min(nbClassesToDo, 5);
             int nbSplitsingen = random.nextInt((maximum - 2) + 1) + 2; //node zal zo veel takken hebben
             ArrayList<Node> newNodes = new ArrayList();
             for(int splits=0; splits<nbSplitsingen; splits++){

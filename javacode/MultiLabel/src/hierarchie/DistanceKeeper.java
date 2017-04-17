@@ -26,7 +26,7 @@ public class DistanceKeeper {
         originalClass = cla;
         distances = new HashMap();
         for(String s: classes){
-            distances.put(s, 0);
+            distances.put(s.replace("-", ":").replace("/",":"), 0);
         }
     }
     
@@ -50,6 +50,7 @@ public class DistanceKeeper {
     }
     
     public void incrementClass(String c){
+        c = c.replace("-", ":").replace("/",":");
         int d = 0;
         try{ 
             d = distances.get(c);
@@ -66,6 +67,7 @@ public class DistanceKeeper {
     }
     
     public int getDistance(String c){
+        c = c.replace("-", ":").replace("/",":");
         return distances.get(c);
     }
     

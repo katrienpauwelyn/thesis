@@ -50,7 +50,7 @@ bvb EmptySetIndicator = none
             stream.println("Type = DAG");
             stream.println("HSeparator = /");
             stream.println("DefinitionFile = "+pathHierarchy);
-            stream.println("EmptySetIndicator = none");
+            stream.println("EmptySetIndicator = None");
             stream.println();
            stream.println("[Model]");
             stream.println("MinimalWeight = 1.0");

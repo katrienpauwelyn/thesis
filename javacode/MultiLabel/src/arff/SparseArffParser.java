@@ -62,12 +62,17 @@ public class SparseArffParser {
                     classString = classString.concat(classMap.get(Integer.parseInt(tuple[0]))+"@");
                 }
             }
-           // if(!classString.equals(indexClassPlusEen+" ")){ //TODO geen klasse: lijn wordt niet afgedrukt
-                finalString = finalString.concat(classString);
-                finalString = finalString.substring(0,finalString.length()-1).concat("}").replace("/", ":");// / weg doen (stelt hierarchisch voor en dat mag niet)
-                stream.println(finalString);
-           // }
-       
+            if(!classString.equals(indexClassPlusEen+" ")){ //TODO geen klasse: lijn wordt niet afgedrukt
+                finalString = finalString.concat(classString).replace("-", ":");
+                finalString = finalString.substring(0,finalString.length()-1).concat("}");
+            } else {
+                  finalString = finalString.concat(classString+" None");
+                finalString = finalString.concat("}");
+          //      System.out.println(finalString);
+            }
+                finalString = finalString.replace("/", ":"); // / is voor hierarchisch, - is om klassen samen te voegen
+              //  finalString = finalString.replace("-",":");
+             stream.println(finalString);
             
         }
     }
