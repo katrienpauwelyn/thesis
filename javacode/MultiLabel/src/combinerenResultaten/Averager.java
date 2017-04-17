@@ -18,6 +18,7 @@ import statics.Path;
 /**
  *
  * @author katie
+ * getest op 5 bags flags
  */
 public class Averager {
     
@@ -31,7 +32,7 @@ public class Averager {
             } else {
                 System.out.println(dataset);
             String output = Path.path+dataset+"/average.test.pred.arff";
-            makeAverageArff(basic+dataset+"/settings", ".test.pred.arff", output);
+            makeAverageArff(basic+dataset+"/settings", ".test.pred.arff", output, dataset);
             }
             
         }
@@ -42,14 +43,14 @@ public class Averager {
         
        
             String output = Path.path+"flags"+"/average.test.pred.arff";
-            makeAverageArff(basic+"flags"+"/settings", ".test.pred.arff", output);
+            makeAverageArff(basic+"flags"+"/settings", ".test.pred.arff", output, "flags");
             }
     
     public static void makeFlags() throws IOException{
         String basic = "/Users/katie/Desktop/demo";
         
          String output = basic+"/average.test.pred.arff";
-            makeAverageArff(basic+"/test", ".test.pred.arff", output);
+            makeAverageArff(basic+"/test", ".test.pred.arff", output, "blabla");
     }
     
     //alle indexen hebben @ATTRIBUTE
@@ -59,7 +60,8 @@ public class Averager {
     
     //black@red@white@yellow,1,1,0,0,1,1,1,1,0,1,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,"0"
     
-    public static void makeAverageArff(String firstHalf, String secondHalf, String output) throws FileNotFoundException, IOException{
+    public static void makeAverageArff(String firstHalf, String secondHalf, String output, 
+            String dataset) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(output));
         BufferedReader[] readers = new BufferedReader[Path.nbBags];
         MapIndices[] mapInds = new MapIndices[Path.nbBags];
@@ -76,6 +78,8 @@ public class Averager {
             volgordeLeafs[in++] = s;
             sumPrediction.put(s, 0.0);
         }    
+        printHeader(stream, volgordeLeafs, dataset );
+        
         while((line=readers[0].readLine())!=null && !line.isEmpty()){
             
             HashMap<String, Double> sumPredCopy = (HashMap<String, Double>) sumPrediction.clone();
@@ -196,6 +200,19 @@ public class Averager {
     
     
     public static void main(String[] args) throws IOException{
-       makeAllAverageArff();
+       //makeAllAverageArff();
+       doFlags();
+    }
+
+    private static void printHeader(PrintStream stream, String[] volgordeLeafs, String relation) {
+        stream.println("@RELATION '"+relation+"'");
+        stream.println();
+        //TODO moet class-a hier nog bij?
+        for(int i = 0; i<volgordeLeafs.length; i++){
+            stream.println("@ATTRIBUTE class-a-"+volgordeLeafs[i]);
+        }
+        for(int i = 0; i<volgordeLeafs.length; i++){
+            stream.println("@ATTRIBUTE Original-p-"+volgordeLeafs[i]);
+        }
     }
 }
