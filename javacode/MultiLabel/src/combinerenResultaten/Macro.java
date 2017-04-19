@@ -23,9 +23,9 @@ import statics.Path;
 public class Macro {
     
     public static void makeMacroFilesForAllDatasets() throws IOException{
-        String basic = Path.path;
+        String basic;
         for(String dataset: Path.datasets){
-            basic = basic.concat(dataset);
+            basic = Path.path.concat(dataset);
             makeMacroFiles(basic, basic+"/average.test.pred.arff");
         }
     }
@@ -33,7 +33,7 @@ public class Macro {
     public static void makeMacroFiles(String path, String fromFile) throws IOException{
         int nbClasses = getNbClasses(fromFile);
         String file;
-        BufferedReader reader = new BufferedReader(new FileReader(new File(fromFile)));
+        BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         PrintStream[] streams = new PrintStream[nbClasses];
         String line;
         while(!(line=reader.readLine()).contains("@ATTRIBUTE class-a-")){}

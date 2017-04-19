@@ -160,7 +160,7 @@ public class Averager {
      */
     public static HashMap<String, Double> addToSum(String[] volgordeLeafs, String line, HashMap<String, 
             Double> sumPrediction, MapIndices indices){
-        System.out.println(line);
+   //     System.out.println(line);
         String[] split = line.split(",");
         HashMap<String, Integer> predictions = indices.mapPredicted;
         for(int i = 0; i<volgordeLeafs.length; i++){
@@ -214,5 +214,6 @@ public class Averager {
         for(int i = 0; i<volgordeLeafs.length; i++){
             stream.println("@ATTRIBUTE Original-p-"+volgordeLeafs[i]);
         }
+        stream.println("@DATA");
     }
 }
