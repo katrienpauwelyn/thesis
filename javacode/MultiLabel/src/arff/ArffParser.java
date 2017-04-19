@@ -109,7 +109,8 @@ public class ArffParser {
               
             for(int index: map.keySet()){
                 String c = map.get(index);
-                if(Integer.parseInt(parsed[index])==1){
+                if(Integer.parseInt(parsed[index])==1)
+               {
                     at = at.concat(c+"@").replace("-", ":");
                 }
                 parsed[index] = "magweg";
@@ -155,7 +156,7 @@ public class ArffParser {
     }
     
     //parset alle datasets
-    public static HashMap<String, StringInt> parseAllStandardArffs() throws IOException{
+    public static void parseAllStandardArffs() throws IOException{
         String path = Path.path+"/";
         HashMap<String, StringInt> map = new HashMap();
         for(String dataset: Path.standardDatasets){
@@ -163,13 +164,29 @@ public class ArffParser {
             map.put(dataset, parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
                     path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
         }
-        return map;
+        printMap(map, Path.pathStandardMap);
     }
     
+        
+    public static void printMap(HashMap<String, StringInt> map, String path) throws FileNotFoundException{
+        PrintStream stream = new PrintStream(new File(path)); 
+        for(String s: map.keySet()){
+           stream.println(s);
+           StringInt i = map.get(s);
+           stream.println(i.intPart);
+           stream.println(i.stringPart);
+       }
+    }
     
         
     public static void main(String[] args) throws IOException{
-      parseAllStandardArffs();
+     // parseAllStandardArffs();
+     String pathToXml = "/Users/katie/thesiscode/datasets/multilabel/scene/scene.xml";
+     String pathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scene-test.arff"; 
+     String newPathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scenetest.arff";
+     String pathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scene-train.arff";
+     String newPathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scenetrain.arff";
+     parseArff(pathToXml, pathToTest, newPathToTest, pathToTrain, newPathToTrain);
        
         
         

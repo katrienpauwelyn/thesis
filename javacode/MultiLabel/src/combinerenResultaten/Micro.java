@@ -33,8 +33,7 @@ public class Micro {
          PrintStream stream = new PrintStream(new File(basic+"/micromacro/micro"+dataset+".txt"));
          while(!reader.readLine().contains("@DATA")){}
          String line;
-         //1,0,0,1,0,1,1,1.0,0.0,0.6666666666666666,1.0,0.3333333333333333,1.0,0.0
-
+       
          while((line=reader.readLine())!=null && !line.isEmpty()){
              String[] split = line.split(",");
              for(int i = 0; i<nbClasses; i++){

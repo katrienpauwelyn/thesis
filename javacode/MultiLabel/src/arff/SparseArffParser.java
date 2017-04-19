@@ -9,6 +9,7 @@ import static arff.ArffParser.changeArff;
 import static arff.ArffParser.getClassNames;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -78,7 +79,8 @@ public class SparseArffParser {
     }
     
     //parset alle sparse datasets
-    public static HashMap<String, StringInt> parseAllSparseArffs() throws IOException{
+    //de klassen, met aantal attributen en alle klassen worden uitgeschreven naar pathsparsemap
+    public static void parseAllSparseArffs() throws IOException{
         String path = Path.path+"/";
         HashMap<String, StringInt> map = new HashMap();
         for(String dataset: Path.sparseDatasets){
@@ -86,8 +88,10 @@ public class SparseArffParser {
             map.put(dataset, parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
                     path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
         }
-        return map;
+        ArffParser.printMap(map,Path.pathSparseMap);
     }
+    
+
     
     
     public static void main(String[] args) throws IOException{
