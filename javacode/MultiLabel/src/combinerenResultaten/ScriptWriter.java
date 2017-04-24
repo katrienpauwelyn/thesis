@@ -36,7 +36,10 @@ public class ScriptWriter {
         String path = Path.path;
         
         while((line=reader.readLine())!=null && !line.isEmpty()){
+            String all = "micro"+line;
+           
             path = Path.path.concat(line).concat("/micromacro/");
+             stream.println("java -jar auc.jar "+path+all+".txt list");
             reader.readLine();
             String[] parsed = reader.readLine().split(",");
             for(String s: parsed){//kan zijn dat de laatste een error geeft: eindigt op ,
