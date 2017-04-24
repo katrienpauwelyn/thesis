@@ -16,7 +16,9 @@ import statics.Path;
 /**
  *
  * @author katie
- * Nog niet getest (oa of sort juist sorteert) (van groot naar klein)
+ * Nog niet getest 
+ * 
+ * wordt correct gesorteerd van grote predictie naar kleine predictie
  */
 public class Coverage {
     

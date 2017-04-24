@@ -19,14 +19,19 @@ public class RankTuple implements Comparable<RankTuple> {
     }
 
     @Override
+    //van hoge predictie naar lage predictie sorteren
     public int compareTo(RankTuple o) {
         if(o.prediction == prediction){
             return 0;
         }
         if(o.prediction > prediction){
-            return -1;
+            return 1;
         }
-        return 1;
+        return -1;
+    }
+    
+    public String toString(){
+        return "label "+label+" | prediction "+prediction;
     }
     
     
