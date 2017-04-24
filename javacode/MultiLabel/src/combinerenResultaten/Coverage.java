@@ -17,7 +17,7 @@ import statics.Path;
  *
  * @author katie
  * Nog niet getest 
- * 
+ * rank mag niet gewoon index zijn, moet index + 1 zijn
  * wordt correct gesorteerd van grote predictie naar kleine predictie
  */
 public class Coverage {

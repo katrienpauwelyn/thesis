@@ -16,6 +16,7 @@ import statics.Path;
 /**
  *
  * @author katie
+ * TODO: * rank mag niet gewoon index zijn, moet index + 1 zijn
  * getest op "1,0,0,1,0,1,1,"
                 + "1.0,0.0,0.6666666666666666,1.0,0.3333333333333333,1.0,0.0";
  * 
