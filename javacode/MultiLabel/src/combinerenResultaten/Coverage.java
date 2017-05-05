@@ -17,7 +17,6 @@ import statics.Path;
  *
  * @author katie
  * Nog niet getest 
- * rank mag niet gewoon index zijn, moet index + 1 zijn
  * wordt correct gesorteerd van grote predictie naar kleine predictie
  */
 public class Coverage {
@@ -27,20 +26,20 @@ public class Coverage {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         while(!reader.readLine().contains("@DATA")){}
         String line;
-        int sum = 0;
+        double sum = 0;
         int nbExamples = 0;
         while((line=reader.readLine())!=null && !line.isEmpty()){
             sum+=coverageLine(line);
             nbExamples++;
         }
-        return (double) sum/nbExamples - 1;
+        return (double) sum/nbExamples;
     }
     
-    public static int coverageLine(String line){
+    public static double coverageLine(String line){
         LinkedList<RankTuple> listRank = convertLineToList(line);
         for(int i = listRank.size()-1; i>=0; i--){
             if(listRank.get(i).label==1){
-                return i;
+                return (double) i/listRank.size();
             }
         }
         System.out.println("coverage: there is no real label in "+line);

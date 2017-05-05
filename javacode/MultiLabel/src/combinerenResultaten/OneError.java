@@ -14,7 +14,7 @@ import statics.Path;
 /**
  *
  * @author katie
- * TODO* rank mag niet gewoon index zijn, moet index + 1 zijn
+ * 
  */
 public class OneError {
     
