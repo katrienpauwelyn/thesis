@@ -18,17 +18,17 @@ import statics.Path;
 public class StatisticsPrinter {
     
     
-    public static void printAllDatasets() throws FileNotFoundException, IOException, IOException{
-        PrintStream stream = new PrintStream(new File(Path.path+"/statistics.txt"));
+    public static void printAUAllDatasetsWithoutHier() throws FileNotFoundException, IOException, IOException{
+        String p = "/Users/katie/thesisoutput/multilabel/ClusWithoutHier/outputPinac/pred/";
+        
+        PrintStream stream = new PrintStream(new File("/Users/katie/thesisoutput/multilabel/ClusWithoutHier/AUWithoutHierarchy.txt"));
         for(String dataset: Path.datasets){
-            System.out.println(dataset);
-            printDataset(stream, Path.path+"/"+dataset+"/settings.test.pred.arff", 
-                    Path.path+"/"+dataset+"/settings.out", dataset);
+            printAUDataset(stream, 
+                    p+"settings"+dataset+".out", dataset);
         }
     }
     
-    public static void printDataset(PrintStream stream, String pathPred, String pathOut, String dataset) throws IOException{
-        boolean hasKey = dataset.equals("genbase");
+    public static void printAUDataset(PrintStream stream, String pathOut, String dataset) throws IOException{
         TupleFloat meanAU = AUGetter.getAUPRCandAUROC(pathOut);
         TupleFloat weightedMeanAU = AUGetter.getWeightedAUPRCandAUROC(pathOut);
         String printString = dataset+"\t mean auprc: "+meanAU.getFirst()+
@@ -38,7 +38,7 @@ public class StatisticsPrinter {
     }
     
     public static void main(String[] args) throws IOException{
-        printAllDatasets();
+        printAUAllDatasetsWithoutHier();
     }
      
 }
