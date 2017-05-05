@@ -13,10 +13,9 @@ import statics.Path;
 /**
  *
  * @author katie
- * Maakt de s-files voor clus. Er wordt rekening gehouden met alle seeds.
- * 10x10: 10 fold 10 cross validation: 10 seeds met elk 10 folds
+ *s-files voor clus met hierarchie
  */
-public class SFileMaker {
+public class SFileMakerWithHier {
     
       
    public static void makeAllSFiles() throws FileNotFoundException{
@@ -51,9 +50,6 @@ bvb EmptySetIndicator = none
             stream.println("HSeparator = /");
             stream.println("DefinitionFile = "+pathHierarchy);
             stream.println("EmptySetIndicator = None");
-            stream.println();
-           stream.println("[Model]");
-            stream.println("MinimalWeight = 1.0");
             stream.println();
             stream.println("[Output]");
             stream.println("AllFoldErrors = Yes");
