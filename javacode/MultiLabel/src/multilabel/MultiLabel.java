@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
-import sFiles.SFileMaker;
+import sFiles.SFileMakerWithHier;
 import statics.Path;
 
 
@@ -43,7 +43,7 @@ public class MultiLabel {
         HierarchyMaker.makeAllHierarchies();
         
         //maak de settings files
-    //    SFileMaker.makeAllSFiles();
+    //    SFileMakerWithHier.makeAllSFiles();
         
         //--------------------------------
         //in Clus clus laten runnen

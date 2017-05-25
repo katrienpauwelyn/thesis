@@ -27,7 +27,7 @@ public class Micro {
         }
     }
 
-    private static void makeMicroFiles(String basic, String fromFile, String dataset) throws IOException {
+    public static void makeMicroFiles(String basic, String fromFile, String dataset) throws IOException {
          int nbClasses = getNbClasses(fromFile);
          BufferedReader reader = new BufferedReader(new FileReader(fromFile));
          PrintStream stream = new PrintStream(new File(basic+"/micromacro/micro"+dataset+".txt"));

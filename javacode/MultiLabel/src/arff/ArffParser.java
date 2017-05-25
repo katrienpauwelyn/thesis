@@ -88,7 +88,7 @@ public class ArffParser {
             
           //  throw new Error("er zijn niet evenveel klassen in de arff file als in de xml file!");
         }
-        
+        //classString = classString.replace("/",":").replace("-",":");
         writer.println("@attribute class hierarchical ");//+classString.substring(0, classString.length()-1).replace("/", ":"));
         writer.println(line);
         while(!(line=reader.readLine()).contains("@data")){
@@ -181,14 +181,14 @@ public class ArffParser {
         
     public static void main(String[] args) throws IOException{
      // parseAllStandardArffs();
-     String pathToXml = "/Users/katie/thesiscode/datasets/multilabel/scene/scene.xml";
+   /*  String pathToXml = "/Users/katie/thesiscode/datasets/multilabel/scene/scene.xml";
      String pathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scene-test.arff"; 
      String newPathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scenetest.arff";
      String pathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scene-train.arff";
      String newPathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scenetrain.arff";
-     parseArff(pathToXml, pathToTest, newPathToTest, pathToTrain, newPathToTrain);
+     parseArff(pathToXml, pathToTest, newPathToTest, pathToTrain, newPathToTrain);*/
        
-        
+        parseAllStandardArffs();
         
       
        // changeArff(path+"/tmc2007-train.arff", path+"/newtmc2007-train.txt",classes);

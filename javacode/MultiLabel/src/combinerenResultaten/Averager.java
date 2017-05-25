@@ -59,7 +59,7 @@ public class Averager {
     //de indices nodig van de actual leafs, indices van predicted leafs
     
     //black@red@white@yellow,1,1,0,0,1,1,1,1,0,1,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,"0"
-    
+    // settingsBag3.test.pred.arff
     public static void makeAverageArff(String firstHalf, String secondHalf, String output, 
             String dataset) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(output));

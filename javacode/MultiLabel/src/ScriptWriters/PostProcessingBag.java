@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ScriptWriters;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import statics.Path;
+import static statics.Path.path;
+
+/**
+ *
+ * @author katie
+ * maakt een script om:
+ * //sed -i "s/firstword//g; s/secondword//g" inputFileName
+ *  1) none te vervangen door None 's/none/None/g'
+ *  2) de klasse labels weg te doen uit de "@ATTRIBUTE class  
+ * 
+ * hierarchical "
+ * s/@ATTRIBUTE class * hierarchical .* /@ATTRIBUTE class hierarchical/g
+ */
+public class PostProcessingBag {
+    
+    public static void makeBashScript(String path) throws FileNotFoundException{
+        String s= "sed -i 's/@ATTRIBUTE class * hierarchical.*/@ATTRIBUTE class hierarchical/g;"
+                + "s/none/None/g' 'settings-bag-";
+        PrintStream stream = new PrintStream(new File(path));
+        for(String dataset: Path.datasets){
+                stream.println("cd "+dataset);
+            for(int bag = 1; bag<=50; bag++){
+                String newS = s+bag+".arff'";
+                stream.println(newS);
+            }
+            stream.println("cd ..");
+        }
+    }
+    
+    public static void makeBibtexScript(String p) throws FileNotFoundException{
+        String s= "sed -i 's/@ATTRIBUTE class-1 * hierarchical.*/@ATTRIBUTE class hierarchical/g;"
+                + "s/Nonequilibrium/nonequilibrium/g' 'settings-bag-";
+         PrintStream stream = new PrintStream(new File(p));
+        stream.println("cd tmc2007");
+            for(int bag = 1; bag<=50; bag++){
+                String newS = s+bag+".arff'";
+                stream.println(newS);
+            }
+            stream.println("cd ..");
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException{
+     //   makeBashScript("/Users/katie/Desktop/temp/emo/bash.sh");
+        makeBibtexScript("/Users/katie/Desktop/temp/emo/bashTMC.sh");
+    }
+    
+}

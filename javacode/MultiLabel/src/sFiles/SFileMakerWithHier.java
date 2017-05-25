@@ -35,6 +35,10 @@ public class SFileMakerWithHier {
 EmptySetIndicator (binnen [Hierarchical])
 bvb EmptySetIndicator = none
    */
+   
+   
+   //TODO: pathtrain verandert voor iedere bag
+   //ensemble mag uit staan
       
      private static void makeSFileEnsemble(PrintStream stream, String pathTrain, String pathTest,
              String pathHierarchy, int bagSelection){

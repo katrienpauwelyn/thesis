@@ -12,26 +12,27 @@ package statics;
 public class Path {
     
     public static String path = "/Users/katie/thesiscode/datasets/multilabel/";
-    public static String[] datasets = {"bibtex",
+    /*public static String[] datasets = {"bibtex",
         "corel5k","delicious",
         "emotions",
         "enron","eurlex","flags",
         "genbase",
         "mediamill","yeast"
-    };
+    };*/
     
     public static String[] standardDatasets = {"corel5k",
-        "emotions","flags","genbase",
-        "mediamill",
+        "emotions",//"flags","genbase",
+        "mediamill","scene",
         "yeast"
     };
-    public static String[] sparseDatasets = { "bibtex",
+    public static String[] sparseDatasets = { "bibtex","bookmarks",
         "delicious",
-        "enron",
-       "eurlex"
+        "enron","medical",
+        "tmc2007"
+    //   "eurlex"
     };
     
-    public static String[] newDatasets = {"bibtex","bookmarks","corel5k","delicious","emotions",
+    public static String[] datasets = {"bibtex","bookmarks","corel5k","delicious","emotions",
     "enron", "mediamill","medical","scene","tmc2007","yeast"};
     
     public static String[] toParse = {"bookmarks","medical","scene","tmc2007"};
@@ -43,9 +44,11 @@ public class Path {
     public static String pathStandardMap = path+"normalMap.txt";
     public static String pathSparseMap = path+"sparseMap.txt";
     
+      public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
+    
     //hier wordt de tijd die nodig is om hierarchieen te maken opgeslaan
-    public static String pathTimeHierStandard = path+"timeHierNormal.txt";
-    public static String pathTimeHierSparse = path+"timeHierSparse.txt";
+    public static String pathTimeHierStandard = pathPinac+"timeHierNormal.txt";
+    public static String pathTimeHierSparse = pathPinac+"timeHierSparse.txt";
     
     //hier wordt het scriptje opgeslaan om alle AU te berekenen
     public static String pathToAUScript = path+"scriptAU";
@@ -53,7 +56,10 @@ public class Path {
     //mediamill, eurlex, delicious
     public static String[] dataset = {"flags"};
     
-    public static int nbBags = 3;
+    public static int nbBags = 50;
+    
+  
+    
     
     
     
