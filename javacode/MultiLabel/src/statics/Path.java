@@ -33,7 +33,8 @@ public class Path {
     };
     
     public static String[] datasets = {"bibtex","bookmarks","corel5k","delicious","emotions",
-    "enron", "mediamill","medical","scene","tmc2007","yeast"};
+    "enron", "mediamill","medical","scene",//"tmc2007",
+    "yeast"};
     
     public static String[] toParse = {"bookmarks","medical","scene","tmc2007"};
     
@@ -41,8 +42,8 @@ public class Path {
     public static String[] toParseStandard={"scene"};
     
     //hier worden de naam van de dataset + aantal attributen + namen van de klassen opgeslaan
-    public static String pathStandardMap = path+"normalMap.txt";
-    public static String pathSparseMap = path+"sparseMap.txt";
+    public static String pathStandardMap = "/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
+    public static String pathSparseMap = "/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapNew2.txt";
     
       public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
     
@@ -51,7 +52,7 @@ public class Path {
     public static String pathTimeHierSparse = pathPinac+"timeHierSparse.txt";
     
     //hier wordt het scriptje opgeslaan om alle AU te berekenen
-    public static String pathToAUScript = path+"scriptAU";
+    public static String pathToAUScript = path+"scriptAU.sh";
     
     //mediamill, eurlex, delicious
     public static String[] dataset = {"flags"};

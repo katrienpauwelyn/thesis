@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package combinerenResultaten;
+package ScriptWriters;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,8 +16,10 @@ import statics.Path;
 /**
  *
  * @author katie
+ * 
+ * TODO moet de "/" terug vervangen worden door "-" in de file names? (: mag niet)
  */
-public class ScriptWriter {
+public class ScriptWriterAUC {
     
     public static void makeScript() throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(Path.pathToAUScript));
@@ -33,21 +35,32 @@ public class ScriptWriter {
     
     public static void makePartScript(PrintStream stream, BufferedReader reader) throws IOException{
         String line;
-        String path = Path.path;
+        String path;
+        String pathOutput;
         
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            String all = "micro"+line;
+            if(!line.contains("tmc")){
+                String all = "micro"+line;
            
-            path = Path.path.concat(line).concat("/micromacro/");
-             stream.println("java -jar auc.jar "+path+all+".txt list");
+            path = Path.pathPinac.concat(line).concat("/micromacro/");
+            pathOutput = path.concat("AUCmicro"+line+".txt");
+            stream.println("echo \""+line+" micro\"");
+            stream.println("java -jar auc.jar "+path+all+".txt list > "+pathOutput);
+            
             reader.readLine();
             String[] parsed = reader.readLine().split(",");
             for(String s: parsed){//kan zijn dat de laatste een error geeft: eindigt op ,
-                stream.println("java -jar auc.jar "+path+s+".txt list");
+                 stream.println("echo \""+line+" macro "+s+"\"");
+                stream.println("java -jar auc.jar "+path+s+".txt list > "+path+"AUCmacro"+s+".txt");
             }
+            } else{
+                reader.readLine();
+                reader.readLine();
+            }
+            
         }
     }
-    
+    // > path/inputfileAUC.txt of zo?
     public static void main(String[] args) throws IOException{
         makeScript();
     }
