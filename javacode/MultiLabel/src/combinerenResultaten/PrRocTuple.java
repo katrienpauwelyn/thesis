@@ -23,5 +23,16 @@ public class PrRocTuple {
         System.out.println("pr: "+pr+" roc: "+roc);
     }
     
+    public void add(PrRocTuple tuple){
+        this.pr += tuple.pr;
+        this.roc += tuple.roc;
+    }
+    
+    public void divide(int nb){
+        pr = (double) pr/nb;
+        roc = (double) roc/nb;
+        
+    }
+    
     
 }
