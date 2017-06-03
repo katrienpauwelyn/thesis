@@ -42,10 +42,16 @@ public class Path {
     public static String[] toParseStandard={"scene"};
     
     //hier worden de naam van de dataset + aantal attributen + namen van de klassen opgeslaan
-    public static String pathStandardMap = "/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
-    public static String pathSparseMap = "/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapNew2.txt";
+   
     
       public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
+      
+       public static String pathStandardMap = pathPinac + "normalMap.txt";
+            //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
+    public static String pathSparseMap = pathPinac + "sparseMap.txt";
+            //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapBibtex.txt";
+      
+      public static String pathTest = "/Users/katie/Downloads/";
     
     //hier wordt de tijd die nodig is om hierarchieen te maken opgeslaan
     public static String pathTimeHierStandard = pathPinac+"timeHierNormal.txt";
@@ -59,7 +65,7 @@ public class Path {
     
     public static int nbBags = 50;
     
-  
+  public static String[] postAverageDatasets= {"corel5k", "delicious", "medical"};
     
     
     

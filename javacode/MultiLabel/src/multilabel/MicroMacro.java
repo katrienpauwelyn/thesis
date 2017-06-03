@@ -37,12 +37,15 @@ public class MicroMacro {
     public static void makeMicroMacroPinacs() throws IOException{
         String basic;
         System.out.println("micromacro");
-        for(String dataset: Path.datasets){
+        Micro.makeMicroFilesForAllDatasets();
+        Macro.makeMacroFilesForAllDatasets();
+        
+       /* for(String dataset: Path.datasets){
             System.out.println(dataset);
             basic = Path.pathPinac.concat(dataset);
             Macro.makeMacroFiles(basic, basic+"/average.test.pred.arff");
             Micro.makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
-        }    
+        }    */
     }
     
     public static void main(String[] args) throws IOException{

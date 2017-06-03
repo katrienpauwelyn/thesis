@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import statics.Path;
 
@@ -24,15 +23,13 @@ public class Averager {
     
     
     public static void makeAllAverageArff() throws FileNotFoundException, IOException{
-        String basic = Path.path;
-        
         for(String dataset: Path.datasets){
             if(dataset.equals("eurlex")){
             
             } else {
                 System.out.println(dataset);
-            String output = Path.path+dataset+"/average.test.pred.arff";
-            makeAverageArff(basic+dataset+"/settings", ".test.pred.arff", output, dataset);
+            String output = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
+            makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat", ".test.pred.arff", output, dataset);
             }
             
         }

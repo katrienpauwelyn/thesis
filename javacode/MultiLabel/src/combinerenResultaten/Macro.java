@@ -24,8 +24,14 @@ public class Macro {
     
     public static void makeMacroFilesForAllDatasets() throws IOException{
         String basic;
+        for(String dataset: Path.postAverageDatasets){
+            System.out.println("post macro"+dataset);
+            basic = Path.pathPinac+dataset;
+            makeMacroFiles(basic, basic+"/average.test.pred.arff");
+        }
         for(String dataset: Path.datasets){
-            basic = Path.path.concat(dataset);
+            System.out.println("flat "+dataset);
+            basic = Path.pathPinac+dataset+"/flat";
             makeMacroFiles(basic, basic+"/average.test.pred.arff");
         }
     }

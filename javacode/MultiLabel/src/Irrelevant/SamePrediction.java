@@ -53,9 +53,10 @@ public class SamePrediction {
     
     
     public static void main(String[] args) throws IOException{
-        String p2 = "/Users/katie/thesiscode/outputPinac/pred/yeast.arff";
-        String p = Path.path+"flags/settings.test.pred.arff";
-        System.out.println(checkPrediction(p2));
+       String path = Path.pathPinac;
+        for(String dataset: Path.datasets){
+          System.out.println(dataset+" "+checkPrediction(path+dataset+"/average.test.pred.arff"));
+      }
     }
             
 }

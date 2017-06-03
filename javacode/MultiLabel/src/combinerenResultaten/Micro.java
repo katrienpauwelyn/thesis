@@ -21,8 +21,14 @@ public class Micro {
     
      public static void makeMicroFilesForAllDatasets() throws IOException{
         String basic;
+        for(String dataset: Path.postAverageDatasets){
+            System.out.println("micro post "+dataset);
+            basic = Path.pathPinac.concat(dataset);
+            makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
+        }
         for(String dataset: Path.datasets){
-            basic = Path.path.concat(dataset);
+            System.out.println("micro flat "+dataset);
+            basic = Path.pathPinac+dataset+"/flat";
             makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
         }
     }
@@ -33,7 +39,7 @@ public class Micro {
          PrintStream stream = new PrintStream(new File(basic+"/micromacro/micro"+dataset+".txt"));
          while(!reader.readLine().contains("@DATA")){}
          String line;
-       
+       System.out.println(nbClasses);
          while((line=reader.readLine())!=null && !line.isEmpty()){
              String[] split = line.split(",");
              for(int i = 0; i<nbClasses; i++){
