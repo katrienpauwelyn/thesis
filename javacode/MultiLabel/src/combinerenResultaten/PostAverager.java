@@ -105,18 +105,49 @@ public class PostAverager {
           
           return out.substring(1);
     }
+      
+      
+      public static void adaptPredictionAttributes(String input, String output) throws FileNotFoundException, IOException{
+          BufferedReader reader = new BufferedReader(new FileReader(input));
+          PrintStream stream = new PrintStream(new File(output));
+          ArrayList<String> labels = new ArrayList();
+          String line;
+          while(!(line=reader.readLine()).contains("@ATTRIBUTE")){
+              stream.println(line);
+          }
+          while(line.contains(("@ATTRIBUTE class-a-"))){
+              labels.add(line.replace("class-a", "Original-p"));
+              stream.println(line);
+              line = reader.readLine();
+          }
+          while(!line.contains("@DATA")){
+              line = reader.readLine();
+          }
+          for(String l: labels){
+              stream.println(l);
+          }
+          stream.println(line);
+          while((line=reader.readLine())!=null && !line.isEmpty()){
+              stream.println(line);
+          }
+          
+          
+          stream.close();
+          reader.close();
+      }
     
     public static void main(String[] args) throws IOException{
         
-         String fileName = "averageUnfiltered.test.pred.arff";
+         String fileName = "average2.test.pred.arff";
          String toFileName = "average.test.pred.arff";
            
         for(String dataset: Path.postAverageDatasets){
             System.out.println(dataset);
             String path1 = Path.pathPinac+dataset+"/flat/";
             String path2 = Path.pathPinac+dataset+"/";
-            filterAverage(path1+fileName, path1+toFileName);
-            filterAverage(path2+fileName, path2+toFileName);
+             adaptPredictionAttributes(path1+fileName, path1+toFileName);
+             adaptPredictionAttributes(path2+fileName, path2+toFileName);
+           
         }
         
     }
