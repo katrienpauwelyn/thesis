@@ -175,10 +175,57 @@ public class MultiLabelOutput {
      */
     public static int[] ranksFromValues(double[] values) {
         int[] temp = weka.core.Utils.stableSort(values);
+        //print(temp);
         int[] ranks = new int[values.length];
-        for (int i=0; i<values.length; i++)
-            ranks[temp[i]] = values.length-i;
+        //---oude code---
+        /*for (int i=0; i<values.length; i++)
+            ranks[temp[i]] = values.length-i;*/
+       //---eind oude code--- STANDARD COMPETITION RANKING
+       //---nieuwe code---
+       for(int index = 0; index<temp.length; index++){
+           int start = index;
+           int nbSame = 0;
+           while(index+1 < temp.length && values[temp[index]]==values[temp[index+1]]){
+               nbSame++;
+               index++;
+           }
+           if(nbSame==0){
+               ranks[temp[index]] = values.length-index;
+           } else {
+               int cumulInd = values.length-index;
+               int max = start+nbSame;
+               for(int i = start; i<=max; i++){
+                   ranks[temp[i]] = cumulInd;
+               }
+           }
+       }
+       //---eind nieuwe code---
         return ranks;
+    }
+    
+    public static void print(double[] d){
+        String toPrint = "";
+        for(double dd: d){
+            toPrint += dd + " ";
+        }
+        System.out.println(toPrint);
+    }
+    
+        public static void print(int[] d){
+        String toPrint = "";
+        for(int dd: d){
+            toPrint += dd + " ";
+        }
+        System.out.println(toPrint);
+    }
+    
+    public static void main(String[] args){
+        double[] aa = {0.5, 0.4, 0.4, 0.6};
+        double[] ab = {5, 3, 1, 7, 2, 9, 2, 5};
+        double[] a = {2, 1, 5, 5, 1, 5, 0};
+        print(a);
+        print(ranksFromValues(a));
+        
     }
 
 }

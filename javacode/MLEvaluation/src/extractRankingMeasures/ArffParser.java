@@ -118,10 +118,11 @@ public class ArffParser {
         //getActualValues(String path, int nbLabels, int nbInstances, MultiLabelOutput[] predictions)
         
         RankingBasedMeasures ranking = new RankingBasedMeasures(predictions, actual);
-        System.out.println(ranking.getAvgPrecision());
-        System.out.println(ranking.getCoverage());
         System.out.println(ranking.getOneError());
+        System.out.println(ranking.getCoverage());
         System.out.println(ranking.getRankingLoss());
+        System.out.println(ranking.getAvgPrecision());
+     
     }
     
 }

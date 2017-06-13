@@ -27,4 +27,5 @@ public class Path {
     "enron", "mediamill","medical","scene",
     "yeast"};
     
+     public static String[] postAverageDatasets= {"corel5k", "delicious", "medical"};
 }

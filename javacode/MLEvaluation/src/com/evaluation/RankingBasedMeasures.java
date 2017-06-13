@@ -72,30 +72,79 @@ public class RankingBasedMeasures {
             int[] ranks = output[instanceIndex].getRanking();
 
             //======one error related============
-			int topRated;
+            //---begin ordinal ranking ---
+		/*	int topRated;
             for (topRated=0; topRated<numLabels; topRated++)    //index van de top rated zoeken (dus duidelijk de eerste top rated.)
                 if (ranks[topRated] == 1)
                     break;
             if (!trueLabels[instanceIndex][topRated]) //checken of de toprated een effectieve 1 of 0 is. Als het een 0 is: oneError++
-				oneError++;
-
+				oneError++;*/
+            //---einde ordinal ranking ---
+            
+            int topRated;
+            int nbFirstRanked = 0;
+            int firstRankedNul = 0;
+            for (topRated=0; topRated<numLabels; topRated++) {   //index van de top rated zoeken (dus duidelijk de eerste top rated.)
+                if (ranks[topRated] == 1){
+                    nbFirstRanked++;
+                    if (!trueLabels[instanceIndex][topRated]){ //checken of de toprated een effectieve 1 of 0 is. Als het een 0 is: oneError++
+			firstRankedNul++;	
+                    }   
+                }
+            }
+            oneError+=(firstRankedNul / nbFirstRanked);
+            
+            
+            
+            
+            
+            
 			//======coverage related=============
             int howDeep = 0;
-            for (int rank = numLabels; rank >= 1; rank--) {//hoogste rank van iets dat effectief true is, beginnen bij hoogste rank getal
+            //---begin foutieve code---
+           /* for (int rank = numLabels; rank >= 1; rank--) {//hoogste rank van iets dat effectief true is, beginnen bij hoogste rank getal
                 int indexOfRank;
                 for (indexOfRank=0; indexOfRank<numLabels; indexOfRank++){//de index zoeken van de voorspelling/echte getal die bij deze rank hoort
                     if (ranks[indexOfRank] == rank)
                         break;
                     if (trueLabels[instanceIndex][indexOfRank]) {//als deze index een echt label is: dit is de waarde die we nodig hebben
 			howDeep = rank-1;
-			break;
+                    	break;
                     }
+                   
                 }
-                    
+            }*/
+           //---eind foutieve code---
+           
+           //---begin ordinal ranking ---
+           /*for (int rank = numLabels; rank >= 1; rank--) {//hoogste rank van iets dat effectief true is, beginnen bij hoogste rank getal
+                int indexOfRank;
+                for (indexOfRank=0; indexOfRank<numLabels; indexOfRank++){//de index zoeken van de voorspelling/echte getal die bij deze rank hoort
+                    if (ranks[indexOfRank] == rank)
+                        break;
+                }
+                if (trueLabels[instanceIndex][indexOfRank]) {//als deze index een echt label is: dit is de waarde die we nodig hebben
+			howDeep = rank-1;
+                  	break;
+                    }
+           }
+            coverage += howDeep;*/
+        //---einde ordinal ranking ---
+        //oude implementatie werkt niet omdat er voor sommige ranks geen  if (ranks[indexOfRank] == rank) true is. Dus gaat out of 
+        //range exception (geeft dezelfde coverage bij ordinal als oude code (getest))
+        int highestRank = 0;
+        for(int indexOfRank = 0; indexOfRank<numLabels; indexOfRank++){
+            if(ranks[indexOfRank]>highestRank){
+                if(trueLabels[instanceIndex][indexOfRank]){
+                    highestRank=ranks[indexOfRank]-1;
+                }
             }
-            coverage += howDeep;
+        }
+        coverage += highestRank;
+            
 
-                        //-----ranking loss: voorbereiding
+
+//-----ranking loss: voorbereiding
 			// gather indexes of true and false labels
 			// indexes of true and false labels
 			ArrayList<Integer> trueIndexes = new ArrayList<Integer>();
