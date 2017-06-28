@@ -24,7 +24,7 @@ public class LabelDataReader {
      */
     public static ArrayList<int[]> getLabelData(String dataset) throws IOException{
       //  String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";//TODO weer uit commentaar zetten
-      String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
+      String fromFile = "/Users/katie/Desktop/temp/emotionsShort.arff";
         int nbInstances = getNbInstances(fromFile);
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         String line;

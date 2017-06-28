@@ -15,7 +15,7 @@ import java.util.Collections;
  * cluster heeft een centrum en toegewezen labels
  */
 public class Cluster {
-    public ArrayList<Integer> labels;
+    public ArrayList<Integer> labels = new ArrayList();
     public double[] clusterCentrum;
     public ArrayList<int[]> labelData;
     
@@ -34,11 +34,12 @@ public class Cluster {
         clusterCentrum = clusterC;
     }
     
-    public Cluster(int[] clusterC){
+    public Cluster(int[] clusterC, ArrayList<int[]> labelData){
         clusterCentrum = new double[clusterC.length];
         for(int i = 0; i<clusterC.length; i++){
             clusterCentrum[i] = (double)clusterC[i];
         }
+        this.labelData = labelData;
     }
     
     
@@ -91,6 +92,7 @@ public class Cluster {
     public ArrayList<DistanceToCluster> addDistance(ArrayList<DistanceToCluster> list, int maxLabels){
         distances.add(list);
         if(distances.size()>maxLabels){
+            System.out.println(distances.size() +" "+maxLabels);
             return removeDistance();
         }
         return null;
@@ -131,6 +133,14 @@ public class Cluster {
         for(ArrayList<DistanceToCluster> list: distances){
             labels.add(list.get(0).label);
         }
+    }
+    
+    public void printCluster(){
+        String s = "";
+        for(int i: labels){
+            s+=i+" ";
+        }
+        System.out.println(s);
     }
     
     

@@ -19,28 +19,37 @@ public class BalancedKMeanMaker {
     public static void doDataset(String dataset) throws IOException{
         ArrayList<int[]> labelData = LabelDataReader.getLabelData(dataset);
         Cluster bigCluster = new Cluster(labelData);
-        int maxLabels = labelData.size()/Path.getNbClusterCentra(dataset);
+        int nbLabels = labelData.get(0).length;
+        for(int i = 0; i<nbLabels; i++){
+            bigCluster.labels.add(i);
+        }
+        int maxLabels = labelData.get(0).length/Path.getNbClusterCentra(dataset);
         ArrayList<Cluster> subClusters = splitCluster(bigCluster, 
-                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations);
+                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations, labelData);
+        System.out.println("end");
+        for(Cluster c: subClusters){
+            c.printCluster();
+        }
     }
     
 
     
     public static ArrayList<Cluster> splitCluster(Cluster cluster, int nbClusters, int maxLabels, 
-            int nbIterations){
+            int nbIterations, ArrayList<int[]> labelData){
         //initializatie
         RandomInt random = new RandomInt();
         ArrayList<Integer> assignedInit = new ArrayList<>();
         ArrayList<Cluster> subClusters = new ArrayList();
-        while(assignedInit.size()!=nbClusters){
-            int newInt = RandomInt.randInt(0, cluster.getNbLabels());
+        while(assignedInit.size()!=nbClusters){//HIER
+            int newInt = RandomInt.randInt(0, cluster.getNbLabels()-1);
             if(!assignedInit.contains(newInt)){
-                subClusters.add(new Cluster(cluster.getDataLabelNr(newInt)));//initiele subclusters
+                subClusters.add(new Cluster(cluster.getDataLabelNr(newInt),labelData ));//initiele subclusters
+                assignedInit.add(newInt);
             }
         }
-        
         //een aantal iteraties
         for(int iteration = 0; iteration < nbIterations; iteration++){  //TODO stopconditie 
+            System.out.println("begin iteration "+iteration);
             for(Cluster sub: subClusters){
                 sub.distances.clear();
             }
@@ -66,7 +75,6 @@ public class BalancedKMeanMaker {
             for(Cluster c: subClusters){
                 c.recalculateCentra();
             }
-            nbIterations--;
         }
         for(Cluster sub: subClusters){
             sub.makeLabelsFinal();
