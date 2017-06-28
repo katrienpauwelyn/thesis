@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import statics.Path;
 
@@ -16,13 +17,14 @@ import statics.Path;
  *
  * @author katie
  */
-public class BalancedKMeansMaker {
+public class LabelDataReader {
     
     /**
      * maakt de Wn aan, per lijn alle label data van een instance
      */
-    public static int[][] getLabelData(String dataset) throws IOException{
-        String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";
+    public static ArrayList<int[]> getLabelData(String dataset) throws IOException{
+      //  String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";//TODO weer uit commentaar zetten
+      String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
         int nbInstances = getNbInstances(fromFile);
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         String line;
@@ -37,10 +39,10 @@ public class BalancedKMeansMaker {
     
     
     //getest standard en sparse
-    private static int[][] getLabelsData(String fromFile, int nbInstances, 
+    private static ArrayList<int[]> getLabelsData(String fromFile, int nbInstances, 
             int nbLabels, boolean sparse) throws IOException{
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
-        int[][] labelData = new int[nbInstances][nbLabels];
+        ArrayList<int[]> labelData = new ArrayList();
         String line;
         while(!(line=reader.readLine()).contains("@attribute class hierarchical")){}
         String[] s = line.split("hierarchical ");
@@ -53,7 +55,6 @@ public class BalancedKMeansMaker {
         }
         while(!reader.readLine().contains("@data")){}
        
-        index=0;
         while((line = reader.readLine())!=null && !line.isEmpty()){
             String[] parsed;
             if(sparse){
@@ -62,12 +63,11 @@ public class BalancedKMeansMaker {
                 parsed = line.split(",");
             }
             String[] actualLabels = parsed[parsed.length-1].split("@");//alle labels toegewezen aan deze instance
+            int[] instance = new int[nbLabels];
             for(String actual : actualLabels){
-                System.out.println("!!!"+actual);
-                System.out.println(indexLabel.get(actual));
-                labelData[index][indexLabel.get(actual)] = 1;
+                instance[indexLabel.get(actual)] = 1;
             }
-            index++;
+            labelData.add(instance);
         }
         return labelData;
     }
@@ -92,10 +92,4 @@ public class BalancedKMeansMaker {
             System.out.println(out);
         }
     }
-    
-    public static void main(String[] args) throws IOException{
-        
-    }
-    
-    
 }
