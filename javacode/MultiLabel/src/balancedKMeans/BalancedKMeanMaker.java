@@ -43,12 +43,13 @@ public class BalancedKMeanMaker {
         while(assignedInit.size()!=nbClusters){//HIER
             int newInt = RandomInt.randInt(0, cluster.getNbLabels()-1);
             if(!assignedInit.contains(newInt)){
+                System.out.println("initialisatie "+newInt);
                 subClusters.add(new Cluster(cluster.getDataLabelNr(newInt),labelData ));//initiele subclusters
                 assignedInit.add(newInt);
             }
         }
         //een aantal iteraties
-        for(int iteration = 0; iteration < nbIterations; iteration++){  //TODO stopconditie 
+        for(int iteration = 0; iteration < nbIterations; iteration++){  
             System.out.println("begin iteration "+iteration);
             for(Cluster sub: subClusters){
                 sub.distances.clear();
@@ -71,9 +72,13 @@ public class BalancedKMeanMaker {
                     }
                 }
             }
-            //herbereken de centra
+            //herbereken de centra    //resetten op true, dan && doen, als er 1 false is gaat het false zijn
+            boolean allsame = true;
             for(Cluster c: subClusters){
-                c.recalculateCentra();
+                allsame = allsame && c.recalculateCentra();
+            }
+            if(allsame){//stopconditie
+                iteration = nbIterations;
             }
         }
         for(Cluster sub: subClusters){

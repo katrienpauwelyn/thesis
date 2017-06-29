@@ -24,7 +24,7 @@ public class LabelDataReader {
      */
     public static ArrayList<int[]> getLabelData(String dataset) throws IOException{
       //  String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";//TODO weer uit commentaar zetten
-      String fromFile = "/Users/katie/Desktop/temp/emotionsShort.arff";
+      String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
         int nbInstances = getNbInstances(fromFile);
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         String line;
@@ -83,11 +83,11 @@ public class LabelDataReader {
     }
     
     
-    public static void printIntInt(int[][] toPrint){
-        for(int x=0; x<toPrint.length; x++){
+    public static void printIntInt(ArrayList<int[]> toPrint){
+        for(int x=0; x<toPrint.size(); x++){
             String out = "";
-            for(int y = 0; y<toPrint[0].length; y++){
-                out += toPrint[x][y]+" ";
+            for(int y = 0; y<toPrint.get(0).length; y++){
+                out += toPrint.get(x)[y]+" ";
             }
             System.out.println(out);
         }

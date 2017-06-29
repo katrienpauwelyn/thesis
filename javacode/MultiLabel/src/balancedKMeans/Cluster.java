@@ -116,16 +116,22 @@ public class Cluster {
         return furthestCluster;
     }
     
+ 
+    
     //herberekent het centrum aan de hand van 'distances'
-    public void recalculateCentra(){
+   //true returnen als het centrum hetzelfde gebleven is
+    public boolean  recalculateCentra(){
         int nbLabels = distances.size();
+        boolean allsame = true;
         for(int instance = 0; instance<clusterCentrum.length; instance++){
             double newValue = 0.0;
             for(ArrayList<DistanceToCluster> distance: distances){
                 newValue+=labelData.get(instance)[distance.get(0).label];
             }
+            allsame = allsame && (clusterCentrum[instance]==newValue/nbLabels );
             clusterCentrum[instance] = newValue/nbLabels;
         }
+        return allsame;
     }
     
     //verander de tijdelijke labels (distance) in permanente labels (labels)
