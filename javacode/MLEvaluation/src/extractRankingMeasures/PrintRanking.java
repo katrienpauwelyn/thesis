@@ -18,6 +18,9 @@ import statics.Path;
 /**
  *
  * @author katie
+ * print de ranking based measures af. (one error, coverage, ... en ...)
+ * om te switchen tussen ordinal en competitive ranking moet zowel in RankingBasedMeasures code aangepast worden
+ * als in MultiLabelOutput (staat in commentaar)
  */
 public class PrintRanking {
     
@@ -27,27 +30,27 @@ public class PrintRanking {
         PrintStream stream = new PrintStream(new File(outputPath));
         
         for(String dataset: Path.datasets){
-            pathHier = Path.pathPinac+dataset+"/average.test.pred.arff";
-            pathFlat = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
+            pathHier = Path.pathPinac+dataset+"/kmeans/averageKMeans.test.pred.arff";
+           // pathFlat = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
             
             int nbInstances = ArffParser.getNbInstances(pathHier);
             int nbLabels = ArffParser.getNbLabels(pathHier);
             MultiLabelOutput[] predictionsHier = new MultiLabelOutput[nbInstances];
             MultiLabelOutput[] predictionsFlat = new MultiLabelOutput[nbInstances];
             boolean[][] actualHier = ArffParser.getActualValues(pathHier, nbLabels, nbInstances, predictionsHier);
-            boolean[][] actualFlat = ArffParser.getActualValues(pathFlat, nbLabels, nbInstances, predictionsFlat);
+       //     boolean[][] actualFlat = ArffParser.getActualValues(pathFlat, nbLabels, nbInstances, predictionsFlat);
             RankingBasedMeasures rankingHier = new RankingBasedMeasures(predictionsHier, actualHier);
-            RankingBasedMeasures rankingFlat = new RankingBasedMeasures(predictionsFlat, actualFlat);
-            stream.println(dataset+" Flat:");
-            stream.println(getRankingMeasures(rankingFlat));
-            stream.println(dataset +" Hier:");
+         //   RankingBasedMeasures rankingFlat = new RankingBasedMeasures(predictionsFlat, actualFlat);
+         //   stream.println(dataset+" Flat:");
+         //   stream.println(getRankingMeasures(rankingFlat));
+            stream.println(dataset +" kmeansDiffHiers:");
             stream.println(getRankingMeasures(rankingHier));
             stream.println();
         }
         stream.close();
     }
     
-        public static void printUnfilteredRanking(String outputPath) throws FileNotFoundException, IOException{
+      /*  public static void printUnfilteredRanking(String outputPath) throws FileNotFoundException, IOException{
         String pathHier ;
         String pathFlat;
         PrintStream stream = new PrintStream(new File(outputPath));
@@ -89,7 +92,7 @@ public class PrintRanking {
             stream.println(getRankingMeasures(rankingHier));
             stream.println();
              stream.close();
-    }
+    }*/
 
     private static String getRankingMeasures(RankingBasedMeasures ranking) {
       return "oneError: "+ranking.getOneError()+" -- coverage: "+ranking.getCoverage()+" -- rankingLoss: "+
@@ -97,14 +100,11 @@ public class PrintRanking {
     }
     
     public static void main(String[] args) throws IOException{
-        String output = Path.pathPinac+"outputRanking2.txt";
-        String pathOne = "/Users/katie/Desktop/temp/averageUnfiltered.test.pred.arff";
-        String pathTo = "/Users/katie/Desktop/temp/one.txt";
+        String output = Path.pathPinac+"outputRankingCompetitionKmeans.txt";
         
-        String input = "/Users/katie/Downloads/average.test.pred.arff";
-        String output2 = "/Users/katie/Downloads/aaa.txt";
-       // printAllRanking(output);
-        printOne(input, input, output2);
+       
+        printAllRanking(output);
+       // printOne(input, input, output2);
         //printUnfilteredRanking(output);
     }
     

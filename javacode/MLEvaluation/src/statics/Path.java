@@ -23,7 +23,8 @@ public class Path {
         "enron","medical"
     };
     
-    public static String[] datasets = {"bibtex","bookmarks","corel5k","delicious","emotions",
+    public static String[] datasets = {"bibtex",//"bookmarks",
+        "corel5k","delicious","emotions",
     "enron", "mediamill","medical","scene",
     "yeast"};
     

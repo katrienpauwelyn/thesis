@@ -178,7 +178,7 @@ public class MultiLabelOutput {
         //print(temp);
         int[] ranks = new int[values.length];
         //---oude code---
-        /*for (int i=0; i<values.length; i++)
+      /*  for (int i=0; i<values.length; i++)
             ranks[temp[i]] = values.length-i;*/
        //---eind oude code--- STANDARD COMPETITION RANKING
        //---nieuwe code---
