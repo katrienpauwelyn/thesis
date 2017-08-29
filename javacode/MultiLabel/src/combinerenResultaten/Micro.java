@@ -21,15 +21,15 @@ public class Micro {
     
      public static void makeMicroFilesForAllDatasets() throws IOException{
         String basic;
-        for(String dataset: Path.postAverageDatasets){
+     /*   for(String dataset: Path.datasets){
             System.out.println("micro post "+dataset);
             basic = Path.pathPinac.concat(dataset);
             makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
-        }
+        }*/
         for(String dataset: Path.datasets){
-            System.out.println("micro flat "+dataset);
-            basic = Path.pathPinac+dataset+"/flat";
-            makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
+            System.out.println("micro kmeans "+dataset);
+            basic = Path.pathPinac+dataset+"/kmeans";
+            makeMicroFiles(basic, basic+"/averageKMeans.test.pred.arff", dataset);
         }
     }
 

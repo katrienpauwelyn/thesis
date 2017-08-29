@@ -8,7 +8,6 @@ package wilcoxon;
 import java.util.Arrays;
 
 /**
- *
  * @author katie
  */
 public class WCalculator {
@@ -17,11 +16,19 @@ public class WCalculator {
         if(array1.length!=array2.length){
             throw new Error("de twee arrays hebben geen gelijke lengte");
         }
-        Wilcox[] tuples = new Wilcox[array1.length];
-        for(int i = 0; i<tuples.length; i++){
-            tuples[i] = new Wilcox(array1[i], array2[i]);
+        int nbSame = nbSame(array1, array2);
+        
+        Wilcox[] tuples = new Wilcox[array1.length-nbSame];
+        System.out.println("aantal vergelijkingspunten: "+tuples.length);
+        int nb = 0;
+        for(int i = 0; i<array1.length; i++){
+            if(array1[i]!=array2[i]){
+                tuples[nb] = new Wilcox(array1[i], array2[i]);
+                nb++;
+            }  
         }
         Arrays.sort(tuples); //van klein naar groot gesorteerd
+        checkAllDifferent(tuples);
         double w = 0;
         for(int i = 0; i<tuples.length; i++){
             int rank = i+1;
@@ -32,14 +39,36 @@ public class WCalculator {
     
     public static void main(String[] args){
         WCalculator calc = new WCalculator();
- /*    System.out.println("oneError wilcoxon: "+calc.getW(Data.oneErrorHier, Data.oneErrorFlat));
-     System.out.println("coverage wilcoxon: "+calc.getW(Data.coverateHier, Data.coverageFlat));
-     System.out.println("rankingLoss wilcoxon: "+calc.getW(Data.rankingLossHier, Data.rankingLossFlat));
-     System.out.println("average precision wilcoxon: "+calc.getW(Data.averagePrecisionHier, Data.averagePrecisionFlat));*/
+     System.out.println("oneError wilcoxon KMeans-Flat: "+calc.getW(Data.oneErrorFlat, Data.oneErrorKMeans));
+     System.out.println("coverage wilcoxon KMeans-Flat: "+calc.getW(Data.coverageFlat, Data.coverageKMeans));
+     System.out.println("rankingLoss wilcoxon KMeans-Flat: "+calc.getW(Data.rankingLossFlat, Data.rankingLossKMeans));
+     System.out.println("average precision wilcoxon KMeans-Flat: "+calc.getW(Data.averagePrecisionFlat, Data.averagePrecisionKMeans));
  
- System.out.println("microPR wilcoxon "+calc.getW(Data.microPRHier, Data.microPRFlat));
- System.out.println("microROC wilcoxon "+calc.getW(Data.microROCHier, Data.microROCFlat));
- System.out.println("macroPR wilcoxon "+calc.getW(Data.macroPRHier, Data.macroPRFlat));
- System.out.println("macroROC wilcoxon "+calc.getW(Data.macroROCHier, Data.macroROCFlat));
+ System.out.println("microPR wilcoxon KMeans-Flat "+calc.getW(Data.microPRFlat, Data.microPRKMeans));
+ System.out.println("microROC wilcoxon KMeans-Flat "+calc.getW(Data.microROCFlat, Data.microROCKMeans));
+ System.out.println("macroPR wilcoxon KMeans-Flat "+calc.getW(Data.macroPRFlat, Data.macroPRKMeans));
+ System.out.println("macroROC wilcoxon KMeans-Flat "+calc.getW(Data.macroROCFlat, Data.macroROCKMeans));
     }
+
+    
+    //check hoe vaak array1[i]-array2[i] nul is
+    private int nbSame(double[] array1, double[] array2) {
+        int nbSame = 0;
+        for(int i = 0; i<array1.length; i++){
+            if(array1[i]==array2[i]){
+                nbSame++;
+            }
+        }
+        return nbSame;
+    }
+
+    //check of alle tuples een andere waarde hebben
+    private void checkAllDifferent(Wilcox[] tuples) {
+        for(int i = 0; i<tuples.length-1; i++){
+            if(tuples[i].difference==tuples[i+1].difference){
+                throw new Error("twee tuples hebben dezelfde difference");
+            }
+        }
+    }
+    
 }

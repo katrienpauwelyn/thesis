@@ -16,6 +16,8 @@ import statics.Path;
 /**
  *
  * @author katie
+ * berekent de micro en macro gemiddelde van de AUPRC en AUROC van alle datasets en print
+ * het uit naar een gegeven file
  */
 public class MeanAUC {
     
@@ -48,7 +50,8 @@ Area Under the Curve for ROC is 0.8583492028343667
     
     //returnt de gemiddelde aus van een dataset
     public static PrRocTuple getMeanMacroAUsDataset(String dataset, String unparsedClasses) throws IOException{
-        String path = Path.pathPinac+dataset+"/micromacro/";
+       // String path = Path.pathPinac+dataset+"/micromacro/";
+        String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
                 //"/Users/katie/Downloads/micromacro/";
         PrRocTuple microAU = getPrRocFromFile(path+"AUCmicro"+dataset+".txt");
         String[] parsed = unparsedClasses.split(",");
@@ -62,7 +65,8 @@ Area Under the Curve for ROC is 0.8583492028343667
     }
     
     public static PrRocTuple getMicroAuDataset(String dataset) throws IOException{
-        String path = Path.pathPinac+dataset+"/micromacro/";
+        //String path = Path.pathPinac+dataset+"/micromacro/";
+        String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
                 //"/Users/katie/Downloads/micromacro/";
         PrRocTuple microAU = getPrRocFromFile(path+"AUCmicro"+dataset+".txt");
         return microAU;
@@ -71,7 +75,7 @@ Area Under the Curve for ROC is 0.8583492028343667
     public static void printAUs(String pathPrint) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(pathPrint));
         String pathStandard = Path.pathStandardMap;
-        String pathSparse = Path.pathSparseMap;
+        String pathSparse = Path.pathFilteredMao;
         printAUsPerMap(pathStandard, stream);
         printAUsPerMap(pathSparse, stream);
         stream.close();
@@ -97,7 +101,7 @@ Area Under the Curve for ROC is 0.8583492028343667
     //Area Under the Curve for Precision - Recall is 0.11937984496124028
 //Area Under the Curve for ROC is 0.4999999999999999
     public static void main(String[] args) throws IOException{
-        printAUs(Path.pathPinac+"AUs.txt");
+        printAUs(Path.pathPinac+"AUkmeansDiffHier.txt");
                 //"/Users/katie/Downloads/micromacro/aaaa.txt");
     }
     

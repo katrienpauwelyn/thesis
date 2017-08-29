@@ -17,7 +17,7 @@ import statics.Path;
  *
  * @author katie
  */
-public class BalancedKMeanMaker {
+public class OneBalancedKMeanMaker {
     
   /*  public static ArrayList<Cluster> doDataset(String dataset) throws IOException{
         String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
@@ -41,14 +41,12 @@ public class BalancedKMeanMaker {
             System.out.println(dataset );
             long startTime = System.nanoTime();
             
-            for(int i = 0; i<Path.nbBags; i++){
-                System.out.println(i);
-              makeHierarchy(dataset, Path.pathPinac+dataset+"/"+"settings-bag-"+(i+1)+".arff",
-                    Path.pathPinac+dataset+"/kmeansHierBag+"+i+".txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
-            }
+           
+              makeHierarchy(dataset, Path.pathPinac+dataset+"/"+dataset+"train.arff",
+                    Path.pathPinac+dataset+"/one/kmeansHierOne.txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
             long endTime = System.nanoTime();
             long durationMs = (endTime - startTime)/1000000;
-            stream.println(dataset+": totale tijd"+durationMs+" ms; gemiddelde tijd per bag: "+durationMs/Path.nbBags+" ms");
+            stream.println(dataset+": totale tijd"+durationMs+" ms; gemiddelde tijd per bag: "+durationMs+" ms");
            
         }
         stream.close();

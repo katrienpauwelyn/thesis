@@ -18,18 +18,18 @@ import static statics.Path.path;
  * //sed -i "s/firstword//g; s/secondword//g" inputFileName
  *  1) none te vervangen door None 's/none/None/g'
  *  2) de klasse labels weg te doen uit de "@ATTRIBUTE class  
- * 
+ * uit de invoer bags. 
  * hierarchical "
  * s/@ATTRIBUTE class * hierarchical .* /@ATTRIBUTE class hierarchical/g
  */
 public class PostProcessingBag {
     
     public static void makeBashScript(String path) throws FileNotFoundException{
-        String s= "sed -i 's/@ATTRIBUTE class * hierarchical.*/@ATTRIBUTE class hierarchical/g;"
+        String s= "sed -i 's/@ATTRIBUTE class-1 * hierarchical.*/@ATTRIBUTE class hierarchical/g;"
                 + "s/none/None/g' 'settings-bag-";
         PrintStream stream = new PrintStream(new File(path));
         for(String dataset: Path.datasets){
-                stream.println("cd "+dataset);
+                stream.println("cd "+dataset+"/kmeans");
             for(int bag = 1; bag<=50; bag++){
                 String newS = s+bag+".arff'";
                 stream.println(newS);
@@ -39,10 +39,10 @@ public class PostProcessingBag {
     }
     
     public static void makeBibtexScript(String p) throws FileNotFoundException{
-        String s= "sed -i 's/@ATTRIBUTE class-1 * hierarchical.*/@ATTRIBUTE class hierarchical/g;"
+        String s= "sed -i 's/@ATTRIBUTE class-1 * hierarchical.*/@ATTRIBUTE class hierarchical/g;" //ook nog class doen
                 + "s/Nonequilibrium/nonequilibrium/g' 'settings-bag-";
          PrintStream stream = new PrintStream(new File(p));
-        stream.println("cd tmc2007");
+        stream.println("cd bibtex/kmeans");
             for(int bag = 1; bag<=50; bag++){
                 String newS = s+bag+".arff'";
                 stream.println(newS);
@@ -51,8 +51,8 @@ public class PostProcessingBag {
     }
     
     public static void main(String[] args) throws FileNotFoundException{
-     //   makeBashScript("/Users/katie/Desktop/temp/emo/bash.sh");
-        makeBibtexScript("/Users/katie/Desktop/temp/emo/bashTMC.sh");
+        makeBashScript("/Users/katie/Desktop/temp/bash.sh");
+        makeBibtexScript("/Users/katie/Desktop/temp/bashBibtex.sh");
     }
     
 }

@@ -22,19 +22,21 @@ public class LabelDataReader {
     /**
      * maakt de Wn aan, per lijn alle label data van een instance
      */
-    public static ArrayList<int[]> getLabelData(String dataset) throws IOException{
+    public static ArrayList<int[]> getLabelData(String dataset, String fromFile) throws IOException{
       //  String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";//TODO weer uit commentaar zetten
-      String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
+    
         int nbInstances = getNbInstances(fromFile);
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         String line;
         while(!(line=reader.readLine()).contains("@attribute class hierarchical")){}
         int nbLabels = line.split(",").length;
+        reader.close();
         if(Path.isSparse(dataset)){
             return getLabelsData(fromFile, nbInstances, nbLabels, true);
         } else {
            return getLabelsData(fromFile, nbInstances, nbLabels, false);
         }
+        
     }
     
     
@@ -63,22 +65,29 @@ public class LabelDataReader {
                 parsed = line.split(",");
             }
             String[] actualLabels = parsed[parsed.length-1].split("@");//alle labels toegewezen aan deze instance
-            int[] instance = new int[nbLabels];
-            for(String actual : actualLabels){
-                instance[indexLabel.get(actual)] = 1;
+            if(actualLabels.length!=1 || !actualLabels[0].equals("None")){
+                int[] instance = new int[nbLabels];
+                for(String actual : actualLabels){
+                    instance[indexLabel.get(actual)] = 1;
+                 }
+                 labelData.add(instance);
             }
-            labelData.add(instance);
+            
         }
+        reader.close();
         return labelData;
     }
      
     private static int getNbInstances(String file) throws FileNotFoundException, IOException{
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        while(!reader.readLine().contains("@data")){        }
+          String line;
+        while(!(line=reader.readLine()).contains("@data") && !(line.contains("@DATA"))){        }
         int nbInstances = 0;
-        while(reader.readLine()!=null && !reader.readLine().isEmpty()){
+      
+        while((line=reader.readLine())!=null && !line.isEmpty()){
             nbInstances++;
         }
+        reader.close();
         return nbInstances;
     }
     
@@ -91,5 +100,24 @@ public class LabelDataReader {
             }
             System.out.println(out);
         }
+    }
+    
+    /**
+     * return de mappings tussen de index van het label en het label zelf
+     * vb: @attribute class hierarchical a,b,c
+     * => 0 - a; 1 - b; 2 - c
+     */
+    public static HashMap<Integer, String> getIndicesLabel(String file) throws FileNotFoundException, IOException{
+        HashMap<Integer, String> mapping = new HashMap();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        while(!(line=reader.readLine()).contains("@attribute class hierarchical")){}
+        line = line.replace("@attribute class hierarchical ", "");
+        String[] split = line.split(",");
+        for(int i = 0; i<split.length; i++){
+            mapping.put(i, split[i]);
+        }
+        reader.close();
+        return mapping;
     }
 }

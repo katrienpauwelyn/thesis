@@ -106,7 +106,7 @@ public class PostAverager {
           return out.substring(1);
     }
       
-      
+      //dit nog achteraf doen: maakt dat de attribuut namen juist zijn (vroeger waren er te veel Original-p's)
       public static void adaptPredictionAttributes(String input, String output) throws FileNotFoundException, IOException{
           BufferedReader reader = new BufferedReader(new FileReader(input));
           PrintStream stream = new PrintStream(new File(output));
@@ -138,15 +138,15 @@ public class PostAverager {
     
     public static void main(String[] args) throws IOException{
         
-         String fileName = "average2.test.pred.arff";
-         String toFileName = "average.test.pred.arff";
+         String fileName = "average.test.pred.arff";
+         String toFileName = "average2.test.pred.arff";
            
         for(String dataset: Path.postAverageDatasets){
             System.out.println(dataset);
-            String path1 = Path.pathPinac+dataset+"/flat/";
-            String path2 = Path.pathPinac+dataset+"/";
+            String path1 = Path.pathPinac+dataset+"/kmeans/";
+         //   String path2 = Path.pathPinac+dataset+"/";
              adaptPredictionAttributes(path1+fileName, path1+toFileName);
-             adaptPredictionAttributes(path2+fileName, path2+toFileName);
+       //      adaptPredictionAttributes(path2+fileName, path2+toFileName);
            
         }
         

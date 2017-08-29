@@ -25,14 +25,14 @@ public class Path {
         "mediamill","scene",
         "yeast"
     };
-    public static String[] sparseDatasets = { "bibtex","bookmarks",
+    public static String[] sparseDatasets = { "bibtex",//"bookmarks",
         "delicious",
-        "enron","medical",
-        "tmc2007"
-    //   "eurlex"
+        "enron",
+        "medical"
     };
     
-    public static String[] datasets = {"bibtex","bookmarks","corel5k","delicious","emotions",
+    public static String[] datasets = {"bibtex",//"bookmarks",
+        "corel5k","delicious","emotions",
     "enron", "mediamill","medical","scene",//"tmc2007",
     "yeast"};
     
@@ -50,6 +50,7 @@ public class Path {
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
     public static String pathSparseMap = pathPinac + "sparseMap.txt";
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapBibtex.txt";
+    public static String pathFilteredMao = pathPinac + "sparseFilteredMap.txt";
       
       public static String pathTest = "/Users/katie/Downloads/";
     
@@ -58,16 +59,40 @@ public class Path {
     public static String pathTimeHierSparse = pathPinac+"timeHierSparse.txt";
     
     //hier wordt het scriptje opgeslaan om alle AU te berekenen
-    public static String pathToAUScript = path+"scriptAU.sh";
+    public static String pathToAUScript = pathPinac+"scriptAU.sh";
     
     //mediamill, eurlex, delicious
     public static String[] dataset = {"flags"};
     
     public static int nbBags = 50;
     
-  public static String[] postAverageDatasets= {"corel5k", "delicious", "medical"};
+  public static String[] postAverageDatasets= {"corel5k", 
+      "delicious", "medical"};
     
+    public static boolean isSparse(String dataset){
+        for(String s: sparseDatasets){
+            if(s.equals(dataset)){
+                return true;
+            }
+        }
+        return false;
+    }
     
+    public static int getNbClusterCentra(String dataset){
+        switch (dataset){
+            case "bibtex": case "bookmarks": case "corel5k": case "mediamill":
+            case "medical": case "scene":
+                return 3;
+            case "emotions":
+                return 2;
+            case "yeast":
+                return 5;
+            case "enron": case "delicious":
+                return 4;
+        }
+        throw new Error("Foutieve dataset");
+    }
     
-    
+    public static int nbIterations = 500;
+     
 }

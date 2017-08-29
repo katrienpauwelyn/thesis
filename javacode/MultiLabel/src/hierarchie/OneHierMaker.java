@@ -19,13 +19,16 @@ import statics.Path;
 /**
  *
  * @author katie
+ * maak een hierarchie, volgens RHam voor de volledige dataset
  */
-public class HierarchyMaker {
+public class OneHierMaker {
     public static void makeAllHierarchies(HashMap<String, String> normalMap,
             HashMap<String, String> sparseMap, HashMap<String, Integer> intMap) throws IOException{
         String path = Path.pathPinac;
-         PrintStream streamTimeHier;// = new PrintStream(new File(Path.pathTimeHierStandard));
-       /* for(String dataset: Path.standardDatasets){
+         PrintStream streamTimeHier = new PrintStream(new File(path+"timeHierOne.txt"));
+        for(String dataset: Path.standardDatasets){
+            long totalTime = 0;
+            for(int i = 0; i<10; i++){
              System.out.println(dataset);
                String unparsedClasses = normalMap.get(dataset);
               String[] parsed = unparsedClasses.split(",");
@@ -33,46 +36,45 @@ public class HierarchyMaker {
               for(String s: parsed){
                    list.add(s.replaceAll("/",":").replace("-",":"));
               }
-              long totalTime = 0;
+              
               streamTimeHier.println(dataset);
               
-            for(int i = 0; i<Path.nbBags; i++){
-                System.out.println(i);
-                int index = i+1;
-                String train = path+dataset+"/settings-bag-"+index+".arff";
-                String output = path+dataset+"/"+"temphier"+dataset+i;
-                 String finalOutput = path+dataset+"/"+"hier"+dataset+i;
+                String train = path+dataset+"/"+dataset+"train.arff";
+                String output = path+dataset+"/one/temphierOne";
+                 String finalOutput = path+dataset+"/one/hierOneRHam"+i;
+             //String train = "/Users/katie/Desktop/temp/emotionstrain.arff";
+             //String output = "/Users/katie/Desktop/temp/tempHier";
+             //String finalOutput = "/Users/katie/Desktop/temp/hier";
                  long startTime = System.nanoTime();
                 makeHierarchy(train, output, false, list, intMap.get(dataset));
                 ParseHierarchy.parseHierarchy(output, finalOutput);
                  long endTime = System.nanoTime();
                 long duration = (endTime - startTime)/1000000; 
                 totalTime+=duration;
-                streamTimeHier.println("bag "+index+": "+duration+"ms");
+            
             }
-            streamTimeHier.println("total time: "+totalTime+"ms");
-            streamTimeHier.println("mean time per bag: "+totalTime/Path.nbBags+"ms");
-            streamTimeHier.println();
-        }*/
+               streamTimeHier.println("time one hierarchy rHam "+dataset+": "+totalTime/10+"ms");
+            streamTimeHier.println(); 
+        }
         
-         streamTimeHier = new PrintStream(new File(Path.pathTimeHierSparse));
-           for(String dataset: Path.sparseDatasets){ 
-             String unparsedClasses = sparseMap.get(dataset);
+          for(String dataset: Path.sparseDatasets){ 
+               long totalTime = 0;
+              for(int i =0; i<10; i++){
+                   String unparsedClasses = sparseMap.get(dataset);
               String[] parsed = unparsedClasses.split(",");
               ArrayList<String> list = new ArrayList();
+               
               for(String s: parsed){
+                
                    list.add(s.replaceAll("/", ":").replace("-",":"));
               }
-              long totalTime = 0;
+             
               streamTimeHier.println(dataset);
                System.out.println(dataset);
                
-            for(int i = 0; i<Path.nbBags; i++){
-                System.out.println(i);
-               int index = i+1;
-               String train = path+dataset+"/settings-bag-"+index+".arff";
-                String output = path+dataset+"/"+"temphier"+dataset+i;
-                 String finalOutput = path+dataset+"/"+"hier"+dataset+i;
+               String train = path+dataset+"/"+dataset+"train.arff";
+                String output = path+dataset+"/one/temphierOne";
+                 String finalOutput = path+dataset+"/one/hierOneRHam"+i;
                
                 long startTime = System.nanoTime();
                 makeHierarchy(train, output, true,list, intMap.get(dataset));
@@ -80,12 +82,11 @@ public class HierarchyMaker {
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime)/1000000; 
                 totalTime+=duration;
-                streamTimeHier.println("bag "+index+": "+duration+"ms");
-            }
-            streamTimeHier.println("total time: "+totalTime+"ms");
-            streamTimeHier.println("mean time per bag: "+totalTime/Path.nbBags+"ms");
-            streamTimeHier.println();
+                  
+              }
             
+             streamTimeHier.println("time one hierarchy rHam "+dataset+": "+totalTime/10+"ms");
+            streamTimeHier.println();
         } 
            streamTimeHier.close();
     }
@@ -103,6 +104,8 @@ public class HierarchyMaker {
         nodes.add(node);
         PrintStream stream = new PrintStream(new File(pathOutput));
         HashMap<String, DistanceKeeper> distances = getDistancesBetweenClasses(pathToTrain, classes, sparse, indexClass);
+       
+        
         makeHierarchyRecursive(new Random(), nodes, classes, stream, distances, sparse);
         stream.close();
     }
@@ -156,9 +159,10 @@ public class HierarchyMaker {
        // System.out.println(indexClass);
         DistanceKeeper keeper = new DistanceKeeper(current, classes);
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        while(!reader.readLine().contains("@DATA")){}
-        String line;
+        String line = reader.readLine();
+        while(!line.contains("@DATA")&&!line.contains("@data")){line = reader.readLine();}
         while((line = reader.readLine())!=null && !line.isEmpty()){
+            
              if((sparse && !line.endsWith(" None}") && !line.endsWith(" none}")) ||
                      (!sparse && !line.endsWith("None") && !line.endsWith("none"))){
                       String[] cl;
@@ -232,8 +236,8 @@ public class HierarchyMaker {
             HashMap<String, String> sparseMap = new HashMap();
             HashMap<String, Integer> intMap = new HashMap();
             String path = Path.pathPinac;
-            BufferedReader readerNormal = new BufferedReader(new FileReader(path+"normalMap.txt"));
-            BufferedReader readerSparse = new BufferedReader(new FileReader(path+"sparseMap.txt"));
+            BufferedReader readerNormal = new BufferedReader(new FileReader(Path.pathStandardMap));
+            BufferedReader readerSparse = new BufferedReader(new FileReader(Path.pathSparseMap));
             String lineN;
             while((lineN = readerNormal.readLine())!=null && !lineN.isEmpty()){
                 intMap.put(lineN, Integer.parseInt(readerNormal.readLine())+1);

@@ -24,18 +24,15 @@ public class Averager {
     
     public static void makeAllAverageArff() throws FileNotFoundException, IOException{
         for(String dataset: Path.datasets){
-            if(dataset.equals("eurlex")){
-            
-            } else {
-                System.out.println(dataset);
-            String output = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
-            makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat", ".test.pred.arff", output, dataset);
-            }
-            
+            System.out.println(dataset);
+           // String outputFlat = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
+            String outputHier = Path.pathPinac+dataset+"/kmeans/averageKMeans.test.pred.arff";
+       //     makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat", ".test.pred.arff", outputFlat, dataset);
+            makeAverageArff(Path.pathPinac+dataset+"/kmeans/settingsBag",".test.pred.arff",outputHier,dataset);
         }
     }
     
-    public static void doFlags() throws IOException{
+    /*public static void doFlags() throws IOException{
          String basic = Path.path;
         
        
@@ -48,7 +45,7 @@ public class Averager {
         
          String output = basic+"/average.test.pred.arff";
             makeAverageArff(basic+"/test", ".test.pred.arff", output, "blabla");
-    }
+    }*/
     
     //alle indexen hebben @ATTRIBUTE
     //Original-p- => begin van de voorspellingen => index nodig 

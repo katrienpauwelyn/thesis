@@ -24,15 +24,15 @@ public class Macro {
     
     public static void makeMacroFilesForAllDatasets() throws IOException{
         String basic;
-        for(String dataset: Path.postAverageDatasets){
+     /*   for(String dataset: Path.sparseDatasets){
             System.out.println("post macro"+dataset);
             basic = Path.pathPinac+dataset;
             makeMacroFiles(basic, basic+"/average.test.pred.arff");
-        }
+        }*/
         for(String dataset: Path.datasets){
-            System.out.println("flat "+dataset);
-            basic = Path.pathPinac+dataset+"/flat";
-            makeMacroFiles(basic, basic+"/average.test.pred.arff");
+            System.out.println("kmeans "+dataset);
+            basic = Path.pathPinac+dataset+"/kmeans";
+            makeMacroFiles(basic, basic+"/averageKMeans.test.pred.arff");
         }
     }
     

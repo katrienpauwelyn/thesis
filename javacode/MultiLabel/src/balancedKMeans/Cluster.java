@@ -17,7 +17,7 @@ import java.util.Collections;
 public class Cluster {
     public ArrayList<Integer> labels = new ArrayList();
     public double[] clusterCentrum;
-    public ArrayList<int[]> labelData;
+    public ArrayList<int[]> labelData = new ArrayList();
     
     //houdt de voorlopige lijst bij van labels en hun afstanden tot alle cluster gemiddelden
     //voor iedere arraylist in distances geldt dat .get(0) het label is dat toegevoegd is 
@@ -28,6 +28,7 @@ public class Cluster {
     public Cluster(ArrayList<int[]> labelD){
         labelData = labelD;
     }
+
     
     public Cluster(double[] clusterC, ArrayList<int[]> labelData){
         this.labelData = labelData;
@@ -92,11 +93,11 @@ public class Cluster {
     public ArrayList<DistanceToCluster> addDistance(ArrayList<DistanceToCluster> list, int maxLabels){
         distances.add(list);
         if(distances.size()>maxLabels){
-            System.out.println(distances.size() +" "+maxLabels);
             return removeDistance();
         }
         return null;
     }
+    
     
     //verwijder het label met de grootste afstand tot het centrum van deze cluster
     //zet de afstand van dit label tot deze cluster op oneindig
@@ -147,6 +148,20 @@ public class Cluster {
             s+=i+" ";
         }
         System.out.println(s);
+    }
+    
+    //update de label data: filter de instances er uit waar er geen label uit 'labels' true is
+    public void updateLabelData(){
+       ArrayList<int[]> newList = new ArrayList();
+        for(int[] instance: labelData){
+           for(int l: labels){
+               if(instance[l]==1){
+                  newList.add(instance);
+                   break;
+               }
+           }
+       }
+       labelData = newList;
     }
     
     

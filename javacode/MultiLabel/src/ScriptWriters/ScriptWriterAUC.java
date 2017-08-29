@@ -16,15 +16,17 @@ import statics.Path;
 /**
  *
  * @author katie
- * 
- * TODO moet de "/" terug vervangen worden door "-" in de file names? (: mag niet)
+ * maakt een script om de AUCROC en AUCPR te berekenen (vertrekkende van micro en macro average)
  */
 public class ScriptWriterAUC {
     
+    //op pathFilteredMao staat er een file waarin de naam van alle datasets staat met alle 
+    //bijhorende labels. De labels die er uit gefilterd zijn (degene die nooit een effectieve 1 hebben
+    //in de test set, staan er niet bij)
     public static void makeScript() throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(Path.pathToAUScript));
         //java -jar auc.jar testsetlist.txt list
-        BufferedReader readerSp = new BufferedReader(new FileReader(Path.pathSparseMap));
+        BufferedReader readerSp = new BufferedReader(new FileReader(Path.pathFilteredMao));
         BufferedReader readerSt = new BufferedReader(new FileReader(Path.pathStandardMap));
         makePartScript(stream, readerSp);
         makePartScript(stream, readerSt);
@@ -39,25 +41,22 @@ public class ScriptWriterAUC {
         String pathOutput;
         
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            if(!line.contains("tmc")){
-                String all = "micro"+line;
-           
-            path = Path.pathPinac.concat(line).concat("/micromacro/");
+            String all = "micro"+line;
+           path = Path.pathPinac.concat(line).concat("/kmeans/micromacro/");
             pathOutput = path.concat("AUCmicro"+line+".txt");
             stream.println("echo \""+line+" micro\"");
             stream.println("java -jar auc.jar "+path+all+".txt list > "+pathOutput);
-            
+            System.out.println(line);
             reader.readLine();
             String[] parsed = reader.readLine().split(",");
-            for(String s: parsed){//kan zijn dat de laatste een error geeft: eindigt op ,
-                 stream.println("echo \""+line+" macro "+s+"\"");
-                stream.println("java -jar auc.jar "+path+s+".txt list > "+path+"AUCmacro"+s+".txt");
-            }
-            } else{
-                reader.readLine();
-                reader.readLine();
-            }
-            
+            System.out.println(parsed.length);
+          //  System.out.println(line);
+            System.out.println();
+             for(int i = 0; i<parsed.length; i++){
+                 stream.println("echo \""+line+" macro "+parsed[i]+"\"");
+                stream.println("java -jar auc.jar "+path+parsed[i]+".txt list > "+path+"AUCmacro"+parsed[i]+".txt");
+             }  
+         
         }
     }
     // > path/inputfileAUC.txt of zo?
