@@ -19,23 +19,9 @@ import statics.Path;
  */
 public class OneBalancedKMeanMaker {
     
-  /*  public static ArrayList<Cluster> doDataset(String dataset) throws IOException{
-        String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
-        ArrayList<int[]> labelData = LabelDataReader.getLabelData(dataset, fromFile);
-        Cluster bigCluster = new Cluster(labelData);
-        int nbLabels = labelData.get(0).length;
-        for(int i = 0; i<nbLabels; i++){
-            bigCluster.labels.add(i);
-        }
-        int maxLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
-        ArrayList<Cluster> subClusters = splitCluster(bigCluster, 
-                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations, labelData);
-        return subClusters;
-    }*/
-    
-    public static void makeAllhierarchies() throws IOException{
-        PrintStream stream = new PrintStream(new File(Path.pathPinac+"timeHierKMeans.txt"));
-        stream.println("tijd om "+Path.nbBags+" balanced k means hierarchieën te maken");
+     public static void makeAllhierarchies() throws IOException{
+        PrintStream stream = new PrintStream(new File(Path.pathPinac+"timeHierKMeansOne.txt"));
+        stream.println("tijd om one balanced k means hierarchie te maken");
         for(String dataset: Path.datasets){
             
             System.out.println(dataset );
@@ -46,7 +32,7 @@ public class OneBalancedKMeanMaker {
                     Path.pathPinac+dataset+"/one/kmeansHierOne.txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
             long endTime = System.nanoTime();
             long durationMs = (endTime - startTime)/1000000;
-            stream.println(dataset+": totale tijd"+durationMs+" ms; gemiddelde tijd per bag: "+durationMs+" ms");
+            stream.println(dataset+": totale tijd"+durationMs+" ms");
            
         }
         stream.close();
@@ -174,11 +160,6 @@ public class OneBalancedKMeanMaker {
     
     
     public static void main(String[] args) throws IOException{
-        String fromFile = "/Users/katie/Desktop/temp/medicaltrainFlat.arff";
-        String toFile = "/Users/katie/Desktop/temp/output.txt";
-       //
-     //  makeHierarchy("medical", fromFile, toFile );
-        //doDataset("emotions");
         makeAllhierarchies();
     }
 }

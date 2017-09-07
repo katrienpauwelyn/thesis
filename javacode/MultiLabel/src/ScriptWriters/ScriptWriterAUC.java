@@ -38,14 +38,32 @@ public class ScriptWriterAUC {
     public static void makePartScript(PrintStream stream, BufferedReader reader) throws IOException{
         String line;
         String path;
-        String pathOutput;
+        
         
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            String all = "micro"+line;
-           path = Path.pathPinac.concat(line).concat("/kmeans/micromacro/");
-            pathOutput = path.concat("AUCmicro"+line+".txt");
+                    //MICRO
+            String allFlat = "micro"+line+"FlatOne.txt";
+            String allKMeans = "micro"+line+"KMeansOne.txt";
+             path = Path.pathPinac.concat(line).concat("/one/micromacro/");
+            String pathOutputFlat = path.concat("AUCmicro"+line+"FlatOne.txt");
+            String pathOutputKMeans = path.concat("AUCmicro"+line+"KMeansOne.txt");
+             
             stream.println("echo \""+line+" micro\"");
-            stream.println("java -jar auc.jar "+path+all+".txt list > "+pathOutput);
+            stream.println("echo \""+line+" micro Flat\"");
+            
+            stream.println("java -jar auc.jar "+path+allFlat+" list > "+pathOutputFlat);
+            stream.println("echo \""+line+" micro KMeans\"");
+            stream.println("java -jar auc.jar "+path+allKMeans+" list > "+pathOutputKMeans);
+            stream.println("echo \""+line+" micro RHam\"");
+            for(int i = 0; i<10; i++){
+                stream.println("echo \""+line+" micro RHam\"");
+                String allRHam = "micro"+line+"RHamOne"+i+".txt";
+                 String pathOutputRHam = path.concat("AUCmicro"+line+"RHamOne"+i+".txt");
+                 stream.println("java -jar auc.jar "+path+allRHam+" list > "+pathOutputRHam);
+            }
+              
+            
+            //MACRO
             System.out.println(line);
             reader.readLine();
             String[] parsed = reader.readLine().split(",");
@@ -54,8 +72,21 @@ public class ScriptWriterAUC {
             System.out.println();
              for(int i = 0; i<parsed.length; i++){
                  stream.println("echo \""+line+" macro "+parsed[i]+"\"");
-                stream.println("java -jar auc.jar "+path+parsed[i]+".txt list > "+path+"AUCmacro"+parsed[i]+".txt");
-             }  
+                 stream.println("echo \""+line+" micro Flat\"");
+                stream.println("java -jar auc.jar "+path+parsed[i]+"-"+line+"FlatOne.txt list > "
+                        +path+"AUCmacro"+parsed[i]+"FlatOne.txt");
+                stream.println("echo \""+line+" micro KMeans\"");
+                stream.println("java -jar auc.jar "+path+parsed[i]+"-"+line+"KMeansOne.txt list > "
+                        +path+"AUCmacro"+parsed[i]+"KMeansOne.txt");
+                for(int ham = 0; ham<10; ham++){
+                    stream.println("echo \""+line+" macro RHam\"");
+                    stream.println("java -jar auc.jar "+path+parsed[i]+"-"+line+"RHamOne"+ham+".txt list > "
+                            +path+"AUCmacro"+parsed[i]+"RHamOne"+ham+".txt");
+                }
+           
+                
+            }
+             
          
         }
     }

@@ -46,7 +46,7 @@ public class Path {
     
       public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
       
-       public static String pathStandardMap = pathPinac + "normalMap.txt";
+       public static String pathStandardMap = pathPinac + "normalMapold.txt";
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
     public static String pathSparseMap = pathPinac + "sparseMap.txt";
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapBibtex.txt";

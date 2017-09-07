@@ -48,6 +48,17 @@ Area Under the Curve for ROC is 0.8583492028343667
         return Double.parseDouble(l);
     }
     
+        //MICRO
+    //AUCmicro"+dataset+"FlatOne.txt
+    //AUCmicro"+dataset+"KMeansOne.txt
+    //AUCmicro"+dataset+"RHamOne"+i+".txt
+    
+        //MACRO
+    //"AUCmacro"+parsed[i]+"FlatOne.txt"
+    //"AUCmacro"+parsed[i]+"KMeansOne.txt"
+    //"AUCmacro"+parsed[i]+"RHamOne"+ham+".txt"
+    
+    
     //returnt de gemiddelde aus van een dataset
     public static PrRocTuple getMeanMacroAUsDataset(String dataset, String unparsedClasses) throws IOException{
        // String path = Path.pathPinac+dataset+"/micromacro/";

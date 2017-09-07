@@ -7,7 +7,9 @@ package multilabel;
 
 import combinerenResultaten.Averager;
 import combinerenResultaten.Macro;
+import combinerenResultaten.MacroOne;
 import combinerenResultaten.Micro;
+import combinerenResultaten.MicroOne;
 import java.io.IOException;
 import statics.Path;
 
@@ -37,8 +39,8 @@ public class MicroMacro {
     public static void makeMicroMacroPinacs() throws IOException{
         String basic;
         System.out.println("micromacro");
-        Micro.makeMicroFilesForAllDatasets();
-        Macro.makeMacroFilesForAllDatasets();
+        MicroOne.makeMicroFilesForAllDatasets();
+        MacroOne.makeMacroFilesForAllDatasets();
         
        /* for(String dataset: Path.datasets){
             System.out.println(dataset);

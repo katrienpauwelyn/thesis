@@ -19,23 +19,29 @@ public class SFileMakerOne {
        public static void makeAllSFiles() throws FileNotFoundException{
        PrintStream stream;
      for(String d: Path.datasets){
-             stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsFlatOne.s"));
-             makeSFileFlat(stream, Path.pathPinac+d+"/"+d+"train.arff", Path.pathPinac+d+"/"+d+"test.arff",
+            String train = Path.pathPinac+d+"/"+d+"train.arff";
+            String test = Path.pathPinac+d+"/"+d+"test.arff";
+            //FLAT 
+            stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsFlatOne.s"));
+             makeSFileOne(stream, train, test,
                      Path.pathPinac+d+"/one/hierOneFlat.txt");
              stream.close();
+             
+             //KMEANS
+             stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsKMeansOne.s"));
+             makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/kmeansHierOne.txt");
+             stream.close();
+             
+             //RHam
+             for(int i = 0; i<10; i++){
+                 stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsRHamOne"+i+".s"));
+                 makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/hierOneRHam"+i);
+                 stream.close();
+             }
+             
          }
      }
-   //settings-bag-7
-      
-   /*
-   Setting voor lege verzameling labels:
-EmptySetIndicator (binnen [Hierarchical])
-bvb EmptySetIndicator = none
-   */
-       
-   //TODO: pathtrain verandert voor iedere bag
-   //ensemble mag uit staan
-      
+   
      private static void makeSFileOne(PrintStream stream, String pathTrain, String pathTest,
              String pathHierarchy){
             stream.println("[General]");
@@ -46,7 +52,7 @@ bvb EmptySetIndicator = none
             stream.println("TestSet = "+ pathTest);
             stream.println();
             stream.println("[Hierarchical]");
-            stream.println("Type = TREE");
+            stream.println("Type = DAG");
             stream.println("HSeparator = /");
             stream.println("SingleLabel = No");
             stream.println("DefinitionFile = "+pathHierarchy);
@@ -61,15 +67,7 @@ bvb EmptySetIndicator = none
             stream.println();
             stream.println("[Model]");
             stream.println("MinimalWeight = 5.0");
-            
-            
-
-
-
-
       }
-      
-    
       
       public static void main(String[] args) throws FileNotFoundException{
         makeAllSFiles();
