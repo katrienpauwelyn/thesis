@@ -32,6 +32,16 @@ public class Averager {
         }
     }
     
+    public static void test() throws IOException{
+        for(String dataset: Path.postAverageDatasets){
+                 String outputHier = Path.pathPinac+dataset+"/unfilteredAverage.test.pred.arff";
+                 String outputFlat = Path.pathPinac+dataset+"/flat/unfilteredAverage.test.pred.arff";
+                  makeAverageArff(Path.pathPinac+dataset+"/settingsBag",".test.pred.arff",outputHier,dataset);
+                  makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat",".test.pred.arff",outputFlat,dataset);
+        }
+     
+    }
+    
     /*public static void doFlags() throws IOException{
          String basic = Path.path;
         
@@ -196,7 +206,8 @@ public class Averager {
     
     
     public static void main(String[] args) throws IOException{
-       makeAllAverageArff();
+      // makeAllAverageArff();
+      test();
     }
 
     private static void printHeader(PrintStream stream, String[] volgordeLeafs, String relation) {

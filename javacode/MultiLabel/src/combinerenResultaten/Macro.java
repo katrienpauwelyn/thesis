@@ -17,20 +17,18 @@ import statics.Path;
  *
  * @author katie
  * voor iedere klasse een file
- * alle instances met enkel die klasse
+ * bevat van alle instances enkel de waarde die overeenkomt met die klasse (zowel predicted als actual)
  * predicted - actual
  */
 public class Macro {
     
     public static void makeMacroFilesForAllDatasets() throws IOException{
         String basic;
-     /*   for(String dataset: Path.sparseDatasets){
-            System.out.println("post macro"+dataset);
+        for(String dataset: Path.sparseDatasets){
             basic = Path.pathPinac+dataset;
             makeMacroFiles(basic, basic+"/average.test.pred.arff");
-        }*/
+        }
         for(String dataset: Path.datasets){
-            System.out.println("kmeans "+dataset);
             basic = Path.pathPinac+dataset+"/kmeans";
             makeMacroFiles(basic, basic+"/averageKMeans.test.pred.arff");
         }
@@ -78,11 +76,4 @@ public class Macro {
         String[] split = line.split(",");
         return split[index];
     }
-    
-    public static void main(String[] args) throws IOException{
-        String basic =Path.path+"flags";
-        String file = basic+"/average.test.pred.arff";
-        makeMacroFiles(basic,file );
-    }
-    
 }

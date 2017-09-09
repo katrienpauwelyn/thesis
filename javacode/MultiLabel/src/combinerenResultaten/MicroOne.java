@@ -44,7 +44,6 @@ public class MicroOne {
          PrintStream stream = new PrintStream(new File(output));
          while(!reader.readLine().contains("@DATA")){}
          String line;
-       System.out.println(nbClasses);
          while((line=reader.readLine())!=null && !line.isEmpty()){
              String[] split = line.split(",");
              for(int i = 0; i<nbClasses; i++){

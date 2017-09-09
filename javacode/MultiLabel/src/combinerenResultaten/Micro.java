@@ -14,20 +14,18 @@ import java.io.PrintStream;
 import statics.Path;
 
 /**
- *alle voorspellingen per koppel onder elkaar
+ * maakt de micro files aan (van de average file)
+ *alle voorspellingen per koppel onder elkaar: a1, a2, a3, p1, p2, p3 =>
+ * a1 p1
+ * a2 p2
+ * a3 p3
  * @author katie
  */
 public class Micro {
     
      public static void makeMicroFilesForAllDatasets() throws IOException{
         String basic;
-     /*   for(String dataset: Path.datasets){
-            System.out.println("micro post "+dataset);
-            basic = Path.pathPinac.concat(dataset);
-            makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
-        }*/
         for(String dataset: Path.datasets){
-            System.out.println("micro kmeans "+dataset);
             basic = Path.pathPinac+dataset+"/kmeans";
             makeMicroFiles(basic, basic+"/averageKMeans.test.pred.arff", dataset);
         }
@@ -43,16 +41,9 @@ public class Micro {
          while((line=reader.readLine())!=null && !line.isEmpty()){
              String[] split = line.split(",");
              for(int i = 0; i<nbClasses; i++){
-                 
                  stream.println(split[i+nbClasses]+" "+split[i]);
              }
          }
     }
     
-    public static void main(String[] args) throws IOException{
-        String basic = Path.path;
-        String fromFile = basic+"flags/average.test.pred.arff";
-        String dataset = "flags";
-        makeMicroFiles(basic+"flags", fromFile, dataset);
-    }
 }

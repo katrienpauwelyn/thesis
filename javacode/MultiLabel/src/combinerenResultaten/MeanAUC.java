@@ -22,56 +22,46 @@ import statics.Path;
 public class MeanAUC {
     
     /**
-     * --- Writing PR file /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.pr ---
---- Writing standardized PR file /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.spr ---
---- Writing ROC file /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.roc ---
+     * input file bevat: 
+     * 
+     * --- Writing PR input /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.pr ---
+--- Writing standardized PR input /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.spr ---
+--- Writing ROC input /export/home1/NoCsBack/thesisdt/s0212310/medical/micromacro/micromedical.txt.roc ---
 Area Under the Curve for Precision - Recall is 0.15751045207745387
 Area Under the Curve for ROC is 0.8583492028343667
      */
     //returnt de pr en roc uit een file (getest)
-    public static PrRocTuple getPrRocFromFile(String file) throws FileNotFoundException, IOException{
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+    public static PrRocTuple getPrRocFromFile(String input) throws FileNotFoundException, IOException{
+        BufferedReader reader = new BufferedReader(new FileReader(input));
         double pr;
         double roc;
-        System.out.println(file);
         String line;
-
+        
         while(!(line=reader.readLine()).contains("Writing ROC file")){}
         
         return new PrRocTuple( getPrOrRocFromLine(reader.readLine()), 
                 getPrOrRocFromLine(reader.readLine()) );
     }
     
+    /**
+     * Returnt de PR of ROC (al naar gelang wat er in de lijn staat) uit de gegeven lijn. 
+     */
     public static double getPrOrRocFromLine(String line){
         String[] parsed = line.split(" ");
         String l = parsed[parsed.length-1];
         return Double.parseDouble(l);
     }
     
-        //MICRO
-    //AUCmicro"+dataset+"FlatOne.txt
-    //AUCmicro"+dataset+"KMeansOne.txt
-    //AUCmicro"+dataset+"RHamOne"+i+".txt
-    
-        //MACRO
-    //"AUCmacro"+parsed[i]+"FlatOne.txt"
-    //"AUCmacro"+parsed[i]+"KMeansOne.txt"
-    //"AUCmacro"+parsed[i]+"RHamOne"+ham+".txt"
-    
-    
-    //returnt de gemiddelde aus van een dataset
+      //returnt de gemiddelde macro PR en ROC van een dataset
     public static PrRocTuple getMeanMacroAUsDataset(String dataset, String unparsedClasses) throws IOException{
-       // String path = Path.pathPinac+dataset+"/micromacro/";
         String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
-                //"/Users/katie/Downloads/micromacro/";
-        PrRocTuple microAU = getPrRocFromFile(path+"AUCmicro"+dataset+".txt");
-        String[] parsed = unparsedClasses.split(",");
+        String[] classes = unparsedClasses.split(",");
         PrRocTuple macroAU = new PrRocTuple(0, 0);
-        for(String cl: parsed){
+        for(String cl: classes){
             String p = path+"AUCmacro"+cl+".txt";
             macroAU.add(getPrRocFromFile(p));
         }
-        macroAU.divide(parsed.length);
+        macroAU.divide(classes.length);
         return macroAU;
     }
     
@@ -92,6 +82,14 @@ Area Under the Curve for ROC is 0.8583492028343667
         stream.close();
     }
     
+    /**
+     * 
+     * @param pathMap: pad naar een file die per dataset de naam, aantal attributen en de naam van de klassen bevat.
+     * vb:
+     *  emotions
+        72
+        amazed:suprised,angry:aggresive,happy:pleased,quiet:still,relaxing:calm,sad:lonely
+      */
     public static void printAUsPerMap(String pathMap, PrintStream stream) throws FileNotFoundException, IOException{
         String line;
         BufferedReader reader = new BufferedReader(new FileReader(pathMap));
