@@ -20,8 +20,14 @@ import statics.Path;
  */
 public class FlatHierarchyMaker {
     
+    //normalmap en sparsemap: .txt bestand met de naam van de dataset, het aantal attributen en de namen van de labels, vb van scene:
+    //scene
+    //294
+    //Beach,FallFoliage,Field,Mountain,Sunset,Urban
+    //
+    //maakt de vlakke hierarchieën (één knoop die alles bevat)
         public static void makeAllHierarchies() throws FileNotFoundException, IOException{
-            HashMap<String, String> normalMap = new HashMap();
+            HashMap<String, String> normalMap = new HashMap();  //naam dataset - klassen van die dataset
             HashMap<String, String> sparseMap = new HashMap();
             String path = Path.pathPinac;
             BufferedReader readerNormal = new BufferedReader(new FileReader(path+"normalMap.txt"));
@@ -42,18 +48,14 @@ public class FlatHierarchyMaker {
             makeAllHierarchies(sparseMap, timePrinter);
             timePrinter.close();
     }
-        
         public static void makeAllHierarchies(HashMap<String, String> map, PrintStream timePrinter) throws FileNotFoundException{
             String path = Path.pathPinac;
             for(String dataset: map.keySet()){
                 
                 long startTime = System.nanoTime();
-                
                 String finalPath = path+dataset+"/flat/flatHier.txt";
                 PrintStream stream = new PrintStream(new File(finalPath));
-                
                 String all = map.get(dataset);
-                
                 
                 String[] parsed = all.split(",");
                 all = all.replace(",", "-")+",";
@@ -65,7 +67,7 @@ public class FlatHierarchyMaker {
                 timePrinter.println("hierarchie "+dataset+" "+duration+"ms");
             }
         }  
-        
+     
         public static void main(String[] args) throws IOException{
             makeAllHierarchies();
         }

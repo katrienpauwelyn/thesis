@@ -15,7 +15,7 @@ import java.util.Collections;
  * cluster heeft een centrum en toegewezen labels
  */
 public class Cluster {
-    public ArrayList<Integer> labels = new ArrayList();
+    public ArrayList<Integer> labels = new ArrayList(); //welke labels (kolom) uit Wn (labelData) behoren tot deze cluster
     public double[] clusterCentrum;
     public ArrayList<int[]> labelData = new ArrayList();
     
@@ -29,12 +29,12 @@ public class Cluster {
         labelData = labelD;
     }
 
-    
+    //--------------------------------
     public Cluster(double[] clusterC, ArrayList<int[]> labelData){
         this.labelData = labelData;
         clusterCentrum = clusterC;
     }
-    
+    //--------------------------------
     public Cluster(int[] clusterC, ArrayList<int[]> labelData){
         clusterCentrum = new double[clusterC.length];
         for(int i = 0; i<clusterC.length; i++){
@@ -43,30 +43,23 @@ public class Cluster {
         this.labelData = labelData;
     }
     
-    
-    public void assignLabels(ArrayList<Integer> la){
-        labels = la;
-    }
-    
-    public ArrayList<Integer> resetLabels(){
-        labels = null;
-        return labels;
-    }
-    
-      public int getNbLabels(){
+    public int getNbLabels(){
         return labels.size();
     }
-    /**
-     *vb: labels is 1,3
-     * data: {1,2,3,10}
-     *      {4,5,6,11}
-     *      {7,8,9,12}
+    
+     /**
+     *vb: labels is {1,3}
+     * labelData: {1,2,3,10}
+     *            {4,5,6,11}
+     *            {7,8,9,12}
      * getDataLabelNr(0) is dan:{2,5,8}
+     * getDataLabelNr(3) is dan:{10,11,12}
      */
     public int[] getDataLabelNr(int nr){
         int label = labels.get(nr);
         return getLabelData(label);
     }
+    
     
     public int[] getLabelData(int label){
         int[] out = new int[labelData.size()];
@@ -75,7 +68,6 @@ public class Cluster {
         }
         return out;
     }
-    
      /**
      * Berekent de afstand tussen een clusterCentrum en een label (met index indexLabel)
      */
@@ -86,7 +78,6 @@ public class Cluster {
         }
         return Math.sqrt(sum);
     }
-    
     //voegt een label en zijn afstanden toe
     //als er te veel labels zijn, verwijder de verste en return deze. Als er niet te veel
     //zijn, return null
@@ -97,7 +88,6 @@ public class Cluster {
         }
         return null;
     }
-    
     
     //verwijder het label met de grootste afstand tot het centrum van deze cluster
     //zet de afstand van dit label tot deze cluster op oneindig
@@ -118,7 +108,6 @@ public class Cluster {
     }
     
  
-    
     //herberekent het centrum aan de hand van 'distances'
    //true returnen als het centrum hetzelfde gebleven is
     public boolean  recalculateCentra(){
@@ -134,7 +123,7 @@ public class Cluster {
         }
         return allsame;
     }
-    
+   
     //verander de tijdelijke labels (distance) in permanente labels (labels)
     public void makeLabelsFinal(){
         for(ArrayList<DistanceToCluster> list: distances){
@@ -149,9 +138,9 @@ public class Cluster {
         }
         System.out.println(s);
     }
-    
+    //--------------------------------
     //update de label data: filter de instances er uit waar er geen label uit 'labels' true is
-    public void updateLabelData(){
+    /*public void updateLabelData(){
        ArrayList<int[]> newList = new ArrayList();
         for(int[] instance: labelData){
            for(int l: labels){
@@ -162,7 +151,18 @@ public class Cluster {
            }
        }
        labelData = newList;
+    }*/
+    
+    //--------------------------------
+   /* public void assignLabels(ArrayList<Integer> la){
+        labels = la;
     }
+    //--------------------------------
+    public ArrayList<Integer> resetLabels(){
+        labels = null;
+        return labels;
+    }
+*/
     
     
 }

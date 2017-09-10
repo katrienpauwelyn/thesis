@@ -16,11 +16,12 @@ public class DistanceKeeper {
     public String originalClass;
     public HashMap<String, Integer> distances;
     
-    
+  
     public DistanceKeeper(String cla){
         originalClass = cla;
         distances = new HashMap();
     }
+  
     
     public DistanceKeeper(String cla, ArrayList<String> classes){
         originalClass = cla;
@@ -32,11 +33,11 @@ public class DistanceKeeper {
     
     
     
-    
     public boolean isClass(String cl){
         return originalClass.equals(cl);
     }
-    
+   
+    //returnt de klasse die het dichtst bij originalClass ligt
     public String getClosest(){
         int d = Integer.MAX_VALUE;
         String c = "";
@@ -48,13 +49,14 @@ public class DistanceKeeper {
         }
         return c;
     }
-    
+   
+    //vergroot de afstand van originalClass naar c met 1
     public void incrementClass(String c){
         c = c.replace("-", ":").replace("/",":");
         int d = 0;
         try{ 
             d = distances.get(c);
-        } catch(Exception e){
+        } catch(Exception e){//extra failsafe
             System.out.println("exception");
             System.out.println(c);
             for(String s: distances.keySet()){
@@ -65,17 +67,18 @@ public class DistanceKeeper {
         
         distances.put(c, d+1);
     }
-    
+   
+    //returnt de afstand van originalClass naar c
     public int getDistance(String c){
         c = c.replace("-", ":").replace("/",":");
         return distances.get(c);
     }
-    
+   
     /**
-     * @pre newNodes bevat enkel de startknoop, dus maar 1 knoop
+     * @pre newNodes.get(0) bevat altijd de klasse die het eerst toegevoegd geweest is, dus dit is
+     * (by default) de klasse waartot de afstand berekend moet worden
      * @param newNodes
-     * @return de dichtste knoop die uit newNodes komt. newNodes bevat enkel de startknopen (dus de
-     * afstand wordt tot deze startknoop berekend)
+     * @return de dichtste knoop die uit newNodes komt. 
      */
     public Node closestNode(ArrayList<Node> newNodes){
         int distance = Integer.MAX_VALUE;

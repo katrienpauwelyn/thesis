@@ -18,13 +18,11 @@ import statics.Path;
  * @author katie
  */
 public class LabelDataReader {
-    
     /**
      * maakt de Wn aan, per lijn alle label data van een instance
+     * per instance : per label een 0 als false, 1 als true (actual data)
      */
     public static ArrayList<int[]> getLabelData(String dataset, String fromFile) throws IOException{
-      //  String fromFile = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";//TODO weer uit commentaar zetten
-    
         int nbInstances = getNbInstances(fromFile);
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
         String line;
@@ -36,11 +34,17 @@ public class LabelDataReader {
         } else {
            return getLabelsData(fromFile, nbInstances, nbLabels, false);
         }
-        
     }
     
-    
     //getest standard en sparse
+    /**
+     * 
+     * @param fromFile: de labeldata moet van deze file genomen worden
+     * @param nbInstances: het aantal instances dat fromFile heeft
+     * @param nbLabels: het aantal labels dat fromFile heeft
+     * @param sparse: true: is een sparse dataset. False: is een standard dataset (niet sparse)
+     * @return de label data (Wn)
+     */
     private static ArrayList<int[]> getLabelsData(String fromFile, int nbInstances, 
             int nbLabels, boolean sparse) throws IOException{
         BufferedReader reader = new BufferedReader(new FileReader(fromFile));
@@ -55,7 +59,7 @@ public class LabelDataReader {
             indexLabel.put(l, index);
             index++;
         }
-        while(!reader.readLine().contains("@data")){}
+        while(!(line=reader.readLine()).contains("@data") && !(line.contains("@DATA"))){}
        
         while((line = reader.readLine())!=null && !line.isEmpty()){
             String[] parsed;
@@ -77,7 +81,9 @@ public class LabelDataReader {
         reader.close();
         return labelData;
     }
-     
+   /*
+    returnt hoe veel insances er in de gegeven file zitten.
+    */
     private static int getNbInstances(String file) throws FileNotFoundException, IOException{
         BufferedReader reader = new BufferedReader(new FileReader(file));
           String line;
@@ -91,7 +97,6 @@ public class LabelDataReader {
         return nbInstances;
     }
     
-    
     public static void printIntInt(ArrayList<int[]> toPrint){
         for(int x=0; x<toPrint.size(); x++){
             String out = "";
@@ -101,7 +106,7 @@ public class LabelDataReader {
             System.out.println(out);
         }
     }
-    
+   
     /**
      * return de mappings tussen de index van het label en het label zelf
      * vb: @attribute class hierarchical a,b,c

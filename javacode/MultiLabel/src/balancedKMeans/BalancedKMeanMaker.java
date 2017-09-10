@@ -27,17 +27,18 @@ public class BalancedKMeanMaker {
         for(int i = 0; i<nbLabels; i++){
             bigCluster.labels.add(i);
         }
-        int maxLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
+        int maxNbOfLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
         ArrayList<Cluster> subClusters = splitCluster(bigCluster, 
-                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations, labelData);
+                Path.getNbClusterCentra(dataset), maxNbOfLabels, Path.nbIterations, labelData);
         return subClusters;
     }*/
     
+    
+    //maak alle balanced k means hierarchieen (en sla de tijd op)
     public static void makeAllhierarchies() throws IOException{
         PrintStream stream = new PrintStream(new File(Path.pathPinac+"timeHierKMeans.txt"));
         stream.println("tijd om "+Path.nbBags+" balanced k means hierarchieën te maken");
         for(String dataset: Path.datasets){
-            
             System.out.println(dataset );
             long startTime = System.nanoTime();
             
@@ -49,11 +50,17 @@ public class BalancedKMeanMaker {
             long endTime = System.nanoTime();
             long durationMs = (endTime - startTime)/1000000;
             stream.println(dataset+": totale tijd"+durationMs+" ms; gemiddelde tijd per bag: "+durationMs/Path.nbBags+" ms");
-           
         }
         stream.close();
     }
-    
+  
+    /**
+     * Maakt en schrijft een hierarchie uit
+     * @param dataset de naam van de dataset
+     * @param fromFile: pad naar de input file
+     * @param outputFile: pad naar de output file
+     * @param fileLabels de klassen die in fromFile voorkomen
+     */
     public static void makeHierarchy(String dataset, String fromFile, String outputFile, String fileLabels) throws IOException{
         ArrayList<int[]> labelData = LabelDataReader.getLabelData(dataset, fileLabels);
         Cluster bigCluster = new Cluster(labelData);
@@ -62,7 +69,7 @@ public class BalancedKMeanMaker {
         for(int i = 0; i<nbLabels; i++){
             bigCluster.labels.add(i);
         }
-        int maxLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
+        int maxNbOfLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
         ArrayList<Cluster> todoClusters = new ArrayList();
         todoClusters.add(bigCluster);
         
@@ -72,13 +79,14 @@ public class BalancedKMeanMaker {
         while(!todoClusters.isEmpty()){
             Cluster first = todoClusters.remove(0);
             String basicString = indicesToString(first.labels, labelMappings)+",";
-            maxLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentra(dataset));
+            maxNbOfLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentra(dataset));
       
             ArrayList<Cluster> subClusters = splitCluster(first, 
-                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations, labelData);
+                Path.getNbClusterCentra(dataset), maxNbOfLabels, Path.nbIterations, labelData);
+          
             for(Cluster c: subClusters){
                 //afdrukken
-                                //geen lege clusters?
+                                //extra check: geen lege clusters?
                 if(c.labels.size()==0){
                     System.out.println("size is 0");
                     for(Cluster c2: subClusters){
@@ -88,19 +96,20 @@ public class BalancedKMeanMaker {
                     stream.println(basicString+indicesToString(c.labels, labelMappings));
                 }
                 
-
                 //cluster groter dan 1 => recursief
                 if(c.labels.size()>1){
                     todoClusters.add(c);
                 }
-                
             }
         }
-     
         stream.close();
     }
     
-    
+    /**
+     * @param indices: de indices die overeen komen met de labels (kolommen) van Wn
+     * @param mappings: de mappings tussen de indices en de labels
+     * @return  een string die een knoop in een hierarchie voorstelt
+     */
     private static String indicesToString(ArrayList<Integer> indices, HashMap<Integer, String> mappings){
          String basicString = "";
             for(int s: indices){
@@ -109,7 +118,8 @@ public class BalancedKMeanMaker {
             return basicString.substring(0, basicString.length()-1);
     }
 
-    
+    //het balanced kmeans algoritme. Maakt de eerste initiele cluster aan en split deze recursief
+    //op tot een stopconditie bereikt is.
     public static ArrayList<Cluster> splitCluster(Cluster cluster, int nbClusters, int maxLabels, 
             int nbIterations, ArrayList<int[]> labelData){
         ArrayList<Cluster> subClusters = new ArrayList();
@@ -135,7 +145,6 @@ public class BalancedKMeanMaker {
         }
         //een aantal iteraties
         for(int iteration = 0; iteration < nbIterations; iteration++){  
-         //   System.out.println("begin iteration "+iteration);
             for(Cluster sub: subClusters){
                 sub.distances.clear();
             }
@@ -147,14 +156,10 @@ public class BalancedKMeanMaker {
                             subClusters.get(nbCluster), label));
                 }
                 Collections.sort(distances);
-                boolean finished = false;
-
-                while(!finished){
+              
+                while(distances!=null){
                     //label bij de dichtst bijzijnde cluster steken
                     distances = distances.get(0).cluster.addDistance(distances, maxLabels);
-                    if(distances==null){
-                        finished=true;
-                    }
                 }
             }
             //herbereken de centra    //resetten op true, dan && doen, als er 1 false is gaat het false zijn
@@ -169,18 +174,12 @@ public class BalancedKMeanMaker {
         for(Cluster sub: subClusters){
             sub.makeLabelsFinal();
         }
-        
         return subClusters;
     }
     
     
     
     public static void main(String[] args) throws IOException{
-        String fromFile = "/Users/katie/Desktop/temp/medicaltrainFlat.arff";
-        String toFile = "/Users/katie/Desktop/temp/output.txt";
-       //
-     //  makeHierarchy("medical", fromFile, toFile );
-        //doDataset("emotions");
         makeAllhierarchies();
     }
 }

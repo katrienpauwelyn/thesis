@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * @author katie
  */
 public class ParseHierarchy {
-    
     //tot nu toe staat in de hierarchy iedere leaf node apart
     //er moet iedere ouder-kind relatie alleen komen te staan
     public static void parseHierarchy(String pathIn, String pathOut) throws FileNotFoundException, IOException{

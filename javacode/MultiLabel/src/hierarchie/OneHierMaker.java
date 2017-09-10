@@ -17,7 +17,7 @@ import java.util.Random;
 import statics.Path;
 
 /**
- *
+ * Dezelfde code als Hierarchymaker maar dan voor 'one' ipv de ensembles
  * @author katie
  * maak een hierarchie, volgens RHam voor de volledige dataset
  */
@@ -42,9 +42,6 @@ public class OneHierMaker {
                 String train = path+dataset+"/"+dataset+"train.arff";
                 String output = path+dataset+"/one/temphierOne";
                  String finalOutput = path+dataset+"/one/hierOneRHam"+i;
-             //String train = "/Users/katie/Desktop/temp/emotionstrain.arff";
-             //String output = "/Users/katie/Desktop/temp/tempHier";
-             //String finalOutput = "/Users/katie/Desktop/temp/hier";
                  long startTime = System.nanoTime();
                 makeHierarchy(train, output, false, list, intMap.get(dataset));
                 ParseHierarchy.parseHierarchy(output, finalOutput);

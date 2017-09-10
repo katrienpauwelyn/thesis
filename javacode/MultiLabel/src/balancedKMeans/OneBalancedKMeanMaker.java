@@ -16,6 +16,8 @@ import statics.Path;
 /**
  *
  * @author katie
+ * Hetzelfde als BalancedKMeanMaker maar dan voor 'one' (niet voor ensemble)
+ * code is basically the same
  */
 public class OneBalancedKMeanMaker {
     
