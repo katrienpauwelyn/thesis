@@ -23,7 +23,9 @@ public class ToLatex {
         for(String classifier: Path.classifiers){
             convertOneClassifierToLatex(Path.path+"/"+classifier, classifier);
         }
-      //   convertOneClassifierToLatex(Path.path+"/"+"classBalanced", "classBalanced");
+         //convertOneClassifierToLatex(Path.path+"/"+"classBalanced", "classBalanced");
+         //convertOneClassifierToLatex(Path.path+"/"+"furthestCentroid", "furthestCentroid");
+         //convertOneClassifierToLatex(Path.path+"/"+"randomPair", "randomPair");
     }
     
     // header: accuracy/mean / weighted mean & classifier C4.5 & classifier Logistic & Clus

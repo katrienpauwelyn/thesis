@@ -6,7 +6,7 @@
 package wilcoxon;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
  */
 public class WilcoxonTuple {

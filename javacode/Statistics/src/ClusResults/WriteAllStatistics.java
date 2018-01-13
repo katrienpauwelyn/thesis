@@ -45,7 +45,7 @@ public class WriteAllStatistics {
                  PrintStream stream = new PrintStream(new File(path+"/"+s+"/asettings/S"+seed+name));
                  mean = auClus.getMeanAUForAllFolds(path+"/"+s, seed);
                 weighted = auClus.getWeightedAUForAllFolds(path+"/"+s, seed);
-                acc = accCl.getAccuracy(path+"/"+s, seed);
+                acc = accCl.getAccuracy(path+"/"+s, seed, "", false);
                 stream.println(s+"\t\t"+"Mean auprc: "+Double.toString(mean.getFirst())+
                         "\t\t Mean auroc: "+Double.toString(mean.getSecond())+
                         "\t\t"+"Weighted mean auprc: "+Double.toString(weighted.getFirst())+
@@ -59,31 +59,7 @@ public class WriteAllStatistics {
         }
         
     }
-    
-    //print de statistieken uit van de 4 test datasets
- /*   private void printStatisticsOfFourDatasets() throws FileNotFoundException, IOException{
-        String[] datasets = {"audiology","krkopt","mfeatFac","pageBlocks"};
-        for(String classifier: Path.classifiers){
-            String path = Path.path+"/"+classifier;
-            File file = new File(path+"/StatisticsFour");
-            PrintStream stream = new PrintStream(file);
-            AUClus auprcClus = new AUClus();
-            AccuracyClus accCl = new AccuracyClus();
-            TupleFloat mean;
-            TupleFloat weighted;
-            double acc; 
-            
-            for(String s : datasets){        
-                mean = auprcClus.getMeanAUForAllFoldsEnsemble(path+"/"+s);
-                weighted = auprcClus.getWeightedAUForAllFoldsEnsemble(path+"/"+s);
-                acc = accCl.getAccuracyEnsemble(path+"/"+s);
-                stream.println(s+"\t\t"+"Mean auprc: "+Float.toString(mean)+"\t\t"+"Weighted mean auprc: "+Float.toString(weighted)+
-                "\t\t"+"accuracy: "+Double.toString(acc));
-            }
-        }
-        
-    }*/
-    
+ 
     public static void combineMultipleSeedsAllClassifiers(String path) throws IOException{
         for(String classifier: Path.classifiers){
             combineMultipleSeedsAllDatasets(path+"/"+classifier, classifier);

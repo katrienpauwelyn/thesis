@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import staticData.Path;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
  */
 public class CalculateWilcoxon {

@@ -12,7 +12,7 @@ import java.io.IOException;
 import staticData.Path;
 
 /**
- *
+ *Berekent de accuracy van de output van Clus.
  * @author katie
  */
 public class AccuracyClus {
@@ -77,27 +77,17 @@ public class AccuracyClus {
         return tuple;
     }
     
-    public double getAccuracy(String path, int seed) throws IOException{
-        TupleInt posNeg = getNbPosNegAllFolds(path, seed, ".test.pred.arff");
-        return posNeg.getAccuracy();
-    }
-    
-        //berekent het aantal correct en incorrect voorspelde instances (voor ensembles)
-    //van alle folds van 1 dataset samen
-    /*public TupleInt getNbPosNegAllFoldsEnsemble(String path, int seed) throws IOException{
-        String newPath;
-        TupleInt tuple = new TupleInt();
-        for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/asettings/S"+seed+"settingsEnsemble"+Integer.toString(i+1)+".test.pred.arff";
-            tuple.addTuple(getNbPosNegFile(newPath));
+    //tussenvoegsel en hsc zijn toegevoegd voor hsc redenen.
+    //tussenvoegsel is ".hsc.combined" indien het voor een HSC dataset gerund wordt, "" als het een niet HSC-dataset is
+    //hsc is true als de dataset "letterRecognition" of "segmentation" is (deze hebben een licht andere naam)
+    public double getAccuracy(String path, int seed, String tussenvoegsel, boolean hsc) throws IOException{
+        TupleInt posNeg;
+        if(hsc){
+            posNeg = getNbPosNegAllFoldsWithHsc(path, seed, tussenvoegsel+".test.pred.arff", hsc);
+        } else {
+            posNeg = getNbPosNegAllFolds(path, seed, tussenvoegsel+".test.pred.arff");
         }
-        return tuple;
-    }
-    
-    //(voor ensembles)
-    public double getAccuracyEnsemble(String path, int seed) throws IOException{
-        TupleInt posNeg = getNbPosNegAllFoldsEnsemble(path, seed);
         return posNeg.getAccuracy();
     }
-    */
+  
 }

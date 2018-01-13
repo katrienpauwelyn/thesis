@@ -14,7 +14,7 @@ import staticData.Path;
 public class AUClus {
     
     /**
-     * Berekent de AUPRC van de gegeven file. (getest)
+     * Berekent de AUPRC van de gegeven file. 
      * Neemt het gemiddelde van alle AUPRCs van alle leaf nodes (niet de internal nodes)
      */
     public TupleFloat getAUPRCandAUROC(String path) throws FileNotFoundException, IOException{
@@ -49,21 +49,7 @@ public class AUClus {
        return tupleOut;
     }
     
-    
- /*   public static void main(String[] args) throws IOException{
-        String audiology = "/Users/katie/thesisoutput/out/classBalanced/audiology/asettings/S0settingsFold1.hsc.combined.out";
-        String krkopt = "/Users/katie/thesisoutput/out/classBalanced/krkopt/asettings/S0settingsFold1.hsc.combined.out";
-        AUClus c = new AUClus();
-        TupleFloat audF = c.getWeightedAUPRCandAUROC(audiology);
-        System.out.println("aud");
-        System.out.println(audF.print());
-        TupleFloat krkF = c.getWeightedAUPRCandAUROC(krkopt);
-        System.out.println("krk");
-        System.out.println(krkF.print());
-        
-        
-    }*/
-    
+ 
         /**
      * Berekent de gewogen AUPRC van de gegeven file. (getest)
      * Neemt het gewogen gemiddelde van alle AUPRCs van alle leaf nodes (niet de internal nodes)
@@ -119,28 +105,7 @@ public class AUClus {
         return outAU;
     }
     
-     //berekent voor iedere fold het gemiddelde auprc (voor ensembles)
- /*   public float[] getAUPRCsForAllFoldsEnsembles(String path) throws IOException{
-        float[] outAU = new float[Path.nbFolds];
-        String newPath ;
-        for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/settingsEnsemble"+Integer.toString(i+1)+".out";
-            outAU[i] = getAUPRC(newPath);
-        }
-        return outAU;
-    }*/
-    
-    //berekent voor iedere fold het gewogen gemiddelde auprc (voor ensembles)
-  /*  public float[] getAUPRCsWeightedForAllFoldsEnsembles(String path) throws IOException{
-                float[] outAU = new float[Path.nbFolds];
-        String newPath ;
-        for(int i = 0; i<Path.nbFolds; i++){
-            newPath = path+"/settingsEnsemble"+Integer.toString(i+1)+".out";
-            outAU[i] = getWeightedAUPRC(newPath);
-        }
-        return outAU;
-    }*/
-    
+ 
     /**
      * Checks if the given String contains a leaf node or an internal node. Return
      * true if it is a leaf node. (getest)
@@ -239,37 +204,7 @@ public class AUClus {
         return getMeanOfArray(allMeanAUPRCs);
     }
     
-       //returnt het gemiddelde over alle folds van de gewogen gemiddelde auprc (voor ensembles)
-    //per dataset
- /*   public float getWeightedAUForAllFoldsEnsemble(String path) throws IOException{
-        float[] allWeightedAUPRCs = getAUPRCsWeightedForAllFoldsEnsembles(path);
-        return getMeanOfArray(allWeightedAUPRCs);
-    }*/
-    
-    //returnt het gemiddelde over alle folds van de gemiddelde auprc (voor ensembles)
-    //per dataset
- /*   public float getMeanAUPRCForAllFoldsEnsemble(String path) throws IOException{
-        float[] allMeanAUPRCs = getAUPRCsForAllFoldsEnsembles(path);
-        return getMeanOfArray(allMeanAUPRCs);
-    }
-*/
-    
- /**   public void test(String path) throws IOException{
-        TupleFloat[] mean = getAUsForAllFolds(path);
-        TupleFloat[] weighted = getAUsWeightedForAllFolds(path);
-        System.out.println("mean:");
-        for(int i = 0; i<mean.length; i++){
-            System.out.println("auprc: "+mean[i].getFirst()+"   auroc: "+mean[i].getSecond());
-        }
-        System.out.println("mean all folds prc: "+getMeanOfArray(mean).getFirst() + " roc: "+getMeanOfArray(mean).getSecond());
-        System.out.println();
-        System.out.println("weighted mean");
-        for(int i = 0; i<weighted.length; i++){
-            System.out.println("auprc: "+weighted[i].getFirst()+"   auroc: "+weighted[i].getSecond());
-        }
-        System.out.println("mean all weighted folds prc: "+getMeanOfArray(weighted).getFirst() +" roc: "+getMeanOfArray(weighted).getSecond());
-    }
-    */
+ 
     
   
 }

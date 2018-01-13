@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- *
+ *[DEPRECATED]
  * @author katie
  */
 public class WilcoxonMap {

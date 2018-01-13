@@ -32,10 +32,10 @@ public class ScriptMaker {
         String basicString = "perl "+perlScript+" ";//nog s-file aan toevoegen zonder .s
         
      //   for(String classifier: Path.classifiers){
-       String classifier = "classBalanced";
+       String classifier = "randomPair";
             stream.println("cd "+classifier);
            
-            for(String dataset: Path.datasets){
+            for(String dataset: Path.restrictedRandomPair){
             
             /**
              * te vervangen door vorige lijn
