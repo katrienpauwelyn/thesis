@@ -2,51 +2,76 @@ Hieronder volgt een korte uitleg van de verschillende projecten en eventuele bel
 Er zijn packages die hetzelfde doen met en zonder de verschillende seeds. Deze zonder verschillende seeds mogen genegeerd worden. 
 Bij sommige java files staat bovenaan [DEPRECATED]. Deze worden niet (meer) gebruikt.
 
-clus
-	Clus, laat clus runnen en clus-output genereren
-	
 
-ensemblesofND
-	ensembles of nested dichotomieëen, originele code. Laat de geneste dichotomieën runnen op de vooraf gemaakte hiërarchieën.
-	
+MULTILABEL (multilabel experimenten)
+-> Dit project zorgt voor het parsen van de invoer data (.arff files), maken van de settings files voor Clus, parsen van de uitvoer data van Clus en verwerken van de resultaten. Een overzicht van de packages en hun belangrijkste functies:
 
-Statistics
-	converteert en combineert de resultaten van clus en de geneste dichotomieën. Berekent de auroc, auprc, nauwkeurigheid, tijd en wilcoxon voor deze resultaten. Output naar latex formaat.
+-Irrelevant
+Bevat klassen die niet meer relevant zijn voor het finale project.
+- ScriptWriters
+Bevat klassen die scripten maken om bijvoorbeeld via command line aan tekst verwerking te doen of om de AUC scripten uit te voeren.
+-arff
+Parst de datasets naar een .arff formaat die door Clus kan gebruikt worden.
+-balancedKMeans (gebalanceerde KMeans hierarchieen)
+BalancedKMeanMaker.java maakt de gebalanceerde kmeans hierarchieen. 
+-combinerenResultaten
+Averager.java combineert de resultaten van de ensembles tot één average file en behoudt enkel de leaf nodes. 
+Macro.java maakt voor elke klasse één file met voor alle instances de predicted en actual values van deze klasse. Wordt gebruikt door het AUC script voor de macroAUCs.
+MeanAUC.java berekent de (gewogen) gemiddelde AUCs.
+Micro.java maakt één file aan met alle koppels met voorspelling en effectieve waarden onder elkaar. Wordt gebruikt door het AUC script voor de microAUCs.
+PostAverager.java verwijdert alle klassen die nooit een 1 als actual values hebben. 
+-hierarchie (RHam hierarchieen)
+HierarchyMaker.java maakt de RHam hierarchieen
+FlatHierarchyMaker.java maakt de vlakke hierarchieen 
+-sFiles
+Maakt de settings files aan voor Clus. 
+-statics
+Path.java bevat de paden naar files en de namen van de datasets.
+-statistics
+Berekent enkele statistische dingen zoals de standaard deviatie en kardinaliteit.
 
-Weka
+CLUS
+-> Dit project bevat de originele code van CLUS. In het package 'clus' zijn er enkele klassen toegevoegd om Clus te runnen.
+
+STATISTICS (multiklasse experimenten)
+	converteert en combineert de resultaten van clus en de geneste dichotomieën. 
+-ClusResults
+Berekent en schrijft de AUC en accuracy aan de hand van de output van Clus uit.
+-NDResults
+Berekent en schrijft de AUC en accuracy aan de hand van de output van ND uit. 
+-hsc
+Bevat alle code omtrent de experimenten met Clus-HSC. 
+-staticData
+De paden en namen van de datasets.
+-statistics
+Berekent enkele statistieken en maakt de s-files voor CLus.
+-time
+Berekent het gemiddelde en standaard deviatie van de runtimes.
+-toLatex
+Scripten om latex code te genereren.
+
+ENSEMBLESOFNESTEDDICHOTOMIESORIG
+de originele code van nested dichotomies.  
+
+ENSEMBLESOFNESTEDDICHOTOMIES
+De code van nested dichotomies met aanpassingen. Wordt gebruikt om te runnen en om de hierarchieen te extracten.
+Om de resultaten te bekomen moeten de main methodes van volgende klassen (in deze volgorde) aangeropen worden:
+
+-ExtractDataSeeds
+RunAll.java maakt de test en train files aan voor Clus.
+-staticData
+bevat de paden en namen van de datasets
+-weka.classifiers.meta.nestedDichotomies
+Het package dat de geneste dichotomieen uitvoert en dus de hierarchieen opbouwt. 
+
+
+
+WEKA
 	Maakt de test en training files (met en zonder hiërarchie).
 	ExtractData wordt niet meer gebruikt.
 	ExtractDataSeeds.Main moet aangeropen worden om de test en train files te maken. 
 	weka.classifiers.meta.nestedDichotomies bevat de files van de geneste dichotomieën die de effectieve test en train files initieel maken. Worden opgeropen door ExtractDataSeeds.Main. De gebruikte klassen zijn: ClassBalancedPlus, FurthestCentroidND, ND en RandomPairND. 
 
 
-Om de resultaten te bekomen moeten de main methodes van volgende klassen (in deze volgorde) aangeropen worden:
-
-ensemblesOfNestedDichotomies.ExtractDataSeeds.Main (test en train files aanmaken)
-
-Statistics.statistics.MakeSFilesAllSeeds (maakt de settings files nodig voor clus)
-
-ClusUsIn.clus.RunAllClus (Clus laten runnen om de resultaten door clus zelf te bekomen. De resultaten worden gezet in out/_classifier/_dataset/aOutputND)
-
-ensemblesOfNestedDichotomiesOrig.weka.classifiers.meta.nestedDichotomies.GetResults (runt de ND om de originele resultaten van ND te bekomen. De resultaten worden gezet in out/_classifier/_dataset/asettings)
-
-Statistics.main.Main (produceert de resultaten in zowel menselijk leesbaar als latex formaten. Bestaat uit:
-	Statistics.Time.CalculateTime (berekent de looptijden en zet de tijden in out/_classifier/_dataset/asettings/CLUSaTime.txt en out/_classifier/_dataset/aOutputND/CLUSaTime.txt en de latex file in out/_classifier/alatexTime.txt)
-
-	Statistics.ClusResults.WriteAllStatistics (schrijft de statistieken van clus naar een mens leesbaar formaat. Te vinden in out/_classifier/_dataset/asettings/S_i_datasetStatistics)
-
-	Statistics.NDResults.WriteAllStatistics (schrijft de statistieken van clus naar een mens leesbaar formaat. Te vinden in out/_classifier/_dataset/asettings/S_i_datasetStatistics)
-
-	Statistics.toLatex.ToLatex (converteert de mens leesbare resultaten naar latex tabellen, te vinden in out/_classifier/alatex.txt))
 
 
-
-
-
-
-HSC
-Statistics.hsc bevat alle code omtrent de hsc. 
-
-hsc.Scriptmaker maakt het script aan die de tests doet runnen.
-
-hsc.ParseHscOut maakt de statistieken van de uitvoer en schrijft 1 file per classifier uit met de mens-leesbare statistieken.
