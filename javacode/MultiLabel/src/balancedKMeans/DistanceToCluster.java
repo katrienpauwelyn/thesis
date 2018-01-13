@@ -6,7 +6,7 @@
 package balancedKMeans;
 
 /**
- *
+ *Houdt bij wat de afstand is van een label tot een cluster. 
  * @author katie
  */
 public class DistanceToCluster implements Comparable<DistanceToCluster>{

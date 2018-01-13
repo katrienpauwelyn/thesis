@@ -17,8 +17,9 @@ import statics.Path;
 /**
  *
  * @author katie
- * neemt het gemiddelde van de output files en filtert de interne knopen er uit. Voor one moet er niet gecombineerd worden,
- * enkel de interne knopen worden gefilterd. Dus enkel de leaf nodes blijven nog over.
+ * neemt het gemiddelde van de output files en filtert de interne knopen er uit. Voor single trees
+ * moet er niet gecombineerd worden,
+ * maar wel moeten de interne knopen nog gefilterd worden. Dus enkel de leaf nodes blijven nog over.
  */
 public class AveragerOne {
     
@@ -31,16 +32,19 @@ public class AveragerOne {
             String input;
             
                     //FLAT
-                    System.out.println("flat");
+                   System.out.println("flat");
                     output=path+dataset+"/one/averageFlatOne.test.pred.arff";
                     input=path+dataset+"/one/settingsFlatOne.test.pred.arff";
                     makeAverageArff(input, output, dataset);
                     
                     //KMEANS
                     System.out.println("kmeans");
-                    output = path+dataset+"/one/averageKMeansOne.test.pred.arff";
-                    input = path+dataset+"/one/settingsKMeansOne.test.pred.arff";
+                    for(int i = 0; i<10; i++){
+                        output = path+dataset+"/one/averageKMeansOne"+i+".test.pred.arff";
+                    input = path+dataset+"/one/settingsKMeansOne"+i+".test.pred.arff";
                     makeAverageArff(input, output, dataset);
+                    
+                    }
                     //RHAM
                     System.out.println("rham");
                     for(int i = 0; i<10; i++){
@@ -105,6 +109,7 @@ public class AveragerOne {
           //  System.out.println(line);
           //  System.out.println(leaf);
             if(leaf!=null){
+                 leaf = leaf.replace("numeric","").replace("{1,0}","");
                mI.addActual(leaf, index);
             }
         }
@@ -113,6 +118,7 @@ public class AveragerOne {
               leaf = isLeaf(line);
               index++;
             if(leaf!=null){
+                 leaf = leaf.replace("numeric","").replace("{1,0}","");
                mI.addPredicted(leaf, index);
             }
         }

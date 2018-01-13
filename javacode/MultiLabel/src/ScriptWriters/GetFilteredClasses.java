@@ -36,22 +36,12 @@ public class GetFilteredClasses {
     
     
     public static void main(String[] args) throws IOException{
-        String corel = "/Users/katie/Downloads/corelaverage.test.pred.arff";
-        String delicious = "/Users/katie/Downloads/deliciousaverage.test.pred.arff";
-        String medical = "/Users/katie/Downloads/medicalaverage.test.pred.arff";
-        
-        String to = "/Users/katie/Downloads/a.txt";
-        PrintStream stream = new PrintStream(new File(to));
-        stream.println("corel");
-        getUnfilteredClasses(corel, stream);
-        stream.println();
-        
-        stream.println("delicious");
-        getUnfilteredClasses(delicious, stream);
-        stream.println();
-        
-        stream.println("medical");
-        getUnfilteredClasses(medical, stream);
+          PrintStream stream = new PrintStream(new File(Path.pathPinac+"filteredClasses.txt"));
+        for(String dataset: Path.datasets){
+            stream.println(dataset);
+            String datasetPlus = Path.pathPinac+dataset+"/averageRHam.test.pred.arff";
+            //getUnfilteredClasses()
+        }
         
     }
     

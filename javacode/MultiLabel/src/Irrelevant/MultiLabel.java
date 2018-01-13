@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package multilabel;
+package Irrelevant;
 
 import arff.ArffParser;
 import arff.SparseArffParser;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ *Klasse om de afstanden voor de RHam hierarchieen bij te houden. 
  * @author katie
  */
 public class DistanceKeeper {

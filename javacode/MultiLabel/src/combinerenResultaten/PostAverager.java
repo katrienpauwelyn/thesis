@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Irrelevant;
+package combinerenResultaten;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,10 +19,11 @@ import statics.Path;
  * @author katie
  * 
  * filtert de klassen er uit die nooit een 1 hebben als effectieve voorspelling
+ * (deze klassen geven een error bij het gebruik van het AUC script)
  */
 public class PostAverager {
     
-    //returnt de indices van de klassen die nooit effectief 1 zijn (getest op emotions)
+    //returnt de indices van de klassen die nooit effectief 1 zijn 
     public static ArrayList<Integer> getIndicesNeverActual(String pathFrom) throws FileNotFoundException, IOException{
         ArrayList<Integer> list = new ArrayList();
         BufferedReader reader = new BufferedReader(new FileReader(pathFrom));
@@ -52,7 +53,41 @@ public class PostAverager {
         reader.close();
         return list;
     }
-      
+    
+    //pathFrom: de file die moet gefilterd woren
+    //pathTo: dit wordt de gefilterde file. Alle klassen die nooit een 1 als effectieve waarde
+    //hebben zijn verwijderd
+   /* public static void getFilteredClasses(String pathFrom, String pathTo) throws IOException{
+          ArrayList<Integer> list = getIndicesNeverActual(pathFrom);
+        BufferedReader reader = new BufferedReader(new FileReader(pathFrom));
+        
+        int nbAttributes = 1;
+        while(!reader.readLine().contains("@ATTRIBUTE")){}
+        while(reader.readLine().contains("@ATTRIBUTE")){nbAttributes++;}
+        reader.close();
+        
+        reader = new BufferedReader(new FileReader(pathFrom));
+        String allTheFilteredClasses = "";
+        String line;
+        while(!(line=reader.readLine()).contains("@ATTRIBUTE")){}
+        for(int i = 0; i<nbAttributes/2; i++){
+            if(!list.contains(i)){
+                allTheFilteredClasses+=getAttributeFromline(line)+",";
+            }
+            line = reader.readLine();
+        }
+        
+    }*/
+    
+   
+    public static String getAttributeFromline(String line){
+        return line.replace("class-a-", "");
+    }
+    
+    
+       //pathFrom: de file die moet gefilterd woren
+    //pathTo: dit wordt de gefilterde file. Alle klassen die nooit een 1 als effectieve waarde
+    //hebben zijn verwijderd
     public static void filterAverage(String pathFrom, String pathTo) throws IOException{
         ArrayList<Integer> list = getIndicesNeverActual(pathFrom);
         BufferedReader reader = new BufferedReader(new FileReader(pathFrom));
@@ -93,7 +128,8 @@ public class PostAverager {
         stream.close();
     }
     
-    //getest
+   //verwijderd de gewenste klassen van 1 lijn. Geef deze gefilterde lijn terug
+    //list bevat de integers van de klassen die te verwijderen zijn
       private static String filterLine(String line, ArrayList<Integer> list, int nbAttributes) {
           String[] split = line.split(",");
           String out = "";

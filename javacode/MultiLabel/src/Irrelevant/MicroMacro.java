@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package multilabel;
+package Irrelevant;
 
+import combinerenResultaten.Macro;
 import combinerenResultaten.MacroOne;
+import combinerenResultaten.Micro;
 import combinerenResultaten.MicroOne;
 import java.io.IOException;
 
@@ -19,7 +21,6 @@ public class MicroMacro {
     
     //eerst checken of er bij alle datasets een 'micromacro' map is
     public static void makeMicroMacroPinacs() throws IOException{
-        String basic;
         System.out.println("micromacro");
         MicroOne.makeMicroFilesForAllDatasets();
         MacroOne.makeMacroFilesForAllDatasets();

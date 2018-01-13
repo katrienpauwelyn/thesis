@@ -17,6 +17,7 @@ import statics.Path;
 /**
  *
  * @author katie
+ * maakt een vlakke hierarchie
  */
 public class FlatHierarchyMaker {
     

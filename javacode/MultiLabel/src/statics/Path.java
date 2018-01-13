@@ -12,6 +12,7 @@ package statics;
 public class Path {
     
     public static String path = "/Users/katie/thesiscode/datasets/multilabel/";
+            //"/Users/katie/Desktop/nieuweDatasets";
     /*public static String[] datasets = {"bibtex",
         "corel5k","delicious",
         "emotions",
@@ -20,38 +21,59 @@ public class Path {
         "mediamill","yeast"
     };*/
     
-    public static String[] standardDatasets = {"corel5k",
+    
+
+
+ 
+    
+    public static String[] standardDatasets = {"birds",//"CAL500",
+        "Corel16k","flags","genbase","nuscVLADplus"};
+    public static String[] sparseDatasets = {"Computers",
+        "eurlex-dc",//"eurlex-ev",
+        "eurlex-sm","rcv1subset1","tmc2007"};
+    
+    public static String[] datasets = {"birds",//"CAL500",
+        "Computers","Corel16k","eurlex-dc",//"eurlex-ev",
+        "eurlex-sm","flags","genbase","nuscVLADplus","rcv1subset1","tmc2007"};
+    
+   /* public static String[] standardDatasets = {"corel5k",
         "emotions",//"flags","genbase",
         "mediamill","scene",
         "yeast"
-    };
-    public static String[] sparseDatasets = { "bibtex",//"bookmarks",
+    };*/
+  /*  public static String[] sparseDatasets = { "bibtex",//"bookmarks",
         "delicious",
         "enron",
         "medical"
-    };
+    };*/
     
-    public static String[] datasets = {"bibtex",//"bookmarks",
+  /*  public static String[] datasets = {"bibtex",
+       // "bookmarks",
         "corel5k","delicious","emotions",
     "enron", "mediamill","medical","scene",//"tmc2007",
-    "yeast"};
+    "yeast"
+    };*/
     
-    public static String[] toParse = {"bookmarks","medical","scene","tmc2007"};
+   /* public static String[] toParse = {"bookmarks","medical","scene","tmc2007"};
     
     public static String[] toParseSparse = {"bookmarks","medical","tmc2007"};
-    public static String[] toParseStandard={"scene"};
+    public static String[] toParseStandard={"scene"};*/
     
     //hier worden de naam van de dataset + aantal attributen + namen van de klassen opgeslaan
    
     
-      public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
+      public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/nieuweDatasets/";
       
-       public static String pathStandardMap = pathPinac + "normalMapold.txt";
+       public static String pathStandardMap = pathPinac + "normalMapZonder.txt";
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"normalMapNew2.txt";
-    public static String pathSparseMap = pathPinac + "sparseMap.txt";
+    public static String pathSparseMap = path + "/sparseMap.txt";
             //"/Users/katie/thesiscode/datasets/multilabelUpload/"+"sparseMapBibtex.txt";
-    public static String pathFilteredMao = pathPinac + "sparseFilteredMap.txt";
-      
+    public static String pathFilteredMao = pathPinac + "sparseMapZonder.txt";
+    
+    public static String pathFilteredAll = pathPinac+"filteredClasses.txt";
+    
+    
+    
       public static String pathTest = "/Users/katie/Downloads/";
     
     //hier wordt de tijd die nodig is om hierarchieen te maken opgeslaan
@@ -93,6 +115,17 @@ public class Path {
         throw new Error("Foutieve dataset");
     }
     
+        public static int getNbClusterCentraNieuweDatasets(String dataset){
+        switch (dataset){
+            //public static String[] datasets = {"birds","CAL500","Computers","Corel16k","eurlex-dc",//"eurlex-ev",
+      //  "eurlex-sm","flags","genbase","nuscVLADplus","rcv1subset1","tmc2007"};
+            case "birds": case "CAL500": case "Computers": case "Corel16k": case "eurlex-dc": 
+            case "eurlex-sm": case "flags": case "genbase": case "nuscVLADplus": case "rcv1subset1": case "tmc2007":
+                return 3;
+        }
+        throw new Error("Foutieve dataset");
+    }
+
     public static int nbIterations = 500;
      
 }

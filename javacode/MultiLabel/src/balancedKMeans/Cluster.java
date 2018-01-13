@@ -138,31 +138,4 @@ public class Cluster {
         }
         System.out.println(s);
     }
-    //--------------------------------
-    //update de label data: filter de instances er uit waar er geen label uit 'labels' true is
-    /*public void updateLabelData(){
-       ArrayList<int[]> newList = new ArrayList();
-        for(int[] instance: labelData){
-           for(int l: labels){
-               if(instance[l]==1){
-                  newList.add(instance);
-                   break;
-               }
-           }
-       }
-       labelData = newList;
-    }*/
-    
-    //--------------------------------
-   /* public void assignLabels(ArrayList<Integer> la){
-        labels = la;
-    }
-    //--------------------------------
-    public ArrayList<Integer> resetLabels(){
-        labels = null;
-        return labels;
-    }
-*/
-    
-    
 }

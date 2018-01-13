@@ -17,7 +17,9 @@ import statics.Path;
 /**
  *
  * @author katie
- * getest op 5 bags flags
+ * Bij de ensembles hebben we 50 bags en 50 uitvoer files. We combineren deze 50 
+ * uitvoer files in 1 gemiddelde (average) file. We behouden enkel de leaf nodes en filteren
+ * de interne nodes eruit. 
  */
 public class Averager {
     
@@ -25,10 +27,12 @@ public class Averager {
     public static void makeAllAverageArff() throws FileNotFoundException, IOException{
         for(String dataset: Path.datasets){
             System.out.println(dataset);
-           // String outputFlat = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
-            String outputHier = Path.pathPinac+dataset+"/kmeans/averageKMeans.test.pred.arff";
-       //     makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat", ".test.pred.arff", outputFlat, dataset);
-            makeAverageArff(Path.pathPinac+dataset+"/kmeans/settingsBag",".test.pred.arff",outputHier,dataset);
+        //    String outputFlat = Path.pathPinac+dataset+"/flat/average.test.pred.arff";
+            String outputKmeans = Path.pathPinac+dataset+"/kmeans/averageKMeansFull.test.pred.arff";
+         //   String outputRHam = Path.pathPinac+dataset+"/averageRHam.test.pred.arff";
+         //   makeAverageArff(Path.pathPinac+dataset+"/flat/settingsFlat", ".test.pred.arff", outputFlat, dataset);
+            makeAverageArff(Path.pathPinac+dataset+"/kmeans/settingsBag","Full.test.pred.arff",outputKmeans,dataset);
+         //   makeAverageArff(Path.pathPinac+dataset+"/settingsBag",".test.pred.arff",outputRHam,dataset);
         }
     }
     
@@ -41,22 +45,7 @@ public class Averager {
         }
      
     }
-    
-    /*public static void doFlags() throws IOException{
-         String basic = Path.path;
-        
-       
-            String output = Path.path+"flags"+"/average.test.pred.arff";
-            makeAverageArff(basic+"flags"+"/settings", ".test.pred.arff", output, "flags");
-            }
-    
-    public static void makeFlags() throws IOException{
-        String basic = "/Users/katie/Desktop/demo";
-        
-         String output = basic+"/average.test.pred.arff";
-            makeAverageArff(basic+"/test", ".test.pred.arff", output, "blabla");
-    }*/
-    
+
     //alle indexen hebben @ATTRIBUTE
     //Original-p- => begin van de voorspellingen => index nodig 
     //maar: andere hierarchieen in andere bags. Waarschijnlijk enkel de leaf nodes nodig?
@@ -88,7 +77,7 @@ public class Averager {
         String[] volgordeLeafs = new String[mapInds[0].mapActual.size()];//opsomming van alle leafs
         int in = 0;
         for(String s: mapInds[0].mapActual.keySet()){
-            volgordeLeafs[in++] = s;
+            volgordeLeafs[in++] = s.replace("{1,0}","");
             sumPrediction.put(s, 0.0);
         }    
         printHeader(stream, volgordeLeafs, dataset );
@@ -98,6 +87,7 @@ public class Averager {
             addToSum(volgordeLeafs, line, sumPredCopy, mapInds[0]);
             for(int i = 1; i<Path.nbBags; i++){
                 line = readers[i].readLine();
+                //System.out.println("BAg " +i);
                 addToSum(volgordeLeafs, line, sumPredCopy, mapInds[i]);
             }
             String printLine = makeStringLine(sumPredCopy, volgordeLeafs, mapInds[Path.nbBags-1].mapActual, line);
@@ -120,6 +110,7 @@ public class Averager {
             index++;
             leaf = isLeaf(line);
             if(leaf!=null){
+                leaf = leaf.replace("numeric","").replace("{1,0}","");
                mI.addActual(leaf, index);
             }
         }
@@ -128,6 +119,7 @@ public class Averager {
               leaf = isLeaf(line);
               index++;
             if(leaf!=null){
+                leaf = leaf.replace("numeric","").replace("{1,0}","");
                mI.addPredicted(leaf, index);
             }
         }
@@ -173,7 +165,17 @@ public class Averager {
         HashMap<String, Integer> predictions = indices.mapPredicted;
         for(int i = 0; i<volgordeLeafs.length; i++){
             String currentLeaf = volgordeLeafs[i];
-            int index = predictions.get(currentLeaf);
+            int index = 0;
+            try{
+             index = predictions.get(currentLeaf);
+            }catch(Exception e){
+                System.out.println("leaf= "+currentLeaf);
+                System.out.println("line= "+line);
+                System.out.println("predictions");
+                for(String s: predictions.keySet()){
+                    System.out.println(s);
+                }
+            }
             String value = split[index];
             double current = sumPrediction.get(currentLeaf);
             sumPrediction.put(currentLeaf, current+Double.parseDouble(value));
@@ -206,8 +208,7 @@ public class Averager {
     
     
     public static void main(String[] args) throws IOException{
-      // makeAllAverageArff();
-      test();
+       makeAllAverageArff();
     }
 
     private static void printHeader(PrintStream stream, String[] volgordeLeafs, String relation) {

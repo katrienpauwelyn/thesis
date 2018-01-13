@@ -22,20 +22,22 @@ public class SFileMakerOne {
             String train = Path.pathPinac+d+"/"+d+"train.arff";
             String test = Path.pathPinac+d+"/"+d+"test.arff";
             //FLAT 
-            stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsFlatOne.s"));
+           stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsFlatOne.s"));
              makeSFileOne(stream, train, test,
-                     Path.pathPinac+d+"/one/hierOneFlat.txt");
+                     Path.pathPinac+d+"/flat/flatHier.txt");
              stream.close();
              
              //KMEANS
-             stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsKMeansOne.s"));
-             makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/kmeansHierOne.txt");
-             stream.close();
+             for(int i = 0; i<10; i++){
+                stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsKMeansOne"+i+".s"));
+                makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/kmeansHierOne"+i+".txt");
+                stream.close();
+             }
              
              //RHam
              for(int i = 0; i<10; i++){
                  stream = new PrintStream(new File(Path.pathPinac+d+"/one/settingsRHamOne"+i+".s"));
-                 makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/hierOneRHam"+i);
+                 makeSFileOne(stream, train, test, Path.pathPinac+d+"/one/rhamHierOne"+i+".txt");
                  stream.close();
              }
              
@@ -67,6 +69,10 @@ public class SFileMakerOne {
             stream.println();
             stream.println("[Model]");
             stream.println("MinimalWeight = 5.0");
+            if(pathTrain.contains("nuscVLADplus")){
+                stream.println("[Attributes]");
+                stream.println("Key=1");
+            }
       }
       
       public static void main(String[] args) throws FileNotFoundException{

@@ -54,11 +54,13 @@ Area Under the Curve for ROC is 0.8583492028343667
     
       //returnt de gemiddelde macro PR en ROC van een dataset
     public static PrRocTuple getMeanMacroAUsDataset(String dataset, String unparsedClasses) throws IOException{
+       // String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
+        //String path = Path.pathPinac+dataset+"/flat/micromacro/";
         String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
         String[] classes = unparsedClasses.split(",");
         PrRocTuple macroAU = new PrRocTuple(0, 0);
         for(String cl: classes){
-            String p = path+"AUCmacro"+cl+".txt";
+            String p = path+"AUCmacro"+cl+"KMeansFull.txt";
             macroAU.add(getPrRocFromFile(p));
         }
         macroAU.divide(classes.length);
@@ -66,19 +68,19 @@ Area Under the Curve for ROC is 0.8583492028343667
     }
     
     public static PrRocTuple getMicroAuDataset(String dataset) throws IOException{
-        //String path = Path.pathPinac+dataset+"/micromacro/";
+        //String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
+        //String path = Path.pathPinac+dataset+"/flat/micromacro/";
         String path = Path.pathPinac+dataset+"/kmeans/micromacro/";
-                //"/Users/katie/Downloads/micromacro/";
-        PrRocTuple microAU = getPrRocFromFile(path+"AUCmicro"+dataset+".txt");
+        PrRocTuple microAU = getPrRocFromFile(path+"AUCmicro"+dataset+"KmeansFull.txt");
         return microAU;
     }
     
     public static void printAUs(String pathPrint) throws FileNotFoundException, IOException{
         PrintStream stream = new PrintStream(new File(pathPrint));
-        String pathStandard = Path.pathStandardMap;
-        String pathSparse = Path.pathFilteredMao;
-        printAUsPerMap(pathStandard, stream);
-        printAUsPerMap(pathSparse, stream);
+       // String pathStandard = Path.pathStandardMap;
+        String pathAll = Path.pathFilteredAll;
+       // printAUsPerMap(pathStandard, stream);
+        printAUsPerMap(pathAll, stream);
         stream.close();
     }
     
@@ -94,14 +96,15 @@ Area Under the Curve for ROC is 0.8583492028343667
         String line;
         BufferedReader reader = new BufferedReader(new FileReader(pathMap));
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            reader.readLine();
+           // reader.readLine();
             String classes = reader.readLine();
             PrRocTuple macro = getMeanMacroAUsDataset(line, classes);
             PrRocTuple micro = getMicroAuDataset(line);
             
-            String print = line+"  Micro: (PR-"+micro.pr+") (ROC-"+micro.roc+")"
-                    + "  Macro: (MeanPR-"+macro.pr+") (MeanROC-"+macro.roc+")";
+            String print = line+"  MicroPR: "+micro.pr+"\n MicroROC: "+micro.roc+"\n"
+                    + "  MacroPR: "+macro.pr+"\n MacroROC: "+macro.roc;
             stream.println(print);
+            stream.println();
         }
     }
     
@@ -110,7 +113,7 @@ Area Under the Curve for ROC is 0.8583492028343667
     //Area Under the Curve for Precision - Recall is 0.11937984496124028
 //Area Under the Curve for ROC is 0.4999999999999999
     public static void main(String[] args) throws IOException{
-        printAUs(Path.pathPinac+"AUkmeansDiffHier.txt");
+        printAUs(Path.pathPinac+"AUKmeansFull.txt");
                 //"/Users/katie/Downloads/micromacro/aaaa.txt");
     }
     

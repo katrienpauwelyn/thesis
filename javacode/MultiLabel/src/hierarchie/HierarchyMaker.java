@@ -19,6 +19,8 @@ import statics.Path;
 /**
  *
  * @author katie
+ * 
+ * Maakt de RHam hierarchieen. 
  */
 public class HierarchyMaker {
     
@@ -246,8 +248,8 @@ public class HierarchyMaker {
             HashMap<String, String> normalMap = new HashMap();
             HashMap<String, String> sparseMap = new HashMap();
             String path = Path.pathPinac;
-            BufferedReader readerNormal = new BufferedReader(new FileReader(path+"normalMap.txt"));
-            BufferedReader readerSparse = new BufferedReader(new FileReader(path+"sparseMap.txt"));
+            BufferedReader readerNormal = new BufferedReader(new FileReader(path+"normalMapZonder.txt"));
+            BufferedReader readerSparse = new BufferedReader(new FileReader(path+"sparseMapZonder.txt"));
             String lineN;
             while((lineN = readerNormal.readLine())!=null && !lineN.isEmpty()){
                 normalMap.put(lineN, readerNormal.readLine());

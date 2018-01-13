@@ -51,22 +51,26 @@ Area Under the Curve for ROC is 0.8583492028343667
     
     
     public static void printAUs() throws FileNotFoundException, IOException{
-        String pathStandard = Path.pathStandardMap;
-        String pathSparse = Path.pathFilteredMao;
-        PrintStream[] streams = new PrintStream[13];
+        String pathStandard = Path.pathFilteredAll;
+        PrintStream[] streams = new PrintStream[23];
         streams[0] = new PrintStream(new File(Path.pathPinac+"aucsFlatOne.txt"));
         streams[0].println("AUCs van Flat One");
-        streams[1] = new PrintStream(new File(Path.pathPinac+"aucsKMeansOne.txt"));
-        streams[1].println("AUCs van KMeans One");
-        for( int i =0; i<10; i++){
-            streams[i+2] = new PrintStream(new File(Path.pathPinac+"aucsRHam"+i+".txt"));
-            streams[i+2].println("AUCs van RHam One set "+i);
+
+        for(int i = 0; i<10; i++){
+            streams[i+1] = new PrintStream(new File(Path.pathPinac+"aucsKMeansOne"+i+".txt"));
+            streams[i+1].println("AUCs van KMean One set "+i);
         }
-          streams[12] = new PrintStream(new File(Path.pathPinac+"aucRHamOneGemiddelde.txt"));
-        streams[12].println("gemiddelde AUCs van RHam  One");
+        streams[11] = new PrintStream(new File(Path.pathPinac+"aucsKMeansOneGemiddelde.txt"));
+        streams[11].println("AUCs van KMeans One gemiddelde");
+        
+        for( int i =0; i<10; i++){
+            streams[i+12] = new PrintStream(new File(Path.pathPinac+"aucsRHam"+i+".txt"));
+            streams[i+12].println("AUCs van RHam One set "+i);
+        }
+          streams[22] = new PrintStream(new File(Path.pathPinac+"aucRHamOneGemiddelde.txt"));
+        streams[22].println("gemiddelde AUCs van RHam  One");
         
         printAUsPerMap(pathStandard, streams);
-        printAUsPerMap(pathSparse, streams);
         for(PrintStream stream: streams){
             stream.close();
         }
@@ -82,7 +86,7 @@ Area Under the Curve for ROC is 0.8583492028343667
         
         
         while((line=reader.readLine())!=null && !line.isEmpty()){
-            reader.readLine();
+          //  reader.readLine();
             String classes = reader.readLine();
             PrRocTuple macro;
             PrRocTuple micro;
@@ -94,17 +98,35 @@ Area Under the Curve for ROC is 0.8583492028343667
              print = line+"  Micro: (PR-"+micro.pr+") (ROC-"+micro.roc+")"
                     + "  Macro: (MeanPR-"+macro.pr+") (MeanROC-"+macro.roc+")";
              streams[0].println(print);
-            
-            //KMeans
-            micro = getMicroAuDataset(line, "KMeansOne");
-            macro = getMeanMacroAUsDataset(line, classes, "KMeansOne");
-             print = line+"  Micro: (PR-"+micro.pr+") (ROC-"+micro.roc+")"
-                    + "  Macro: (MeanPR-"+macro.pr+") (MeanROC-"+macro.roc+")";
-             streams[1].println(print);
-          double microPr = 0.0;
+           
+         double microPr = 0.0;
           double microRoc = 0.0;
           double macroPr = 0.0;
           double macroRoc = 0.0;
+          //KMeans
+          for(int i = 0; i<10; i++){
+                  micro = getMicroAuDataset(line, "KMeansOne"+i);
+            macro = getMeanMacroAUsDataset(line, classes, "KMeansOne"+i);
+            microPr += micro.pr;
+            macroPr += macro.pr;
+            microRoc += micro.roc;
+            macroRoc += macro.roc;
+             print = line+"  Micro: (PR-"+micro.pr+") (ROC-"+micro.roc+")"
+                    + "  Macro: (MeanPR-"+macro.pr+") (MeanROC-"+macro.roc+")";
+             streams[i+1].println(print);
+        
+          }
+          
+           print = line+"  Micro: (PR-"+microPr/10+") (ROC-"+microRoc/10+")"
+                    + "  Macro: (MeanPR-"+macroPr/10+") (MeanROC-"+macroRoc/10+")";
+            streams[11].println(print);
+            
+            
+            
+              microPr = 0.0;
+           microRoc = 0.0;
+          macroPr = 0.0;
+          macroRoc = 0.0;
              //RHam
             for(int i = 0; i<10; i++){
                 
@@ -116,11 +138,11 @@ Area Under the Curve for ROC is 0.8583492028343667
                 macroRoc += macro.roc;
                  print = line+"  Micro: (PR-"+micro.pr+") (ROC-"+micro.roc+")"
                     + "  Macro: (MeanPR-"+macro.pr+") (MeanROC-"+macro.roc+")";
-                 streams[i+2].println(print);
+                 streams[i+12].println(print);
             }
             print = line+"  Micro: (PR-"+microPr/10+") (ROC-"+microRoc/10+")"
                     + "  Macro: (MeanPR-"+macroPr/10+") (MeanROC-"+macroRoc/10+")";
-            streams[12].println(print);
+            streams[22].println(print);
           }
     }
     
@@ -143,15 +165,24 @@ Area Under the Curve for ROC is 0.8583492028343667
  
       
       //returnt de gemiddelde aus van een dataset
+      //ERROR: File /export/home1/NoCsBack/thesisdt/s0212310/delicious/one/micromacro/TAG_3vraag-deliciousKMeansOne0.txt not found - exiting...
+// File /export/home1/NoCsBack/thesisdt/s0212310/delicious/one/micromacro/TAG_muusica-deliciousKMeansOne9.txt not found - exiting...
+// File /export/home1/NoCsBack/thesisdt/s0212310/delicious/one/micromacro/TAG_musica-deliciousKMeansOne3.txt not found - exiting...
+
+        
     public static PrRocTuple getMeanMacroAUsDataset(String dataset, String unparsedClasses, String classifier) throws IOException{
         String path = Path.pathPinac+dataset+"/one/micromacro/";
         String[] parsed = unparsedClasses.split(",");
         PrRocTuple macroAU = new PrRocTuple(0, 0);
+         int nb = parsed.length;
         for(String cl: parsed){
-            String p = path+"AUCmacro"+cl+classifier+".txt";
+                String p = path+"AUCmacro"+cl+classifier+".txt";
             macroAU.add(getPrRocFromFile(p));
+            
         }
-        macroAU.divide(parsed.length);
+       
+        
+        macroAU.divide(nb);
         return macroAU;
     }
     

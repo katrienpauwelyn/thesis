@@ -22,9 +22,9 @@ public class SFileMakerWithHier {
        PrintStream stream;
      for(String d: Path.datasets){
          for(int i = 0; i<Path.nbBags; i++){
-             stream = new PrintStream(new File(Path.path+d+"/settings"+i+".s"));
-             makeSFileEnsemble(stream, Path.path+d+"/"+d+"train.arff", Path.path+d+"/"+d+"test.arff",
-                     Path.path+d+"/hier"+d+i, i+1);
+             stream = new PrintStream(new File(Path.pathPinac+d+"/kmeans/settingsBag"+i+"Full.s"));
+             makeSFileEnsemble(stream, Path.pathPinac+d+"/"+d+"train.arff", Path.pathPinac+d+"/"+d+"test.arff",
+                     Path.pathPinac+d+"/kmeans/hierKMeansFull.txt", i+1, d);
              stream.close();
          }
      }
@@ -41,12 +41,12 @@ bvb EmptySetIndicator = none
    //ensemble mag uit staan
       
      private static void makeSFileEnsemble(PrintStream stream, String pathTrain, String pathTest,
-             String pathHierarchy, int bagSelection){
+             String pathHierarchy, int bagSelection, String dataset){
             stream.println("[General]");
             stream.println("RandomSeed = 0");
             stream.println();
             stream.println("[Data]");
-            stream.println("File = " + pathTrain);
+            stream.println("File = "+Path.pathPinac+dataset+"/settings-bag-"+bagSelection+".arff");
             stream.println("TestSet = "+ pathTest);
             stream.println();
             stream.println("[Hierarchical]");
@@ -59,10 +59,10 @@ bvb EmptySetIndicator = none
             stream.println("AllFoldErrors = Yes");
             stream.println("WritePredictions = Test");
             stream.println();
-            stream.println("[Ensemble]");
-            stream.println("Iterations = "+Path.nbBags);
-            stream.println("EnsembleMethod = Bagging");
-            stream.println("BagSelection=["+bagSelection+","+bagSelection+"]");
+         //   stream.println("[Ensemble]");
+          //  stream.println("Iterations = "+Path.nbBags);
+           // stream.println("EnsembleMethod = Bagging");
+      //      stream.println("BagSelection=["+bagSelection+","+bagSelection+"]");
       }
       
     

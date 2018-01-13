@@ -5,6 +5,7 @@
  */
 package combinerenResultaten;
 
+import static combinerenResultaten.Micro.makeMicroFiles;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,18 +20,28 @@ import statics.Path;
  * voor iedere klasse een file
  * bevat van alle instances enkel de waarde die overeenkomt met die klasse (zowel predicted als actual)
  * predicted - actual
+ * Wordt gebruikt door het script dat de AUCs berekent. Vertrekt van de average file.
  */
 public class Macro {
     
     public static void makeMacroFilesForAllDatasets() throws IOException{
-        String basic;
-        for(String dataset: Path.sparseDatasets){
-            basic = Path.pathPinac+dataset;
-            makeMacroFiles(basic, basic+"/average.test.pred.arff");
-        }
+         String basic;
+         System.out.println("MACRO");
         for(String dataset: Path.datasets){
+            System.out.println(dataset);
+            //KMEANS
+            System.out.println("kmeans");
             basic = Path.pathPinac+dataset+"/kmeans";
-            makeMacroFiles(basic, basic+"/averageKMeans.test.pred.arff");
+            makeMacroFiles(basic, basic+"/averageKMeansFull.test.pred.arff");
+            //RHAM
+            System.out.println("rham");
+            basic = Path.pathPinac+dataset;
+             makeMacroFiles(basic, basic+"/averageRHam.test.pred.arff");
+            //FLAT
+            System.out.println("flat");
+             basic = Path.pathPinac+dataset+"/flat";
+             makeMacroFiles(basic, basic+"/average.test.pred.arff");
+           
         }
     }
     

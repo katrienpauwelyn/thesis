@@ -17,7 +17,7 @@ import java.io.IOException;
 public class AUGetter {
     
       /**
-     * Berekent de AUPRC van de gegeven file. (getest)
+     * Berekent de AUPRC van de gegeven file. 
      * Neemt het gemiddelde van alle AUPRCs van alle leaf nodes (niet de internal nodes)
      */
     public static TupleFloat getAUPRCandAUROC(String path) throws FileNotFoundException, IOException{

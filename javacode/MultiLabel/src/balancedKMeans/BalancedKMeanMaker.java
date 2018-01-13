@@ -16,50 +16,50 @@ import statics.Path;
 /**
  *
  * @author katie
+ * Maakt de Gebalanceerde KMeans hierarchieen
+ * 
+ * makeAllhierarchies() maakt 1 hierarchie per bag (dus 50 per dataset)
+ * makeOneHierarchyForWholeDataset() maakt 1 hierarchie voor de volledige dataset
  */
 public class BalancedKMeanMaker {
     
-  /*  public static ArrayList<Cluster> doDataset(String dataset) throws IOException{
-        String fromFile = "/Users/katie/Desktop/temp/emotionstestFlat.arff";
-        ArrayList<int[]> labelData = LabelDataReader.getLabelData(dataset, fromFile);
-        Cluster bigCluster = new Cluster(labelData);
-        int nbLabels = labelData.get(0).length;
-        for(int i = 0; i<nbLabels; i++){
-            bigCluster.labels.add(i);
-        }
-        int maxNbOfLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
-        ArrayList<Cluster> subClusters = splitCluster(bigCluster, 
-                Path.getNbClusterCentra(dataset), maxNbOfLabels, Path.nbIterations, labelData);
-        return subClusters;
-    }*/
-    
-    
     //maak alle balanced k means hierarchieen (en sla de tijd op)
+    //maakt dus 1 hierarchie per bag (50 hierarchieen per dataset)
     public static void makeAllhierarchies() throws IOException{
         PrintStream stream = new PrintStream(new File(Path.pathPinac+"timeHierKMeans.txt"));
         stream.println("tijd om "+Path.nbBags+" balanced k means hierarchieën te maken");
+        
         for(String dataset: Path.datasets){
-            System.out.println(dataset );
-            long startTime = System.nanoTime();
             
+            System.out.println(dataset );
+            //long startTime = System.nanoTime();
+            long totalTime = 0;
             for(int i = 0; i<Path.nbBags; i++){
                 System.out.println(i);
+                 long startTime = System.nanoTime();
               makeHierarchy(dataset, Path.pathPinac+dataset+"/"+"settings-bag-"+(i+1)+".arff",
                     Path.pathPinac+dataset+"/kmeansHierBag+"+i+".txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
-            }
-            long endTime = System.nanoTime();
+              long endTime = System.nanoTime();
             long durationMs = (endTime - startTime)/1000000;
-            stream.println(dataset+": totale tijd"+durationMs+" ms; gemiddelde tijd per bag: "+durationMs/Path.nbBags+" ms");
+            totalTime+=durationMs;
+             stream.println(dataset+":  tijd"+durationMs+" ms");
+            }
+           // long endTime = System.nanoTime();
+           // long durationMs = (endTime - startTime)/1000000;
+            stream.println(dataset+": totale tijd"+totalTime+" ms; gemiddelde tijd per bag: "+totalTime/Path.nbBags+" ms");
         }
         stream.close();
     }
   
+    
     /**
      * Maakt en schrijft een hierarchie uit
      * @param dataset de naam van de dataset
      * @param fromFile: pad naar de input file
      * @param outputFile: pad naar de output file
      * @param fileLabels de klassen die in fromFile voorkomen
+     * 
+     *
      */
     public static void makeHierarchy(String dataset, String fromFile, String outputFile, String fileLabels) throws IOException{
         ArrayList<int[]> labelData = LabelDataReader.getLabelData(dataset, fileLabels);
@@ -69,7 +69,7 @@ public class BalancedKMeanMaker {
         for(int i = 0; i<nbLabels; i++){
             bigCluster.labels.add(i);
         }
-        int maxNbOfLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
+        int maxNbOfLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentraNieuweDatasets(dataset));
         ArrayList<Cluster> todoClusters = new ArrayList();
         todoClusters.add(bigCluster);
         
@@ -79,10 +79,10 @@ public class BalancedKMeanMaker {
         while(!todoClusters.isEmpty()){
             Cluster first = todoClusters.remove(0);
             String basicString = indicesToString(first.labels, labelMappings)+",";
-            maxNbOfLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentra(dataset));
+            maxNbOfLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentraNieuweDatasets(dataset));
       
             ArrayList<Cluster> subClusters = splitCluster(first, 
-                Path.getNbClusterCentra(dataset), maxNbOfLabels, Path.nbIterations, labelData);
+                Path.getNbClusterCentraNieuweDatasets(dataset), maxNbOfLabels, Path.nbIterations, labelData);
           
             for(Cluster c: subClusters){
                 //afdrukken
@@ -178,8 +178,21 @@ public class BalancedKMeanMaker {
     }
     
     
+    //maak 1 hierarchie per volledige dataset
+    public static void makeOneHierarchyForWholeDataset() throws IOException{
+        for(String dataset: Path.datasets){
+          String fromFile = Path.pathPinac+dataset+"/"+dataset+"train.arff";
+          String outputFile = Path.pathPinac+dataset+"/kmeans/hierKMeansFull.txt";
+          String fileLabels = Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff";
+          System.out.println(dataset);
+          makeHierarchy(dataset,  fromFile,  outputFile,  fileLabels);
+        }
+    }
     
     public static void main(String[] args) throws IOException{
-        makeAllhierarchies();
+
+       makeOneHierarchyForWholeDataset();
+       
+       // makeAllhierarchies();
     }
 }

@@ -9,7 +9,6 @@ import static arff.ArffParser.changeArff;
 import static arff.ArffParser.getClassNames;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,7 +17,9 @@ import java.util.HashSet;
 import statics.Path;
 
 /**
- * TODO: de indexen beginnen vanaf 0 en zouden vanaf 1 moeten beginnen
+ * Parst een dataset naar een .arff formaat dat door Clus kan gebruikt worden. Hier worden de sparse
+ * datasets geparsed.
+ * Als invoer worden de datasets gegeven die van de Mulan repository gehaald werden.
  * @author katie
  */
 public class SparseArffParser {
@@ -32,7 +33,7 @@ public class SparseArffParser {
         StringInt c1 = changeArff(classes, reader, writer, classMap1);
         int index1 = c1.intPart;
         printInstances(reader, writer, classMap1, index1); 
-            
+            System.out.println("train");
         reader = new BufferedReader(new FileReader(pathToTrain));
         writer = new PrintStream(new File(newPathToTrain));
         HashMap<Integer, String> classMap2 = new HashMap();

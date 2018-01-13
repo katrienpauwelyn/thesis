@@ -14,6 +14,9 @@ import statics.Path;
  *
  * @author katie
  * 
+ * Parst een dataset naar een .arff formaat dat door Clus kan gebruikt worden. Hier worden de niet-sparse
+ * datasets geparsed.
+ * Als invoer worden de datasets gegeven die van de Mulan repository gehaald werden.
  *     
        
  */
@@ -98,7 +101,7 @@ public class ArffParser {
        return new StringInt(classString, nbAttributes);
     }
     
-    //verandert de isntances
+    //verandert de instances
     public static void printInstances(BufferedReader reader,PrintStream stream, HashMap<Integer, String> map) throws IOException{
         String line;
         int geenKlassenToegewezen = 0;
@@ -160,11 +163,12 @@ public class ArffParser {
         String path = Path.path+"/";
         HashMap<String, StringInt> map = new HashMap();
         for(String dataset: Path.standardDatasets){
+            if(dataset.equals("CAL500")){
             System.out.println(dataset);
             map.put(dataset, parseArff(path+dataset+"/"+dataset+".xml", path+dataset+"/"+dataset+"-test.arff",path+dataset+"/"+dataset+"test.arff",
-                    path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
+               path+dataset+"/"+dataset+"-train.arff", path+dataset+"/"+dataset+"train.arff"));
         }
-        printMap(map, Path.pathStandardMap);
+        printMap(map, Path.pathStandardMap);}
     }
     
         
@@ -180,26 +184,7 @@ public class ArffParser {
     
         
     public static void main(String[] args) throws IOException{
-     // parseAllStandardArffs();
-   /*  String pathToXml = "/Users/katie/thesiscode/datasets/multilabel/scene/scene.xml";
-     String pathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scene-test.arff"; 
-     String newPathToTest="/Users/katie/thesiscode/datasets/multilabel/scene/scenetest.arff";
-     String pathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scene-train.arff";
-     String newPathToTrain="/Users/katie/thesiscode/datasets/multilabel/scene/scenetrain.arff";
-     parseArff(pathToXml, pathToTest, newPathToTest, pathToTrain, newPathToTrain);*/
-       
         parseAllStandardArffs();
-        
-      
-       // changeArff(path+"/tmc2007-train.arff", path+"/newtmc2007-train.txt",classes);
-       // changeArff(path+"/tmc2007-test.arff", path+"/newtmc2007-test.txt",classes);
-      // public static String[] nonStandardDatasets = { "bibtex","delicious","","tmc2007"};  
-     
     }
-    /**
-     * enron: spatie en komma als komma
-     * bibtex delicious
-     * rcv1subset1 iets raars
-     */
     
 }

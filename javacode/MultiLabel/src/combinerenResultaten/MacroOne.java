@@ -26,16 +26,20 @@ public class MacroOne {
     public static void makeMacroFilesForAllDatasets() throws IOException{
         String basic;
         for(String dataset: Path.datasets){
-            System.out.println("macro "+dataset);
+                   System.out.println("macro "+dataset);
             basic = Path.pathPinac+dataset+"/one";
             //FLAT
             System.out.println("flat");
             String classifier = "-"+dataset+"FlatOne";
             makeMacroFiles(basic, basic+"/averageFlatOne.test.pred.arff", classifier);
             //KMeans
+            
             System.out.println("kmeans");
-            classifier = "-"+dataset+"KMeansOne";
-            makeMacroFiles(basic, basic+"/averageKMeansOne.test.pred.arff", classifier);
+            for(int i = 0; i<10; i++){
+                classifier = "-"+dataset+"KMeansOne"+i;
+                makeMacroFiles(basic, basic+"/averageKMeansOne"+i+".test.pred.arff", classifier);
+            
+            }
             //RHam
             System.out.println("rham");
             for(int i = 0; i<10; i++){

@@ -22,19 +22,23 @@ public class MicroOne {
      public static void makeMicroFilesForAllDatasets() throws IOException{
         String basic;
        for(String dataset: Path.datasets){
-            System.out.println("micro one "+dataset);
+                          System.out.println("micro one "+dataset);
             basic = Path.pathPinac+dataset+"/one";
             //FLAT
             String output = basic+"/micromacro/micro"+dataset+"FlatOne.txt";
             makeMicroFiles(basic, basic+"/averageFlatOne.test.pred.arff", dataset, output);
             //KMeans
-            output = basic+"/micromacro/micro"+dataset+"KMeansOne.txt";
-            makeMicroFiles(basic, basic+"/averageKMeansOne.test.pred.arff", dataset, output);
+            for(int i = 0; i<10; i++){
+                output = basic+"/micromacro/micro"+dataset+"KMeansOne"+i+".txt";
+                makeMicroFiles(basic, basic+"/averageKMeansOne"+i+".test.pred.arff", dataset, output);
+            
+            }
             //RHam
             for(int i = 0; i<10; i++){
                 output = basic+"/micromacro/micro"+dataset+"RHamOne"+i+".txt";
                 makeMicroFiles(basic, basic+"/averageRHamOne"+i+".test.pred.arff", dataset, output);
             }
+     
         }
     }
 

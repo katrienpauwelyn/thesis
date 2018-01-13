@@ -16,6 +16,8 @@ import java.util.ArrayList;
 /**
  *
  * @author katie
+ * Na het opbouwen van de hierarchie moet de hierarchie nog in het juiste formaat geschreven worden.
+ * Hier wordt de hierarchie in ouder-kind relaties opgesplitst.
  */
 public class ParseHierarchy {
     //tot nu toe staat in de hierarchy iedere leaf node apart

@@ -16,6 +16,7 @@ import statics.Path;
 /**
  *
  * @author katie
+ * leest de label data en maakt een matrix aan met alle label data (in de thesistekst wordt dit ook wel Wn genoemd)
  */
 public class LabelDataReader {
     /**
@@ -57,6 +58,7 @@ public class LabelDataReader {
         int index = 0;
         for(String l: labels){
             indexLabel.put(l, index);
+          //  System.out.println("toegevoegd "+l);
             index++;
         }
         while(!(line=reader.readLine()).contains("@data") && !(line.contains("@DATA"))){}
@@ -69,9 +71,17 @@ public class LabelDataReader {
                 parsed = line.split(",");
             }
             String[] actualLabels = parsed[parsed.length-1].split("@");//alle labels toegewezen aan deze instance
+          //  System.out.println("---------------");
+          //  System.out.println(line);
+           // for(int i =0; i<actualLabels.length; i++){
+           //     System.out.println("all labels"+actualLabels[i]);
+           // }
             if(actualLabels.length!=1 || !actualLabels[0].equals("None")){
                 int[] instance = new int[nbLabels];
                 for(String actual : actualLabels){
+                   
+               //     System.out.println("actual: "+actual);
+               //     System.out.println(indexLabel.get(actual));
                     instance[indexLabel.get(actual)] = 1;
                  }
                  labelData.add(instance);
@@ -103,7 +113,7 @@ public class LabelDataReader {
             for(int y = 0; y<toPrint.get(0).length; y++){
                 out += toPrint.get(x)[y]+" ";
             }
-            System.out.println(out);
+      //      System.out.println(out);
         }
     }
    

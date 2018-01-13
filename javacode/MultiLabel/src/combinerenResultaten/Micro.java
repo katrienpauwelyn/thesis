@@ -19,15 +19,29 @@ import statics.Path;
  * a1 p1
  * a2 p2
  * a3 p3
+ * wordt gebruikt door het AUC script.
  * @author katie
  */
 public class Micro {
     
      public static void makeMicroFilesForAllDatasets() throws IOException{
         String basic;
+        System.out.println("MICRO");
         for(String dataset: Path.datasets){
+            System.out.println(dataset);
+            //KMEANS
+            System.out.println("kmeans");
             basic = Path.pathPinac+dataset+"/kmeans";
-            makeMicroFiles(basic, basic+"/averageKMeans.test.pred.arff", dataset);
+            makeMicroFiles(basic, basic+"/averageKMeansFull.test.pred.arff", dataset);
+            //RHAM
+          /*  System.out.println("rham");
+            basic = Path.pathPinac+dataset;
+             makeMicroFiles(basic, basic+"/averageRHam.test.pred.arff", dataset);
+            //FLAT
+            System.out.println("flat");
+             basic = Path.pathPinac+dataset+"/flat";
+             makeMicroFiles(basic, basic+"/average.test.pred.arff", dataset);
+           */
         }
     }
 

@@ -16,28 +16,57 @@ import statics.Path;
 /**
  *
  * @author katie
- * Hetzelfde als BalancedKMeanMaker maar dan voor 'one' (niet voor ensemble)
- * code is basically the same
+ * Hetzelfde als BalancedKMeanMaker maar dan voor de single trees
+ * code is grotendeels gelijk
  */
 public class OneBalancedKMeanMaker {
     
      public static void makeAllhierarchies() throws IOException{
-        PrintStream stream = new PrintStream(new File(Path.pathPinac+"timeHierKMeansOne.txt"));
-        stream.println("tijd om one balanced k means hierarchie te maken");
+        PrintStream streamKMeans = new PrintStream(new File(Path.pathPinac+"timeHierKMeansOne10.txt"));
+        streamKMeans.println("tijd om 10 balanced k means hierarchie te maken");
+        
+        PrintStream streamRHam = new PrintStream(new File(Path.pathPinac+"timeHierRHamOne10.txt"));
+        streamRHam.println("tijd om 10 rham hierarchie te maken");
+        
+        
+        
+        
         for(String dataset: Path.datasets){
-            
             System.out.println(dataset );
-            long startTime = System.nanoTime();
-            
-           
+            long totalTime=0 ;
+           for(int i = 0; i<10; i++){
+                long startTime = System.nanoTime();
               makeHierarchy(dataset, Path.pathPinac+dataset+"/"+dataset+"train.arff",
-                    Path.pathPinac+dataset+"/one/kmeansHierOne.txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
-            long endTime = System.nanoTime();
+                    Path.pathPinac+dataset+"/one/kmeansHierOne"+i+".txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
+                long endTime = System.nanoTime();
             long durationMs = (endTime - startTime)/1000000;
-            stream.println(dataset+": totale tijd"+durationMs+" ms");
+            streamKMeans.println(i+" "+durationMs);
+            totalTime+=durationMs;
+           }
+            streamKMeans.println(dataset+": totale tijd"+totalTime+" ms"+"    gemiddelde tijd : "+totalTime/10+" ms");
            
         }
-        stream.close();
+        
+                
+        for(String dataset: Path.datasets){
+            System.out.println(dataset );
+            long totalTime = 0;
+           for(int i = 0; i<10; i++){
+               long startTime = System.nanoTime();
+              makeHierarchy(dataset, Path.pathPinac+dataset+"/"+dataset+"train.arff",
+                    Path.pathPinac+dataset+"/one/rhamHierOne"+i+".txt", Path.pathPinac+dataset+"/"+dataset+"trainFlat.arff");     
+               long endTime = System.nanoTime();
+            long durationMs = (endTime - startTime)/1000000;
+              streamRHam.println(i+" "+durationMs);
+            totalTime+=durationMs;
+           
+           }
+            streamRHam.println(dataset+": totale tijd"+totalTime+" ms"+"    gemiddelde tijd : "+totalTime/10+" ms");
+           
+        }
+        
+        streamKMeans.close();
+        streamRHam.close();
     }
     
     public static void makeHierarchy(String dataset, String fromFile, String outputFile, String fileLabels) throws IOException{
@@ -48,7 +77,7 @@ public class OneBalancedKMeanMaker {
         for(int i = 0; i<nbLabels; i++){
             bigCluster.labels.add(i);
         }
-        int maxLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentra(dataset));
+        int maxLabels =(int) Math.ceil((double) labelData.get(0).length/(double) Path.getNbClusterCentraNieuweDatasets(dataset));
         ArrayList<Cluster> todoClusters = new ArrayList();
         todoClusters.add(bigCluster);
         
@@ -58,15 +87,14 @@ public class OneBalancedKMeanMaker {
         while(!todoClusters.isEmpty()){
             Cluster first = todoClusters.remove(0);
             String basicString = indicesToString(first.labels, labelMappings)+",";
-            maxLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentra(dataset));
+            maxLabels =(int) Math.ceil((double) first.labels.size()/(double) Path.getNbClusterCentraNieuweDatasets(dataset));
       
             ArrayList<Cluster> subClusters = splitCluster(first, 
-                Path.getNbClusterCentra(dataset), maxLabels, Path.nbIterations, labelData);
+                Path.getNbClusterCentraNieuweDatasets(dataset), maxLabels, Path.nbIterations, labelData);
             for(Cluster c: subClusters){
                 //afdrukken
-                                //geen lege clusters?
+                                //geen lege clusters? kan wel: 2 2 0
                 if(c.labels.size()==0){
-                    System.out.println("size is 0");
                     for(Cluster c2: subClusters){
                         System.out.println("other cluster sizes are: "+c2.labels.size());
                     }
@@ -79,7 +107,6 @@ public class OneBalancedKMeanMaker {
                 if(c.labels.size()>1){
                     todoClusters.add(c);
                 }
-                
             }
         }
      
@@ -107,13 +134,12 @@ public class OneBalancedKMeanMaker {
             }
             return subClusters;
         } 
-        
         //initializatie
         RandomInt random = new RandomInt();
         ArrayList<Integer> assignedInit = new ArrayList<>();
        
         while(assignedInit.size()!=nbClusters){
-            int newInt = RandomInt.randInt(0, cluster.getNbLabels()-1);
+            int newInt = random.randInt(0, cluster.getNbLabels()-1);
             if(!assignedInit.contains(newInt)){
                 subClusters.add(new Cluster(cluster.getDataLabelNr(newInt),labelData ));//initiele subclusters
                 assignedInit.add(newInt);
@@ -121,7 +147,6 @@ public class OneBalancedKMeanMaker {
         }
         //een aantal iteraties
         for(int iteration = 0; iteration < nbIterations; iteration++){  
-         //   System.out.println("begin iteration "+iteration);
             for(Cluster sub: subClusters){
                 sub.distances.clear();
             }
