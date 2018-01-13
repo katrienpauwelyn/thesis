@@ -24,6 +24,7 @@ package com.evaluation;
 
 import java.util.ArrayList;
 import com.output.MultiLabelOutput;
+import java.util.Arrays;
 
 
 public class RankingBasedMeasures {
@@ -67,21 +68,22 @@ public class RankingBasedMeasures {
         int examplesToIgnoreRankingLoss = 0;
         int examplesToIgnoreAvgPrecision = 0;
         int numInstances = output.length;
+        System.out.println("Numinstances"+numInstances);
         for (int instanceIndex=0; instanceIndex<numInstances; instanceIndex++) {
 
             int[] ranks = output[instanceIndex].getRanking();
 
             //======one error related============
             //---begin ordinal ranking ---
-			int topRated;
+	/*		int topRated;
             for (topRated=0; topRated<numLabels; topRated++)    //index van de top rated zoeken (dus duidelijk de eerste top rated.)
                 if (ranks[topRated] == 1)
                     break;
             if (!trueLabels[instanceIndex][topRated]) //checken of de toprated een effectieve 1 of 0 is. Als het een 0 is: oneError++
-				oneError++;
+				oneError++;*/
             //---einde ordinal ranking ---
             
-            /*int topRated;
+            int topRated;
             int nbFirstRanked = 0;
             int firstRankedNul = 0;
             for (topRated=0; topRated<numLabels; topRated++) {   //index van de top rated zoeken (dus duidelijk de eerste top rated.)
@@ -93,7 +95,7 @@ public class RankingBasedMeasures {
                 }
             }
             oneError+=(firstRankedNul / nbFirstRanked);
-            */
+            
             
             
             
@@ -117,7 +119,7 @@ public class RankingBasedMeasures {
            //---eind foutieve code---
            
            //---begin ordinal ranking ---
-        /*   for (int rank = numLabels; rank >= 1; rank--) {//hoogste rank van iets dat effectief true is, beginnen bij hoogste rank getal
+         /* for (int rank = numLabels; rank >= 1; rank--) {//hoogste rank van iets dat effectief true is, beginnen bij hoogste rank getal
                 int indexOfRank;
                 for (indexOfRank=0; indexOfRank<numLabels; indexOfRank++){//de index zoeken van de voorspelling/echte getal die bij deze rank hoort
                     if (ranks[indexOfRank] == rank)
@@ -127,8 +129,8 @@ public class RankingBasedMeasures {
 			howDeep = rank-1;
                   	break;
                     }
-           }*/
-            coverage += howDeep;
+           }
+            coverage += howDeep;*/
         //---einde ordinal ranking ---
         //oude implementatie werkt niet omdat er voor sommige ranks geen  if (ranks[indexOfRank] == rank) true is. Dus gaat out of 
         //range exception (geeft dezelfde coverage bij ordinal als oude code (getest))
@@ -160,7 +162,7 @@ public class RankingBasedMeasures {
 
             //======ranking loss related=============
              //---begin ordinal ranking ---
-            /*if (trueIndexes.size() == 0 || falseIndexes.size() == 0)
+           /* if (trueIndexes.size() == 0 || falseIndexes.size() == 0)
                 examplesToIgnoreRankingLoss++;
             else {
                 int rolp = 0; // reversed ordered label pairs
@@ -170,7 +172,7 @@ public class RankingBasedMeasures {
     //					if (output[instanceIndex].getConfidences()[trueIndexes.get(k)] <= output[instanceIndex].getConfidences()[falseIndexes.get(l)])
                             rolp++;
                 rankingLoss += (double) rolp / (trueIndexes.size() * falseIndexes.size());
-            */
+            }*/
              //---einde ordinal ranking ---
             
             if (trueIndexes.size() == 0 || falseIndexes.size() == 0)
@@ -184,10 +186,11 @@ public class RankingBasedMeasures {
                             rolp++;
                 rankingLoss += (double) rolp / (trueIndexes.size() * falseIndexes.size());
             }
+           
 
             //======average precision related =============
              //---begin ordinal ranking ---
-          /*  if (trueIndexes.size() == 0)
+           /* if (trueIndexes.size() == 0)
                 examplesToIgnoreAvgPrecision++;
             else {
                 double sum=0;
@@ -203,28 +206,29 @@ public class RankingBasedMeasures {
             }
 		}*/
            //---einde ordinal ranking ---
-            
-            if (trueIndexes.size() == 0)
+            if (trueIndexes.size() == 0){
                 examplesToIgnoreAvgPrecision++;
-            else {
+            } else {
                 double sum=0;
                 for (int j : trueIndexes) {
                     double rankedAbove=0;
-                    for (int k : trueIndexes)
-                        if (ranks[k] <= ranks[j])
+                    for (int k : trueIndexes){
+                        if (ranks[k] <= ranks[j]){
                             rankedAbove++;
-
+                        }
+                    }
+                  
                     sum += (rankedAbove / ranks[j]);
                 }
-                avgPrecision += (sum / trueIndexes.size());
+                 avgPrecision += (sum / trueIndexes.size());
             }
-		}
-
+        }
         oneError /= numInstances;
-		coverage /= numInstances;
-		rankingLoss /= (numInstances - examplesToIgnoreRankingLoss);
+       	coverage /= numInstances;
+       	rankingLoss /= (numInstances - examplesToIgnoreRankingLoss);
 		avgPrecision /= (numInstances - examplesToIgnoreAvgPrecision);
     }
+    
 
 	
 	

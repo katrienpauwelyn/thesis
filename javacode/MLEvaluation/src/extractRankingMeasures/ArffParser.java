@@ -20,10 +20,9 @@ import weka.core.Instance;
  */
 public class ArffParser {
     
-    public static void parseArff(String pathToAverage){
-        
-    }
-    
+    /**
+     * Returnt hoe veel instances er in de gegeven file zijn.
+     */
     public static int getNbInstances(String path) throws FileNotFoundException, IOException{
         int nbInstances = 0;
         BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -36,6 +35,9 @@ public class ArffParser {
         return nbInstances;
     }
     
+    /**
+     * Returnt hoe veel labels er in de gegeven file zijn.
+     */
     public static int getNbLabels(String path) throws FileNotFoundException, IOException{
         int nbLabels = 0;
         BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -50,7 +52,6 @@ public class ArffParser {
            return nbLabels;
     }
     
-    //getest op een kleine dataset
     /**
      * 
      * @param path: path naar de average.arff file
@@ -101,7 +102,9 @@ public class ArffParser {
     }
     
     public static void main(String[] args) throws IOException{
-        String path = "/Users/katie/Desktop/temp/average.test.pred.arff";
+        
+        String p = "/Users/katie/Desktop/argh/average.test.pred.arff";
+      /*  String path = "/Users/katie/Desktop/temp/average.test.pred.arff";
         int nbInstances = getNbInstances(path);
         int nbLabels = getNbLabels(path);
         MultiLabelOutput[] predictions = new MultiLabelOutput[nbInstances];
@@ -117,12 +120,11 @@ public class ArffParser {
         }*/
         //getActualValues(String path, int nbLabels, int nbInstances, MultiLabelOutput[] predictions)
         
-        RankingBasedMeasures ranking = new RankingBasedMeasures(predictions, actual);
+       /* RankingBasedMeasures ranking = new RankingBasedMeasures(predictions, actual);
         System.out.println(ranking.getOneError());
         System.out.println(ranking.getCoverage());
         System.out.println(ranking.getRankingLoss());
-        System.out.println(ranking.getAvgPrecision());
-     
+        System.out.println(ranking.getAvgPrecision());*/
     }
     
 }

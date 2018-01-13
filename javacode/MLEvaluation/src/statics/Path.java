@@ -11,7 +11,7 @@ package statics;
  */
 public class Path {
     
-       public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/";
+       public static String pathPinac = "/export/home1/NoCsBack/thesisdt/s0212310/nieuweDatasets/";
        
          public static String[] standardDatasets = {"corel5k",
         "emotions",
@@ -23,10 +23,14 @@ public class Path {
         "enron","medical"
     };
     
-    public static String[] datasets = {"bibtex",//"bookmarks",
+   /* public static String[] datasets = {"bibtex",//"bookmarks",
         "corel5k","delicious","emotions",
     "enron", "mediamill","medical","scene",
-    "yeast"};
+    "yeast"};*/
+    
+    public static String[] datasets = {"birds",//"CAL500",
+        "Computers","Corel16k","eurlex-dc",//"eurlex-ev",
+        "eurlex-sm","flags","genbase","nuscVLADplus","rcv1subset1","tmc2007"};
     
      public static String[] postAverageDatasets= {"corel5k", "delicious", "medical"};
 }

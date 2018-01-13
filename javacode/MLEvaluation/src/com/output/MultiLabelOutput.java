@@ -177,11 +177,11 @@ public class MultiLabelOutput {
         int[] temp = weka.core.Utils.stableSort(values);
         //print(temp);
         int[] ranks = new int[values.length];
-        //---oude code---
-      /*  for (int i=0; i<values.length; i++)
+        //---oude code---(ordinal ranking)
+        /*for (int i=0; i<values.length; i++)
             ranks[temp[i]] = values.length-i;*/
-       //---eind oude code--- STANDARD COMPETITION RANKING
-       //---nieuwe code---
+       //---eind oude code--- 
+       //---nieuwe code---(STANDARD COMPETITION RANKING)
        for(int index = 0; index<temp.length; index++){
            int start = index;
            int nbSame = 0;
