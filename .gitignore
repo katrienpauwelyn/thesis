@@ -1,2 +1,8 @@
 
-
+.DS_Store
+/javacode/MultiLabel/nbproject/private/
+/javacode/MultiLabel/build/
+/javacode/MultiLabel/dist/
+/javacode/MLEvaluation/nbproject/private/
+/javacode/MLEvaluation/build/
+/javacode/MLEvaluation/dist/
