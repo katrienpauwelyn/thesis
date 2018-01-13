@@ -35,7 +35,7 @@ public class ClassesValue implements Serializable {
 	public final static long serialVersionUID = Settings.SERIAL_VERSION_ID;
 
 	public static String HIERARCY_SEPARATOR = "/";
-	public static String ABUNDANCE_SEPARATOR = ":";
+	public static String ABUNDANCE_SEPARATOR = "|";
 	public static String EMPTY_SET_INDICATOR = "?";
 
 	public final static int NO_ABUNDANCE = 0;
